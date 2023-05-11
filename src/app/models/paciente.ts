@@ -1,0 +1,10 @@
+export class Paciente{
+  constructor(
+    public _id:string,
+    public nombre: string,
+    public apellido: string,
+    public fechaNacimiento: Date,
+    public estatura: number,
+    public telefono: string
+  ){}
+}

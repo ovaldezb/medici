@@ -1,0 +1,140 @@
+<div class="container">
+  <div class="columns">
+    <div class="column is-8">
+      <div class="box has-text-centered">
+        <h1 class="title">Enfermeria -  Toma de Signos</h1>
+        <span class="icon-text">
+          <span class="icon">
+            <fa-icon [icon]="faUserNurse"></fa-icon>
+          </span>
+          <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
+        </span>
+        <table class="table is-bordered is-fullwidth" style="margin: auto;">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
+              <th rowspan="2" style="width: 20%; text-align: center">Cita</th>
+              <th colspan="5" style="width: 55%; text-align: center">Signos</th>
+            </tr>
+            <tr>
+              <th style="width: 15%; text-align: center">Temp</th>
+              <th style="width: 10%; text-align: center">Est</th>
+              <th style="width: 10%; text-align: center">Peso</th>
+              <th style="width: 10%; text-align: center">Cis</th>
+              <th style="width: 10%; text-align: center">Dias</th>
+            </tr>
+          </thead>
+        </table>
+        <div style="text-align: center; width: 100%">
+          <table class="table is-bordered is-hoverable is-fullwidth" style="margin: auto">
+            <tbody>
+              <tr *ngFor="let cita of citas; let i = index"  
+                    [class.selected]="i == HighlightRow" 
+                    (dblclick)="tomarSignos(i)" 
+                    [class.sinSignos]="cita.isSignosTomados===false" 
+                    [class.conSignos]="cita.isSignosTomados===true">
+                <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellido}}</td>
+                <td style="width: 20%">{{cita.horaCita}}</td>
+                <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.paciente.estatura+'m' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionCis : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="column is-4">
+      <div class="box">
+        <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
+          <h1 class="title has-text-centered">Médico:</h1>
+          <div class="columns">
+            <div class="column">
+              <p class="label has-text-centered">{{medico.nombre}}</p>
+            </div>
+            <div class="column">
+              <p class="label has-text-centered">{{medico.especialidad}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
+          <h1 class="title has-text-centered">Paciente:</h1>
+          <div class="columns">
+            <div class="column">
+              <p class="label has-text-centered">{{paciente.nombre}} {{paciente.apellido}}</p>
+            </div>
+            <div class="column">
+              <p class="label has-text-centered" *ngIf="HighlightRow!=-1">{{paciente.fechaNacimiento | date: 'dd-MMM-YYY'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box" style="border: 1px solid rgba(229, 243, 218, 0.753);">
+        <h1 class="title has-text-centered">Signos:</h1>
+        <form #userForm="ngForm">
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <div class="control has-text-centered">
+                  <label for="" class="label">Temperatura</label>
+                  <input type="number" class="input" name="temperatura" #temperatura="ngModel" [(ngModel)]="signos.temperatura" placeholder="Temperatura" required>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <div class="control has-text-centered">
+                  <label for="" class="label">Estatura</label>
+                  <input type="number" class="input" name="estatura" #estatura="ngModel" [(ngModel)]="paciente.estatura" placeholder="Estatura" required>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <div class="control has-text-centered">
+                  <label for="" class="label">Peso</label>
+                  <input type="number" class="input" name="peso" #peso="ngModel" [(ngModel)]="signos.peso" placeholder="Peso" required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <div class="control">
+                  <label for="" class="label">Presión Cistólica</label>
+                  <input type="number" class="input" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionCis" placeholder="Presión Cistólica" required>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <div class="control">
+                  <label for="" class="label">Presión Daistólica</label>
+                  <input type="number" class="input" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field" style="text-align: right;">
+            <button 
+              class="button is-success" 
+              name="submit" 
+              [disabled]="cita._id==='' || 
+                          userForm.invalid || 
+                          paciente.estatura === 0 || 
+                          signos.peso===0 || 
+                          signos.temperatura===0 || 
+                          signos.presionCis === 0 || signos.presionDias===0"
+              (click)="guardaSignos()"
+              >{{btnAccion}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

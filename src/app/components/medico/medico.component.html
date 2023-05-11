@@ -1,0 +1,66 @@
+<div class="container">
+  
+    <div *ngIf="HighlightRow ===-1">
+      <div class="box has-text-centered">
+        <h1 class="title">Consulta Médica</h1>
+        <span class="icon-text">
+          <span class="icon">
+            <fa-icon [icon]="faUserDoctor"></fa-icon>
+          </span>
+          <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
+        </span>
+        <table class="table is-bordered is-fullwidth" style="margin: auto;">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
+              <th rowspan="2" style="width: 20%; text-align: center">Cita</th>
+              <th colspan="5" style="width: 55%; text-align: center">Signos</th>
+            </tr>
+            <tr>
+              <th style="width: 15%; text-align: center;font-size: small; ">Temp</th>
+              <th style="width: 10%; text-align: center;font-size: small;">Est</th>
+              <th style="width: 10%; text-align: center;font-size: small;">Peso</th>
+              <th style="width: 10%; text-align: center;font-size: small;">Cis</th>
+              <th style="width: 10%; text-align: center;font-size: small;">Dias</th>
+            </tr>
+          </thead>
+        </table>
+        <div style="text-align: center; width: 100%">
+          <table class="table is-bordered is-hoverable is-fullwidth" style="margin: auto">
+            <tbody>
+              <tr *ngFor="let cita of citas; let i = index"  
+                    [class.selectedMedico]="i == HighlightRow" 
+                    (click)="atenderPaciente(i)" >
+                <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellido}}</td>
+                <td style="width: 20%">{{cita.horaCita}}</td>
+                <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.paciente.estatura+'m' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionCis : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div  *ngIf="HighlightRow >=0">
+      <div class="box has-text-centered" >
+        <h1 class="title">Está atendiendo al Paciente</h1>
+        <div style="border: 1px solid blue;">
+          {{paciente.nombre}} {{paciente.apellido}}
+          <div class="columns">
+            <div class="column">Estatura: {{paciente.estatura}}</div>
+            <div class="column">Temperatura: {{cita.signos.temperatura}}</div>
+            <div class="column">Peso: {{cita.signos.peso}}</div>
+            <div class="column">Presion: {{cita.signos.presionCis}} - {{cita.signos.presionDias}}</div>
+          </div>
+          <div class="field" style="text-align: right;">
+            <button class="button is-success" (click)="finalizaConsulta()">Finalizar</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  
+</div>

@@ -1,0 +1,224 @@
+<div class="container">
+  <!--div class="tile is-ancestor">
+  <div class="tile is-vertical is-8">
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child notification is-primary">
+          <p class="title">Vertical...</p>
+          <p class="subtitle">Top tile</p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child notification is-info">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-4by3">
+            <img src="https://bulma.io/images/placeholders/640x480.png">
+          </figure>
+        </article>
+      </div>
+    </div>
+  </div>
+</div-->
+  <div class="columns">
+    <div class="column is-8">
+      <div class="box" style="text-align: center">
+        <h1 class="title">Agenda de Pacientes para {{medico.nombre}} - {{medico.especialidad}}</h1>
+        <span class="icon-text">
+          <span class="icon">
+            <fa-icon [icon]="faCalendarPlus"></fa-icon>
+          </span>
+          <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
+        </span>
+        <table class="table is-bordered is-fullwidth" style="margin: auto;">
+          <thead>
+            <tr>
+              <th style="width: 30%; text-align: center">Nombre Paciente</th>
+              <th style="width: 30%; text-align: center">Teléfono</th>
+              <th style="width: 10%; text-align: center">Hora</th>
+              <th style="width: 10%; text-align: center">Duración</th>
+              <th style="width: 20%; text-align: center">Acción</th>
+            </tr>
+          </thead>
+        </table>
+        <div style="text-align: center; width: 100%">
+          <table class="table is-bordered is-hoverable is-fullwidth" style="margin: auto">
+            <tbody>
+              <tr *ngFor="let cita of citas; let i = index">
+                <td style="width: 30%">{{cita.paciente.nombre}} {{cita.paciente.apellido}}</td>
+                <td style="width: 30%">{{cita.paciente.telefono}}</td>
+                <td style="width: 10%">{{cita.horaCita}}</td>
+                <td style="width: 10%">{{cita.duracion}}</td>
+                <td style="width: 20%">
+                  <span class="icon is-small is-left">
+                    <a  (click)="editarCita(i)"><fa-icon [icon]="faPencil"></fa-icon></a>
+                  </span> &nbsp;
+                  <span class="icon is-small is-left">
+                    <a  (click)="borrarCita(i)"><fa-icon [icon]="faTrashCan"></fa-icon></a>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="column is-4">
+      <div class="box">
+        <form #userForm="ngForm">
+          <div class="field">
+            <label class="label">Médico</label>
+            <div class="control">
+              <div class="select">
+                <select [(ngModel)]="idMedico" name="idMedico" (change)="cambiaMedico($event)">
+                  <option *ngFor="let medico of medicos" [ngValue]="medico._id">{{medico.nombre}} - {{medico.especialidad}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="columns">
+              <div class="column">
+                <label for="" class="label">Fecha</label>
+                <div class="control">
+                  <input type="date" name="fechaCita" #fechacita="ngModel" [(ngModel)]="fechaCita" (change)="cambiaFecha()">
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Hora</label>
+                <div class="control">
+                  <input type="time" name="horaCita" #horaCita="ngModel" [(ngModel)]="cita.horaCita" required>
+                  <small *ngIf="!horaCita.valid && horaCita.touched" style="background-color: red;font-size: large;">Selecciona una hora!</small>
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Duración</label>
+                <div class="control">
+                  <div class="select is-small">
+                    <select [(ngModel)]="duracion" name="duracion" >
+                      <option *ngFor="let tiempoDur of tiempoDuracion" [ngValue]="tiempoDur.value">{{tiempoDur.viewValue}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="field">
+            <div class="control">
+              <input type="text" class="input is-success" 
+                  name="nombre" 
+                  #nombre="ngModel" 
+                  [(ngModel)]="paciente.nombre" 
+                  placeholder="Nombre Paciente" 
+                  (keyup)="buscaPacienteMatch($event,'nombre')"
+                  required />
+              <div *ngIf="listaPacientesNombre.length!=0" style="width:100%; height:150px; overflow:auto; margin-top:0px;border: 2px solid black;">
+                <table class="table is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th style="text-align: center;">Paciente</th>
+                      <th>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <a (click)="cerrarNombre()"><fa-icon [icon]="faCircleXmark"></fa-icon></a>
+                          </span>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let paciente of listaPacientesNombre; let i = index" (click)="selectedRow(i)" style="cursor:pointer;">
+                      <td>{{paciente.nombre}} {{paciente.apellido}} - {{paciente.telefono}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" class="input is-success" 
+                  name="apellido" 
+                  #apellido="ngModel" 
+                  [(ngModel)]="paciente.apellido" 
+                  (keyup)="buscaPacienteMatch($event,'apellido')"
+                  placeholder="Apellido Paciente" 
+                  required/>
+              <div *ngIf="listaPacientesApellido.length!=0" style="width:100%; height:150px; overflow:auto; margin-top:0px;border: 2px solid black;">
+                <table class="table is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th style="text-align: center;">Paciente</th>
+                      <th>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <a (click)="cerrarApellido()"><fa-icon [icon]="faCircleXmark"></fa-icon></a>
+                          </span>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let paciente of listaPacientesApellido; let i = index" (click)="selectedRow(i)" style="cursor:pointer;">
+                      <td>{{paciente.nombre}} {{paciente.apellido}} - {{paciente.telefono}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" class="input is-success" name="telefono" #telefono="ngModel" [(ngModel)]="paciente.telefono" (keyup)="buscaPacienteMatch($event,'telefono')" placeholder="Teléfono Paciente" required/>
+              <div *ngIf="listaPacientesTelefono.length!=0" style="width:100%; height:150px; overflow:auto; margin-top:0px;border: 2px solid black;">
+                <table class="table is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th style="text-align: center;">Paciente</th>
+                      <th>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <a (click)="cerrarTelefono()"><fa-icon [icon]="faCircleXmark"></fa-icon></a>
+                          </span>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let paciente of listaPacientesTelefono; let i = index" (click)="selectedRow(i)" style="cursor:pointer;">
+                      <td>{{paciente.nombre}} {{paciente.apellido}} - {{paciente.telefono}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Fecha de Nacimiento</label>
+            <div class="columns">
+              <div class="column">
+                <input type="text" name="dia" class="input is-success" #dd="ngModel" [(ngModel)]="dia" placeholder="Día"  required>
+              </div>
+              <div class="column">
+                <div class="select is-primary">
+                  <select name="mes" [(ngModel)]="mes" >
+                    <option *ngFor="let mes of meses" value="{{mes.value}}">{{mes.viewValue}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="column">
+                <input type="text" name="anio" class="input is-success" #yy="ngModel" [(ngModel)]="anio"  placeholder="Año"  required>
+              </div>
+            </div>
+          </div>
+          <div class="control" style="text-align: right;">
+            <button class="button is-primary" style="margin: auto;" (click)="agendar()" [disabled]="userForm.invalid">Agendar</button>
+            &nbsp;
+            <button class="button is-info" style="margin: auto;" (click)="limpiar()">Limpiar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

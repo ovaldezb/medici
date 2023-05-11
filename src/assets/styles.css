@@ -1,0 +1,21 @@
+.selected {  
+  color: rgb(81, 237, 60) !important; 
+  background-color: dodgerblue;
+  font-weight: bold; 
+} 
+
+.selectedMedico {  
+  color: wheat !important; 
+  background-color: darkblue;
+  font-weight: bold; 
+}
+
+.conSignos{
+  background-color: darkseagreen !important;
+  color: black;
+  font-weight: normal;
+}
+
+.sinSignos{
+  background-color: rgb(227, 160, 178) !important;
+}

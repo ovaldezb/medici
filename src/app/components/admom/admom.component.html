@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="columns">
+    <div class="column is-4" >
+      <div class="box" >
+        <form class="mid-form" #userForm="ngForm">
+          <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input type="text" class="input is-primary" name="nombre" #nombre="ngModel"  [(ngModel)]="medico.nombre"  placeholder="Nombre" />
+              <span class="icon is-small is-left">
+                <fa-icon [icon]="faCoffee"></fa-icon>
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input type="text" class="input is-primary" name="especialidad"  #especialidad="ngModel" [(ngModel)]="medico.especialidad"  placeholder="Especialidad" />
+              <span class="icon is-small is-left">
+                <fa-icon [icon]="faUserDoctor"></fa-icon>
+              </span>
+            </p>
+          </div>
+          <div class="control">
+            <button class="button is-primary" (click)="addUpdateMedico()">{{accionBtn}}</button>
+            <button class="button is-danger" (click)="cancelar()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="column is-4">
+      <div class="box">
+        <h2 style="text-align: center;" class="title">Lista de Médicos</h2>
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th style="text-align: center;">Nombre</th>
+              <th style="text-align: center;">Especialidad</th>
+              <th style="text-align: center;">Acción</th>
+            </tr>
+          </thead>
+        </table>
+        <div style="width:100%; height:150px; overflow:auto; margin-top:-20px">
+          <table class="table is-hoverable is-bordered" style="width: 100%;">
+            <tbody>
+              <tr *ngFor="let medico of medicos; let i = index" (click)="selectRow(i)">
+                <td>{{medico.nombre}}</td>
+                <td>{{medico.especialidad}}</td>
+                <td>
+                  <span class="icon is-small is-left">
+                    <a href="http://" (click)="editarMedico(i)"><fa-icon [icon]="faPencil"></fa-icon></a>
+                  </span> &nbsp;
+                  <span class="icon is-small is-left">
+                    <a href="http://" (click)="borrarMedico(i)"><fa-icon [icon]="faTrashCan"></fa-icon></a>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
