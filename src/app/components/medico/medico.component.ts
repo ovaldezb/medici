@@ -37,7 +37,7 @@ export class MedicoComponent implements OnInit{
 
   getCitas():void{
     this.citasService.getCitasByFechaAndMedico(this.year+'-'+this.mes+'-'+this.dia,this.idMedico).subscribe(res=>{
-      if(res.status === Global.SUCCESS){
+      if(res.status === Global.OK){
         this.citas = res.citas;
       }
     });

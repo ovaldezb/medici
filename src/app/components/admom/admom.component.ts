@@ -76,10 +76,10 @@ export class AdmomComponent implements OnInit{
       }).then(resultado=>{
         if(resultado.isConfirmed){
           this.medicoService.updateMedico(this.medico._id,this.medico).subscribe((res)=>{
-            if(res.status===Global.SUCCESS){
+            if(res.status===Global.OK){
               Swal.fire({
                 icon: 'success',
-                title: 'El médico se ha actualizado exitosamente',
+                title: 'El médico se ha actualizado correctamente',
                 showConfirmButton: false,
                 timer: 1500
               });

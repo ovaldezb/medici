@@ -68,7 +68,7 @@ export class EnfermeriaComponent implements OnInit{
         if(resultado.isConfirmed){
           this.signos.paciente = this.paciente;
           this.signosService.addSignos(this.signos).subscribe(res=>{
-            if(res.status===Global.SUCCESS){
+            if(res.status===Global.OK){
               this.cita.signos = res.signos;
               this.updateCita();
               this.updatePaciente();
@@ -92,7 +92,7 @@ export class EnfermeriaComponent implements OnInit{
         if(resultado.isConfirmed){
           this.signos.paciente = this.paciente;
           this.signosService.updateSignos(this.signos._id, this.signos).subscribe(res=>{
-            if(res.status===Global.SUCCESS){
+            if(res.status===Global.OK){
               Swal.fire({
                 icon:'success',
                 title:'Se actualizaron los signos correctamente!',
@@ -111,7 +111,7 @@ export class EnfermeriaComponent implements OnInit{
   updateCita():void{
     this.cita.isSignosTomados = true;
     this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
-      if(res.status===Global.SUCCESS){
+      if(res.status===Global.OK){
         this.clear();
         Swal.fire({
           icon:'success',
@@ -125,7 +125,7 @@ export class EnfermeriaComponent implements OnInit{
 
   updatePaciente():void{
     this.pacienteService.updatePaciente(this.paciente._id,this.paciente).subscribe(res=>{
-      if(res!='success'){
+      if(res.status!=Global.OK){
         console.log('no se pudo actualizar '+res.message);
       }
     });

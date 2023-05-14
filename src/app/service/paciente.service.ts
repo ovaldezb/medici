@@ -12,23 +12,23 @@ export class PacienteService{
   }
 
   addPaciente(paciente:Paciente):Observable<any>{
-    return this._http.post(Global.urlPaciente,paciente,{headers:this.headers});
+    return this._http.post(Global.urlPaciente,paciente,{observe: 'response'});
   }
 
   findPacienteByNombre(nombre:String):Observable<any>{
-    return this._http.get(Global.urlPaciente+'/nombre/'+nombre,{headers:this.headers})
+    return this._http.get(Global.urlPaciente+'/nombre/'+nombre,{observe: 'response'})
   }
 
   findPacienteByApellido(apellido:String):Observable<any>{
-    return this._http.get(Global.urlPaciente+'/apellido/'+apellido,{headers:this.headers})
+    return this._http.get(Global.urlPaciente+'/apellido/'+apellido,{observe: 'response'})
   }
 
   findPacienteByTelefono(telefono:String):Observable<any>{
-    return this._http.get(Global.urlPaciente+'/telefono/'+telefono,{headers:this.headers})
+    return this._http.get(Global.urlPaciente+'/telefono/'+telefono,{observe: 'response'})
   }
 
   updatePaciente(idPaciente:string, paciente:Paciente):Observable<any>{
-    return this._http.put(Global.urlPaciente+'/'+idPaciente,paciente,{headers:this.headers})
+    return this._http.put(Global.urlPaciente+'/'+idPaciente,paciente,{observe: 'response'})
   }
 
 }
