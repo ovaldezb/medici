@@ -4,6 +4,7 @@ export class Paciente{
     public nombre: string,
     public apellido: string,
     public fechaNacimiento: Date,
+    public sexo: string,
     public estatura: number,
     public telefono: string
   ){}

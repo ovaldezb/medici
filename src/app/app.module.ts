@@ -11,6 +11,7 @@ import { appRoutingProvider, routing } from './app.routing';
 import { LoginComponent } from './components/login/login.component';
 import { AdmomComponent } from './components/admom/admom.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PesograficaComponent } from './components/pesografica/pesografica.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FarmaciaComponent,
     EnfermeriaComponent,
     LoginComponent,
-    AdmomComponent
+    AdmomComponent,
+    PesograficaComponent
   ],
   imports: [
     BrowserModule,

@@ -37,8 +37,8 @@ export class RecepcionComponent implements OnInit{
   public faTrashCan = faTrashCan;
   public idMedico:string = '';
   public medicos:Medico[] = [];
-  public paciente:Paciente = new Paciente('','','',new Date(),0,'');
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),0,''),new Medico('','',''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date()));
+  public paciente:Paciente = new Paciente('','','',new Date(),'',0,'');
+  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new Medico('','',''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
   public citas:Cita[] = [];
   public medico:Medico= new Medico('','','');
   public listaPacientesNombre:Paciente[] = [];
@@ -255,7 +255,7 @@ export class RecepcionComponent implements OnInit{
   }
 
   limpiar():void{
-    this.paciente = new Paciente('','','',new Date(),0,'');
+    this.paciente = new Paciente('','','',new Date(),'',0,'');
     this.anio = '';
     this.mes = '01';
     this.dia = '';
@@ -269,8 +269,8 @@ export class RecepcionComponent implements OnInit{
       showConfirmButton: true,
       timer: 1500
     });
-    this.paciente = new Paciente('','','',new Date(),0,'');
-    this.cita = new Cita('',this.paciente,new Medico('','',''),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date()));
+    this.paciente = new Paciente('','','',new Date(),'',0,'');
+    this.cita = new Cita('',this.paciente,new Medico('','',''),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
     this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
     this.mes = '01';

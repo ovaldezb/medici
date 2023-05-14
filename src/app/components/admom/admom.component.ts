@@ -33,8 +33,9 @@ export class AdmomComponent implements OnInit{
 
   loadAllMedicos():void{
     this.medicoService.getAllMedicos().subscribe((res)=>{
-      if(res.status === 'success'){
-        this.medicos = res.medicos
+      console.log(res.body.medicos);
+      if(res.status === Global.OK){
+        this.medicos = res.body.medicos
       }
     })
   }
@@ -48,7 +49,7 @@ export class AdmomComponent implements OnInit{
       }).then(resultado=>{
         if(resultado.isConfirmed){
           this.medicoService.addMedico(this.medico).subscribe((res)=>{
-            if(res.status===Global.SUCCESS){
+            if(res.status===Global.OK){
               this.loadAllMedicos();
               this.medico = new Medico('','','');
               Swal.fire({
@@ -113,7 +114,7 @@ export class AdmomComponent implements OnInit{
     }).then(resultado=>{
       if(resultado.isConfirmed){
         this.medicoService.deleteMedico(this.medicos[index]._id).subscribe((res)=>{
-          if(res.status===Global.SUCCESS){
+          if(res.status===Global.OK){
             Swal.fire({
               icon: 'success',
               title: 'El médico se ha eliminado exitosamente',

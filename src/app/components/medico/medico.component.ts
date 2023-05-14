@@ -18,15 +18,16 @@ export class MedicoComponent implements OnInit{
   public faUserDoctor = faUserDoctor;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public paciente: Paciente = new Paciente('','','',new Date(),0,'');
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),0,''),new Medico('','',''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date()));
+  public paciente: Paciente = new Paciente('','','',new Date(),'',0,'');
+  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new Medico('','',''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
   private idMedico:string='6453042d49a5f0d4320c9f83';
   public HighlightRow:number=-1;
-  constructor(private citasService:CitasService){}
+  
 
+  constructor(private citasService:CitasService){}
   ngOnInit(): void {
     this.dia = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate()+'';
     this.mes = (this.fechaActual.getMonth() + 1) < 10 ? '0'+(this.fechaActual.getMonth() + 1)  : (this.fechaActual.getMonth() + 1)+'';
@@ -52,4 +53,5 @@ export class MedicoComponent implements OnInit{
     this.HighlightRow = -1;
   }
 
+  
 }

@@ -1,6 +1,6 @@
 <div class="container">
   
-    <div *ngIf="HighlightRow ===-1">
+    <div *ngIf="HighlightRow === -1">
       <div class="box has-text-centered">
         <h1 class="title">Consulta Médica</h1>
         <span class="icon-text">
@@ -44,22 +44,70 @@
         </div>
       </div>
     </div>
-    <div  *ngIf="HighlightRow >=0">
+    <div  *ngIf="HighlightRow != -1" style="border: 1px solid blue;">
       <div class="box has-text-centered" >
         <h1 class="title">Está atendiendo al Paciente</h1>
-        <div style="border: 1px solid blue;">
-          {{paciente.nombre}} {{paciente.apellido}}
+        
+          <p class="title">{{paciente.nombre}} {{paciente.apellido}}</p>
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Estatura</p>
+                <p class="title">{{paciente.estatura}}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Temperatura</p>
+                <p class="title">{{cita.signos.temperatura}}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Peso</p>
+                <p class="title">{{cita.signos.peso}}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Presion</p>
+                <p class="title">{{cita.signos.presionCis}} - {{cita.signos.presionDias}}</p>
+              </div>
+            </div>
+          </nav>
           <div class="columns">
-            <div class="column">Estatura: {{paciente.estatura}}</div>
-            <div class="column">Temperatura: {{cita.signos.temperatura}}</div>
-            <div class="column">Peso: {{cita.signos.peso}}</div>
-            <div class="column">Presion: {{cita.signos.presionCis}} - {{cita.signos.presionDias}}</div>
+            <div class="column">
+              <div class="box">
+                <form #userForm="ngForm">
+                  <div class="field">
+                    <label for="" class="label">Receta</label>
+                    <div class="control">
+                      <textarea class="textarea" placeholder="Introduzca los medicamentes y su frecuencia de consumo"></textarea>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="" class="label">Comentarios</label>
+                    <div class="control">
+                      <textarea class="textarea" placeholder="Introduzca algún comentario relevante sobre lo detectado en la consulta"></textarea>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="column">
+                <div class="tile is-ancestor">
+                  <div class="tile is-vertical is-parent">
+                    <article class="tile is-child box is-primary notification">Historial 1</article>
+                    <article class="tile is-child box is-primary notification">Historial 2</article>
+                  </div>
+                </div>
+            </div>
           </div>
           <div class="field" style="text-align: right;">
             <button class="button is-success" (click)="finalizaConsulta()">Finalizar</button>
           </div>
-          
-        </div>
+          <!--app-pesografica *ngIf="HighlightRow != -1"></!--app-pesografica-->
+        
       </div>
     </div>
   

@@ -24,10 +24,10 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),0,''),new Medico('','',''),new Date(),'','',15,false,new Signos('',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date()));
-  public paciente:Paciente = new Paciente('','','',new Date(),0,'');
+  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new Medico('','',''),new Date(),'','',15,false,new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
+  public paciente:Paciente = new Paciente('','','',new Date(),'',0,'');
   public medico:Medico = new Medico('','','');
-  public signos: Signos = new Signos('',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date());
+  public signos: Signos = new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date());
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -134,9 +134,9 @@ export class EnfermeriaComponent implements OnInit{
   clear():void{
     this.HighlightRow = -1;
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date());
+    this.signos = new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date());
     this.medico = new Medico('','','');
-    this.paciente = new Paciente('','','',new Date(),0,'');
+    this.paciente = new Paciente('','','',new Date(),'',0,'');
     this.btnAccion = Global.GUARDAR;
   }
 
@@ -153,7 +153,7 @@ export class EnfermeriaComponent implements OnInit{
       this.signos = this.cita.signos;
       this.btnAccion = Global.ACTUALIZAR;
     }else{
-      this.signos = new Signos('',new Paciente('','','',new Date(),0,''),0,0,0,0,new Date());
+      this.signos = new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date());
       this.btnAccion = Global.GUARDAR
     }
   }
