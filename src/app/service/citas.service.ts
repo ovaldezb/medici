@@ -12,18 +12,18 @@ export class CitasService{
   }
 
   addCita(cita:Cita):Observable<any>{
-    return this._http.post(Global.urlCita,cita,{headers:this.headers});
+    return this._http.post(Global.urlCita,cita,{observe: 'response'});
   }
 
   getCitasByFechaAndMedico(fechaFiltro:string, idMedico:string):Observable<any>{
-    return this._http.get(Global.urlCita+'/'+fechaFiltro+'/'+idMedico,{headers:this.headers});
+    return this._http.get(Global.urlCita+'/'+fechaFiltro+'/'+idMedico,{observe: 'response'});
   }
   
   getCitasByFecha(fechaFiltro:string):Observable<any>{
-    return this._http.get(Global.urlCita+'/'+fechaFiltro,{headers:this.headers});
+    return this._http.get(Global.urlCita+'/'+fechaFiltro,{observe: 'response'});
   }
 
   updateCita(idCita:String,cita:Cita):Observable<any>{
-    return this._http.put(Global.urlCita+'/'+idCita,cita,{headers:this.headers});
+    return this._http.put(Global.urlCita+'/'+idCita,cita,{observe: 'response'});
   }
 }

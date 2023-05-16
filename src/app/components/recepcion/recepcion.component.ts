@@ -76,8 +76,8 @@ export class RecepcionComponent implements OnInit{
   
   ngOnInit(): void {
     this.medicoService.getAllMedicos().subscribe(res=>{
-      if(res.status===Global.SUCCESS){
-        this.medicos = res.medicos;
+      if(res.status===Global.OK){
+        this.medicos = res.body.medicos;
         this.idMedico = this.medicos[0]._id;
         this.medico = this.medicos[0];
         this.getCitas();
@@ -104,9 +104,9 @@ export class RecepcionComponent implements OnInit{
         return;
       }
       this.pacienteService.findPacienteByNombre(this.paciente.nombre).subscribe(res=>{
-        if(res.status===Global.SUCCESS){
-          if(res.pacientes.length > 0){
-            this.listaPacientesNombre = res.pacientes;
+        if(res.status===Global.OK){
+          if(res.body.pacientes.length > 0){
+            this.listaPacientesNombre = res.body.pacientes;
           }else{
             this.listaPacientesNombre = [];
           }
@@ -118,9 +118,9 @@ export class RecepcionComponent implements OnInit{
         return;
       }
       this.pacienteService.findPacienteByApellido(this.paciente.apellido).subscribe(res=>{
-        if(res.status===Global.SUCCESS){
-          if(res.pacientes.length > 0){
-            this.listaPacientesApellido = res.pacientes;
+        if(res.status===Global.OK){
+          if(res.body.pacientes.length > 0){
+            this.listaPacientesApellido = res.body.pacientes;
           }else{
             this.listaPacientesApellido = [];
           }
@@ -132,9 +132,9 @@ export class RecepcionComponent implements OnInit{
         return;
       }
       this.pacienteService.findPacienteByTelefono(this.paciente.telefono).subscribe(res=>{
-        if(res.status===Global.SUCCESS){
-          if(res.pacientes.length > 0){
-            this.listaPacientesTelefono = res.pacientes;
+        if(res.status===Global.OK){
+          if(res.body.pacientes.length > 0){
+            this.listaPacientesTelefono = res.body.pacientes;
           }else{
             this.listaPacientesTelefono = [];
           }
@@ -144,15 +144,24 @@ export class RecepcionComponent implements OnInit{
   }
 
   selectedRow(index:number):void{
-    this.paciente = this.listaPacientesNombre[index];
+    if(this.listaPacientesNombre.length > 0){
+      this.paciente = this.listaPacientesNombre[index];
+    }else if(this.listaPacientesApellido.length > 0){
+      this.paciente = this.listaPacientesApellido[index];
+    }else if(this.listaPacientesTelefono.length >0){
+      this.paciente = this.listaPacientesTelefono[index];
+    }
     var fechaNacimiento = new Date(new Date(this.paciente.fechaNacimiento).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
     this.anio = fechaNacimiento.getFullYear().toString();
     this.dia = fechaNacimiento.getDate().toString();
     this.mes = (fechaNacimiento.getMonth()+1) < 10 ? '0'+(fechaNacimiento.getMonth()+1) : ''+(fechaNacimiento.getMonth()+1);
     this.listaPacientesNombre = [];
+    this.listaPacientesApellido = [];
+    this.listaPacientesTelefono = [];
   }
 
   isValidSpot():boolean{
+    if(this.citas === undefined) return true;
     return this.citas.map(cita=>{
       return {
         fechaCitaIni:new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita),
@@ -191,11 +200,11 @@ export class RecepcionComponent implements OnInit{
         this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
         if(this.paciente._id===''){ //es nuevo
           this.pacienteService.addPaciente(this.paciente).subscribe(res=>{
-            if(res.status===Global.SUCCESS){
-              this.cita.paciente = res.paciente;
+            if(res.status===Global.OK){
+              this.cita.paciente = res.body.paciente;
               this.cita.medico = this.medico;
               this.citasService.addCita(this.cita).subscribe(resCita=>{
-                if(resCita.status===Global.SUCCESS){
+                if(resCita.status===Global.OK){
                   this.citaExitosa();
                 }else{
                   Swal.fire({
@@ -212,7 +221,7 @@ export class RecepcionComponent implements OnInit{
           this.cita.paciente = this.paciente;
           this.cita.medico = this.medico;
           this.citasService.addCita(this.cita).subscribe(res=>{
-            if(res.status===Global.SUCCESS){
+            if(res.status===Global.OK){
               this.citaExitosa();
             }
           });
@@ -223,9 +232,8 @@ export class RecepcionComponent implements OnInit{
 
   getCitas():any{
     this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico).subscribe(res=>{
-      if(res.status === Global.SUCCESS){
-        this.citas = res.citas;
-        //this.isValidSpot();
+      if(res.status === Global.OK){
+        this.citas = res.body.citas;
       }
     });
   }

@@ -13,10 +13,10 @@ export class SignosService{
   }
 
   addSignos(signos:Signos):Observable<any>{
-    return this._http.post(Global.urlSignos,signos,{headers:this.headers});
+    return this._http.post(Global.urlSignos,signos,{observe: 'response'});
   }
 
   updateSignos(idSignos:string, signos:Signos):Observable<any>{
-    return this._http.put(Global.urlSignos+'/'+idSignos,signos,{headers:this.headers});
+    return this._http.put(Global.urlSignos+'/'+idSignos,signos,{observe: 'response'});
   }
 }

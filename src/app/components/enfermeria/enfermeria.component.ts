@@ -45,8 +45,8 @@ export class EnfermeriaComponent implements OnInit{
 
   getCitas():any{
     this.citasService.getCitasByFecha(this.year+'-'+this.mes+'-'+this.dia).subscribe(res=>{
-      if(res.status === Global.SUCCESS){
-        this.citas = res.citas;
+      if(res.status === Global.OK){
+        this.citas = res.body.citas;
       }
     });
   }
@@ -69,7 +69,7 @@ export class EnfermeriaComponent implements OnInit{
           this.signos.paciente = this.paciente;
           this.signosService.addSignos(this.signos).subscribe(res=>{
             if(res.status===Global.OK){
-              this.cita.signos = res.signos;
+              this.cita.signos = res.body.signos;
               this.updateCita();
               this.updatePaciente();
             }
@@ -110,6 +110,7 @@ export class EnfermeriaComponent implements OnInit{
 
   updateCita():void{
     this.cita.isSignosTomados = true;
+    console.log(this.cita);
     this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
       if(res.status===Global.OK){
         this.clear();
@@ -126,7 +127,7 @@ export class EnfermeriaComponent implements OnInit{
   updatePaciente():void{
     this.pacienteService.updatePaciente(this.paciente._id,this.paciente).subscribe(res=>{
       if(res.status!=Global.OK){
-        console.log('no se pudo actualizar '+res.message);
+        console.log('no se pudo actualizar ');
       }
     });
   }

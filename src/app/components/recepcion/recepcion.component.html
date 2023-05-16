@@ -160,7 +160,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let paciente of listaPacientesApellido; let i = index" (click)="selectedRow(i)" style="cursor:pointer;">
+                    <tr *ngFor="let paciente of listaPacientesTelefono; let i = index" (click)="selectedRow(i)" style="cursor:pointer;">
                       <td>{{paciente.nombre}} {{paciente.apellido}} - {{paciente.telefono}}</td>
                     </tr>
                   </tbody>
@@ -191,6 +191,25 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="columns">
+              <div class="column">
+                <label class="label">Sexo</label>
+              </div>
+              <div class="column">
+                <label for="" class="radio">
+                  M
+                  <input type="radio" class="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo">
+                </label>
+              </div>
+              <div class="column">
+                <label class="radio">
+                  F
+                  <input type="radio" class="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo">
+                </label>
               </div>
             </div>
           </div>
