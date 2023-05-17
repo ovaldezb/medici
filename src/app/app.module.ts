@@ -12,7 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AdmomComponent } from './components/admom/admom.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PesograficaComponent } from './components/pesografica/pesografica.component';
-import { SideMenuComponent } from './components/side-menu/side-menu.component';
+
 
 
 @NgModule({
@@ -24,8 +24,7 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
     EnfermeriaComponent,
     LoginComponent,
     AdmomComponent,
-    PesograficaComponent,
-    SideMenuComponent
+    PesograficaComponent
   ],
   imports: [
     BrowserModule,
