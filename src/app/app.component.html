@@ -12,23 +12,32 @@
       <input type="checkbox" id="menu-toggle" class="is-hidden" />
       <div class="nav-right nav-menu">
         <a class="nav-item is-tab is-hidden-tablet">
-          <span class="icon"><i class="fa fa-home"></i></span> Hogar
+          <span class="icon">
+            <fa-icon [icon]="faCalendarCheck"></fa-icon>
+          </span> <small>Recepción</small> 
         </a>
         <a class="nav-item is-tab is-hidden-tablet">
           <span class="icon">
-            <fa-icon [icon]="faUser"></fa-icon>
-          </span> Ligas
+            <fa-icon [icon]="faUserNurse"></fa-icon>
+          </span> <small>Enfermeria</small> 
         </a>
         <a class="nav-item is-tab is-hidden-tablet">
-          <span class="icon"><i class="fa fa-info"></i></span> About
+          <span class="icon">
+            <fa-icon [icon]="faUserDoctor"></fa-icon>
+          </span> <small>Médico</small> 
         </a>
-
-        
+        <a class="nav-item is-tab is-hidden-tablet">
+          <span class="icon">
+            <fa-icon [icon]="faGears"></fa-icon>
+          </span> <small>Administración</small> 
+        </a>
+        <a class="nav-item is-tab is-hidden-tablet">
           <span class="icon">
             <fa-icon [icon]="faUser"></fa-icon>
           </span>
+        </a>
         
-        <a class="nav-item is-tab">
+        <a class="nav-item is-tab is-hidden-tablet">
           <span class="icon">
             <fa-icon [icon]="faRightFromBracket"></fa-icon>
           </span>
@@ -45,7 +54,7 @@
           <a routerLink="/recepcion" [routerLinkActive]="['active']">
             <span class="icon">
               <fa-icon [icon]="faCalendarCheck"></fa-icon>
-            </span> <small>Agenda</small> 
+            </span> <small>Recepción</small> 
           </a>
         </li>
         <li>
