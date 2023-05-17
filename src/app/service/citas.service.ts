@@ -26,4 +26,8 @@ export class CitasService{
   updateCita(idCita:String,cita:Cita):Observable<any>{
     return this._http.put(Global.urlCita+'/'+idCita,cita,{observe: 'response'});
   }
+
+  deleteCita(idCita:String):Observable<any>{
+    return this._http.delete(Global.urlCita+'/'+idCita,{observe:'response'});
+  }
 }

@@ -9,6 +9,7 @@ import { MedicosService } from 'src/app/service/medicos.service';
 import { PacienteService } from 'src/app/service/paciente.service';
 import { CitasService } from 'src/app/service/citas.service';
 import Swal from 'sweetalert2';
+import { timer } from 'rxjs';
 
 export interface Mes {
   value: string;
@@ -44,6 +45,7 @@ export class RecepcionComponent implements OnInit{
   public listaPacientesNombre:Paciente[] = [];
   public listaPacientesApellido:Paciente[] = [];
   public listaPacientesTelefono:Paciente[] = [];
+  public btnAccion:string = Global.AGENDAR;
   public dia:string='';
   public mes:string='01';
   public anio:string='';
@@ -151,13 +153,18 @@ export class RecepcionComponent implements OnInit{
     }else if(this.listaPacientesTelefono.length >0){
       this.paciente = this.listaPacientesTelefono[index];
     }
+    this.calculaFechaNacimiento();
+    this.listaPacientesNombre = [];
+    this.listaPacientesApellido = [];
+    this.listaPacientesTelefono = [];
+  }
+
+  calculaFechaNacimiento():void{
     var fechaNacimiento = new Date(new Date(this.paciente.fechaNacimiento).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
     this.anio = fechaNacimiento.getFullYear().toString();
     this.dia = fechaNacimiento.getDate().toString();
     this.mes = (fechaNacimiento.getMonth()+1) < 10 ? '0'+(fechaNacimiento.getMonth()+1) : ''+(fechaNacimiento.getMonth()+1);
-    this.listaPacientesNombre = [];
-    this.listaPacientesApellido = [];
-    this.listaPacientesTelefono = [];
+    
   }
 
   isValidSpot():boolean{
@@ -169,17 +176,22 @@ export class RecepcionComponent implements OnInit{
       }
       })
       .every(citaMod =>{
+        console.log(this.fechaCita, this.cita.horaCita);
       let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
       let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000)
-      
-      if((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || (fechaCitaActualFin >= citaMod.fechaCitaIni && fechaCitaActualFin < citaMod.fechaCitaFin)){
+      console.log((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni <= citaMod.fechaCitaFin));
+      console.log((fechaCitaActualFin >= citaMod.fechaCitaIni && fechaCitaActualFin <= citaMod.fechaCitaFin));
+      console.log(fechaCitaActualFin);
+      if((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
+         (fechaCitaActualFin > citaMod.fechaCitaIni && fechaCitaActualFin < citaMod.fechaCitaFin))
+      {
         return false;
       }
       return true;
     });
   }
 
-  agendar():void{
+  addUpdate():void{
     if(!this.isValidSpot()){
       Swal.fire({
         icon:'warning',
@@ -188,10 +200,19 @@ export class RecepcionComponent implements OnInit{
       });
       return;
     }
+
+    if(this.btnAccion === Global.AGENDAR){
+      this.agendarCita();
+    }else{
+      this.updateCita();
+    }
+  }
+
+  agendarCita():void{
     Swal.fire({
       title:'Desea agendar ésta Cita?',
-        showCancelButton:true,
-        confirmButtonText:'OK'
+      showCancelButton:true,
+      confirmButtonText:'OK'
     }).then(resultado=>{
       if(resultado.isConfirmed){
         let fechaCitaArray = this.fechaCita.split('-');
@@ -230,6 +251,28 @@ export class RecepcionComponent implements OnInit{
     });
   }
 
+  updateCita():any{
+    Swal.fire({
+      title:'Desea actualizar ésta Cita?',
+      showCancelButton:true,
+      confirmButtonText:'OK'
+    })
+    .then(resultado =>{
+      if(resultado.isConfirmed){
+        this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
+          if(res.status === Global.OK){
+            Swal.fire({
+              icon:'success',
+              text: 'La cita se actualizó correctamente',
+              timer: 1500
+            });
+            this.limpiar();
+          }
+        });
+      }
+    });
+  }
+
   getCitas():any{
     this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico).subscribe(res=>{
       if(res.status === Global.OK){
@@ -239,11 +282,32 @@ export class RecepcionComponent implements OnInit{
   }
 
   editarCita(index:number):any{
-
+    this.cita = this.citas[index];
+    this.paciente = this.cita.paciente;
+    this.calculaFechaNacimiento();
+    this.btnAccion = Global.ACTUALIZAR;
   }
 
   borrarCita(index:number):any{
-
+    Swal.fire({
+      title:'Desea eliminar ésta Cita?',
+      showCancelButton:true,
+      confirmButtonText:'OK'
+    }).then(resultado=>{
+      if(resultado.isConfirmed){
+        this.citasService.deleteCita(this.citas[index]._id).subscribe(res=>{
+          if(res.status === Global.OK){
+            this.getCitas();
+            Swal.fire({
+              icon:'success',
+              text: 'La cita se eliminó exitosamente',
+              timer: 1500
+            });
+            this.getCitas();
+          }
+        });
+      }
+    });
   }
 
   cambiaFecha():any{
@@ -263,10 +327,13 @@ export class RecepcionComponent implements OnInit{
   }
 
   limpiar():void{
+    this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','',new Date(),'',0,'');
-    this.anio = '';
-    this.mes = '01';
+    this.cita = new Cita('',this.paciente,new Medico('','',''),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
+    this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
+    this.mes = '01';
+    this.anio = '';
   }
 
   citaExitosa():void{
@@ -277,12 +344,7 @@ export class RecepcionComponent implements OnInit{
       showConfirmButton: true,
       timer: 1500
     });
-    this.paciente = new Paciente('','','',new Date(),'',0,'');
-    this.cita = new Cita('',this.paciente,new Medico('','',''),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
-    this.fechaCita = new Date().toISOString().split('T')[0];
-    this.dia = '';
-    this.mes = '01';
-    this.anio = '';
+    this.limpiar();
   }
 
 }

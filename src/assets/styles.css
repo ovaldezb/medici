@@ -19,3 +19,13 @@
 .sinSignos{
   background-color: rgb(227, 160, 178) !important;
 }
+
+@media screen and (max-width: 768px) {
+  #menu-toggle:checked + .nav-menu {
+    display: block;
+  }
+}
+
+.active {
+  background-color: greenyellow;
+}
