@@ -11,22 +11,22 @@
       </label>
       <input type="checkbox" id="menu-toggle" class="is-hidden" />
       <div class="nav-right nav-menu">
-        <a class="nav-item is-tab is-hidden-tablet">
+        <a class="nav-item is-tab is-hidden-tablet" routerLink="/recepcion" [routerLinkActive]="['active']">
           <span class="icon">
             <fa-icon [icon]="faCalendarCheck"></fa-icon>
           </span> <small>Recepción</small> 
         </a>
-        <a class="nav-item is-tab is-hidden-tablet">
+        <a class="nav-item is-tab is-hidden-tablet" routerLink="/enfermeria" [routerLinkActive]="['active']">
           <span class="icon">
             <fa-icon [icon]="faUserNurse"></fa-icon>
           </span> <small>Enfermeria</small> 
         </a>
-        <a class="nav-item is-tab is-hidden-tablet">
+        <a class="nav-item is-tab is-hidden-tablet" routerLink="/medico" [routerLinkActive]="['active']">
           <span class="icon">
             <fa-icon [icon]="faUserDoctor"></fa-icon>
           </span> <small>Médico</small> 
         </a>
-        <a class="nav-item is-tab is-hidden-tablet">
+        <a class="nav-item is-tab is-hidden-tablet" routerLink="/admon" [routerLinkActive]="['active']">
           <span class="icon">
             <fa-icon [icon]="faGears"></fa-icon>
           </span> <small>Administración</small> 
