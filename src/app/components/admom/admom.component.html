@@ -1,35 +1,32 @@
+<app-header></app-header>
 <div class="container">
-  <div class="columns">
-    <div class="column is-4" >
-      <div class="box" >
+  <div class="row">
+    <div class="col-4" >
+      <div class="card" >
         <form class="mid-form" #userForm="ngForm">
-          <div class="field">
-            <p class="control has-icons-left has-icons-right">
-              <input type="text" class="input is-primary" name="nombre" #nombre="ngModel"  [(ngModel)]="medico.nombre"  placeholder="Nombre" />
-              <span class="icon is-small is-left">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
                 <fa-icon [icon]="faCoffee"></fa-icon>
               </span>
-            </p>
-          </div>
-          <div class="field">
-            <p class="control has-icons-left has-icons-right">
-              <input type="text" class="input is-primary" name="especialidad"  #especialidad="ngModel" [(ngModel)]="medico.especialidad"  placeholder="Especialidad" />
-              <span class="icon is-small is-left">
+              <input type="text" class="form-control" name="nombre" #nombre="ngModel"  [(ngModel)]="medico.nombre"  placeholder="Nombre" />
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
                 <fa-icon [icon]="faUserDoctor"></fa-icon>
               </span>
-            </p>
-          </div>
-          <div class="control">
-            <button class="button is-primary" (click)="addUpdateMedico()">{{accionBtn}}</button>
-            <button class="button is-danger" (click)="cancelar()">Cancelar</button>
+              <input type="text" class="form-control" name="especialidad"  #especialidad="ngModel" [(ngModel)]="medico.especialidad"  placeholder="Especialidad" />
+            </div>
+            <button class="btn btn-primary" (click)="addUpdateMedico()">{{accionBtn}}</button>
+            <button class="btn btn-danger" (click)="cancelar()">Cancelar</button>
           </div>
         </form>
       </div>
     </div>
-    <div class="column is-4">
-      <div class="box">
-        <h2 style="text-align: center;" class="title">Lista de Médicos</h2>
-        <table class="table is-fullwidth">
+    <div class="col-4">
+      <div class="card">
+        <h2 style="text-align: center;" class="h2">Lista de Médicos</h2>
+        <table class="table ">
           <thead>
             <tr>
               <th style="text-align: center;">Nombre</th>
@@ -39,7 +36,7 @@
           </thead>
         </table>
         <div style="width:100%; height:150px; overflow:auto; margin-top:-20px">
-          <table class="table is-hoverable is-bordered" style="width: 100%;">
+          <table class="table" style="width: 100%;">
             <tbody>
               <tr *ngFor="let medico of medicos; let i = index" (click)="selectRow(i)">
                 <td>{{medico.nombre}}</td>

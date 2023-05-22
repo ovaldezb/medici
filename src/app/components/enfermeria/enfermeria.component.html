@@ -1,7 +1,8 @@
-<div class="container">
-  <div class="columns">
-    <div class="column is-8">
-      <div class="box has-text-centered">
+<app-header></app-header>
+<div class="container text-center">
+  <div class="row">
+    <div class="col-8">
+      <div class="card ">
         <h1 class="title">Enfermeria -  Toma de Signos</h1>
         <span class="icon-text">
           <span class="icon">
@@ -9,7 +10,7 @@
           </span>
           <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
         </span>
-        <table class="table is-bordered is-fullwidth" style="margin: auto;">
+        <table class="table" style="margin: auto;">
           <thead>
             <tr>
               <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
@@ -46,83 +47,79 @@
         </div>
       </div>
     </div>
-    <div class="column is-4">
-      <div class="box">
+    <div class="col-4">
+      <div class="card">
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
-          <h1 class="title has-text-centered">Médico:</h1>
-          <div class="columns">
-            <div class="column">
-              <p class="label has-text-centered">{{medico.nombre}}</p>
+          <h1 class="title text-center">Médico:</h1>
+          <div class="row">
+            <div class="col">
+              <p class="label">{{medico.nombre}}</p>
             </div>
-            <div class="column">
-              <p class="label has-text-centered">{{medico.especialidad}}</p>
+            <div class="col">
+              <p class="label">{{medico.especialidad}}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="box">
+      <div class="card">
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
-          <h1 class="title has-text-centered">Paciente:</h1>
-          <div class="columns">
-            <div class="column">
-              <p class="label has-text-centered">{{paciente.nombre}} {{paciente.apellido}}</p>
+          <h1 class="title ">Paciente:</h1>
+          <div class="row">
+            <div class="col">
+              <p class="label ">{{paciente.nombre}} {{paciente.apellido}}</p>
             </div>
-            <div class="column">
-              <p class="label has-text-centered" *ngIf="HighlightRow!=-1">{{paciente.fechaNacimiento | date: 'dd-MMM-YYY'}}</p>
+            <div class="col">
+              <p class="label text-center" *ngIf="HighlightRow!=-1">{{paciente.fechaNacimiento | date: 'dd-MMM-YYY'}}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="box" style="border: 1px solid rgba(229, 243, 218, 0.753);">
-        <h1 class="title has-text-centered">Signos:</h1>
+      <div class="card" style="border: 1px solid rgba(229, 243, 218, 0.753);">
+        <h1 class="title text-center">Signos:</h1>
         <form #userForm="ngForm">
-          <div class="columns">
-            <div class="column">
-              <div class="field">
-                <div class="control has-text-centered">
-                  <label for="" class="label">Temperatura</label>
-                  <input type="number" class="input" name="temperatura" #temperatura="ngModel" [(ngModel)]="signos.temperatura" placeholder="Temperatura" required>
+          <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                  <label for="" class="form-label">Temperatura</label>
+                  <input type="number" class="form-control" name="temperatura" #temperatura="ngModel" [(ngModel)]="signos.temperatura" placeholder="Temperatura" required>
                 </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                  <label for="" class="form-label">Estatura</label>
+                  <input type="number" class="form-control" name="estatura" #estatura="ngModel" [(ngModel)]="paciente.estatura" placeholder="Estatura" required>
               </div>
             </div>
-            <div class="column">
-              <div class="field">
-                <div class="control has-text-centered">
-                  <label for="" class="label">Estatura</label>
-                  <input type="number" class="input" name="estatura" #estatura="ngModel" [(ngModel)]="paciente.estatura" placeholder="Estatura" required>
+            <div class="col">
+              
+                <div class="mb-3">
+                  <label for="" class="form-label">Peso</label>
+                  <input type="number" class="form-control"name="peso" #peso="ngModel" [(ngModel)]="signos.peso" placeholder="Peso" required>
                 </div>
-              </div>
-            </div>
-            <div class="column">
-              <div class="field">
-                <div class="control has-text-centered">
-                  <label for="" class="label">Peso</label>
-                  <input type="number" class="input" name="peso" #peso="ngModel" [(ngModel)]="signos.peso" placeholder="Peso" required>
-                </div>
-              </div>
+              
             </div>
           </div>
-          <div class="columns">
-            <div class="column">
-              <div class="field">
-                <div class="control">
-                  <label for="" class="label">Presión Cistólica</label>
-                  <input type="number" class="input" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionCis" placeholder="Presión Cistólica" required>
-                </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                
+                  <label for="" class="form-label">Presión Cistólica</label>
+                  <input type="number" class="form-control" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionCis" placeholder="Presión Cistólica" required>
+                
               </div>
             </div>
-            <div class="column">
-              <div class="field">
-                <div class="control">
-                  <label for="" class="label">Presión Daistólica</label>
-                  <input type="number" class="input" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" required>
-                </div>
+            <div class="col">
+              <div class="mb-3">
+                
+                  <label for="" class="form-label">Presión Daistólica</label>
+                  <input type="number" class="form-control" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" required>
+                
               </div>
             </div>
           </div>
           <div class="field" style="text-align: right;">
             <button 
-              class="button is-success" 
+              class="btn btn-primary" 
               name="submit" 
               [disabled]="cita._id==='' || 
                           userForm.invalid || 

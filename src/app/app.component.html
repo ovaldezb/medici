@@ -1,15 +1,13 @@
-<div id="app">
+<router-outlet></router-outlet>
+<!----------------------------------->
+<!--div id="app">
   <nav class="nav has-shadow">
     <div class="container">
-      <div class="nav-left">
-        <a class="nav-item"> Centro Médico Santiaguito </a>
-      </div>
-      <label for="menu-toggle" class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-      <input type="checkbox" id="menu-toggle" class="is-hidden" />
+      <section class="hero is-info is-fullwidth">
+        <div class="hero-body has-text-centered">
+          <p class="subtitle">Centro Médico Santiaguito</p>
+        </div>
+      </section>
       <div class="nav-right nav-menu">
         <a class="nav-item is-tab is-hidden-tablet" routerLink="/recepcion" [routerLinkActive]="['active']">
           <span class="icon">
@@ -47,7 +45,7 @@
   </nav>
 
   <section class="main-content columns is-fullheight">
-    <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile" style="background-color:rgb(221, 247, 238)" >
+    <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile" style="background-color:rgb(221, 247, 238);margin-top: 10px;" >
       <p class="menu-label is-hidden-touch">Menú</p>
       <ul class="menu-list">
         <li>
@@ -99,4 +97,4 @@
       </div>
     </nav>
   </footer>
-</div>
+</div-->

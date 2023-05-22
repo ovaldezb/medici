@@ -1,8 +1,8 @@
 export var Global ={
-  urlMedico:   'https://b9ed9isoq1.execute-api.us-east-2.amazonaws.com/dev/medico',
-  urlPaciente: 'https://vfaqh1xs3l.execute-api.us-east-2.amazonaws.com/dev/paciente',
-  urlCita:     'https://3yqmpvqr2j.execute-api.us-east-2.amazonaws.com/dev/cita',
-  urlSignos:   'https://wyfv2b3wlb.execute-api.us-east-2.amazonaws.com/dev/signos',
+  urlCita:     'https://hkginmmku9.execute-api.us-east-2.amazonaws.com/dev/cita',
+  urlMedico:   'https://k258nybsud.execute-api.us-east-2.amazonaws.com/dev/medico',
+  urlPaciente: 'https://lbnf04k9fb.execute-api.us-east-2.amazonaws.com/dev/paciente',
+  urlSignos:   'https://qtg3sv1mw7.execute-api.us-east-2.amazonaws.com/dev/signos',
   AGREGAR:'Agregar',
   ACTUALIZAR:'Actualizar',
   ELIMINAR:'Eliminar',
@@ -11,4 +11,3 @@ export var Global ={
   AGENDAR: 'Agendar',
   OK:200
 }
-

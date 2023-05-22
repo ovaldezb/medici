@@ -1,19 +1,27 @@
+<app-header></app-header>
 <div class="container">
-  
     <div *ngIf="HighlightRow === -1">
-      <div class="box has-text-centered">
+      <div class="card text-center">
         <h1 class="title">Consulta Médica</h1>
-        <span class="icon-text">
-          <span class="icon">
-            <fa-icon [icon]="faUserDoctor"></fa-icon>
-          </span>
-          <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
-        </span>
-        <table class="table is-bordered is-fullwidth" style="margin: auto;">
+        <div class="row">
+          <div class="col">
+            <span class="border">
+              <fa-icon [icon]="faUserDoctor"></fa-icon>{{fechaActual | date:'dd-MMM-YYYY'}}
+            </span>
+          </div>
+          <div class="col">
+            <select class="form-control" (change)="changeMedico($event)">
+              <option *ngFor="let medico of medicos" [ngValue]="medico._id">
+                {{ medico.nombre }} - {{ medico.especialidad }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <table class="table table-bordered" style="margin: auto;">
           <thead>
             <tr>
               <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
-              <th rowspan="2" style="width: 20%; text-align: center">Cita</th>
+              <th rowspan="2" style="width: 20%; text-align: center">Hora Cita</th>
               <th colspan="5" style="width: 55%; text-align: center">Signos</th>
             </tr>
             <tr>
@@ -26,7 +34,7 @@
           </thead>
         </table>
         <div style="text-align: center; width: 100%">
-          <table class="table is-bordered is-hoverable is-fullwidth" style="margin: auto">
+          <table class="table table-stripe table-bordered" style="margin: auto;height: 400px;">
             <tbody>
               <tr *ngFor="let cita of citas; let i = index"  
                     [class.selectedMedico]="i == HighlightRow" 
@@ -44,71 +52,54 @@
         </div>
       </div>
     </div>
-    <div  *ngIf="HighlightRow != -1" style="border: 1px solid blue;">
-      <div class="box has-text-centered" >
-        <h1 class="title">Está atendiendo al Paciente</h1>
-        
-          <p class="title">{{paciente.nombre}} {{paciente.apellido}}</p>
-          <nav class="level">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Estatura</p>
-                <p class="title">{{paciente.estatura}}</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Temperatura</p>
-                <p class="title">{{cita.signos.temperatura}}</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Peso</p>
-                <p class="title">{{cita.signos.peso}}</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Presion</p>
-                <p class="title">{{cita.signos.presionCis}} - {{cita.signos.presionDias}}</p>
-              </div>
-            </div>
-          </nav>
-          <div class="columns">
-            <div class="column">
-              <div class="box">
+    <div  *ngIf="HighlightRow != -1" style="border: 1px solid blue;height: 500px;">
+      <div class="card" >
+        Está atendiendo al Paciente:  {{paciente.nombre}} {{paciente.apellido}}
+          <table class="table-primary">
+            <thead>
+              <tr>
+                <th style="text-align: center;">Estatura</th>
+                <th style="text-align: center;">Temperatura</th>
+                <th style="text-align: center;">Peso</th>
+                <th style="text-align: center;">Presión</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center;">{{paciente.estatura}}</td>
+                <td style="text-align: center;">{{cita.signos.temperatura}}</td>
+                <td style="text-align: center;">{{cita.signos.peso}}</td>
+                <td style="text-align: center;">{{cita.signos.presionCis}} - {{cita.signos.presionDias}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <div class="card">
                 <form #userForm="ngForm">
-                  <div class="field">
+                  <div class="mb-3">
                     <label for="" class="label">Receta</label>
-                    <div class="control">
-                      <textarea class="textarea" placeholder="Introduzca los medicamentes y su frecuencia de consumo"></textarea>
-                    </div>
+                    
+                      <textarea class="form-control" placeholder="Introduzca los medicamentes y su frecuencia de consumo"></textarea>
+                    
                   </div>
-                  <div class="field">
+                  <div class="mb-3">
                     <label for="" class="label">Comentarios</label>
-                    <div class="control">
-                      <textarea class="textarea" placeholder="Introduzca algún comentario relevante sobre lo detectado en la consulta"></textarea>
-                    </div>
+                    
+                      <textarea class="form-control" placeholder="Introduzca algún comentario relevante sobre lo detectado en la consulta"></textarea>
+                    
                   </div>
                 </form>
               </div>
             </div>
-            <div class="column">
-                <div class="tile is-ancestor">
-                  <div class="tile is-vertical is-parent">
-                    <article class="tile is-child box is-primary notification">Historial 1</article>
-                    <article class="tile is-child box is-primary notification">Historial 2</article>
-                  </div>
-                </div>
-            </div>
-          </div>
-          <div class="field" style="text-align: right;">
-            <button class="button is-success" (click)="finalizaConsulta()">Finalizar</button>
+            
           </div>
           <!--app-pesografica *ngIf="HighlightRow != -1"></!--app-pesografica-->
-        
       </div>
+      
+        <button class="btn btn-primary" (click)="finalizaConsulta()">Finalizar</button>
+      
     </div>
   
 </div>

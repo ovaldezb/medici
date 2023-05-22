@@ -33,7 +33,6 @@ export class AdmomComponent implements OnInit{
 
   loadAllMedicos():void{
     this.medicoService.getAllMedicos().subscribe((res)=>{
-      console.log(res.body.medicos);
       if(res.status === Global.OK){
         this.medicos = res.body.medicos
       }

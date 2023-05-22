@@ -6,6 +6,7 @@ import { FarmaciaComponent } from "./components/farmacia/farmacia.component";
 import { LoginComponent } from "./components/login/login.component";
 import { MedicoComponent } from "./components/medico/medico.component";
 import { RecepcionComponent } from "./components/recepcion/recepcion.component";
+import { LogoutComponent } from "./components/logout/logout.component";
 //Import Component
 
 
@@ -15,7 +16,9 @@ const appRoutes: Routes = [
   { path:'medico', component: MedicoComponent },
   { path:'farmacia', component: FarmaciaComponent },
   { path:'enfermeria', component: EnfermeriaComponent},
-  { path:'admon' , component: AdmomComponent }
+  { path:'admon' , component: AdmomComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent}
 ];
 
 

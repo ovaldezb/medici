@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
@@ -9,7 +9,6 @@ import { MedicosService } from 'src/app/service/medicos.service';
 import { PacienteService } from 'src/app/service/paciente.service';
 import { CitasService } from 'src/app/service/citas.service';
 import Swal from 'sweetalert2';
-import { timer } from 'rxjs';
 
 export interface Mes {
   value: string;
@@ -34,6 +33,8 @@ export class RecepcionComponent implements OnInit{
   public duracion : number = 15;
   public faCircleXmark = faCircleXmark;
   public faCalendarPlus = faCalendarPlus;
+  public faArrowRight = faArrowRight;
+  public faArrowLeft = faArrowLeft;
   public faPencil = faPencil;
   public faTrashCan = faTrashCan;
   public idMedico:string = '';
@@ -176,22 +177,26 @@ export class RecepcionComponent implements OnInit{
       }
       })
       .every(citaMod =>{
-        console.log(this.fechaCita, this.cita.horaCita);
-      let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
-      let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000)
-      console.log((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni <= citaMod.fechaCitaFin));
-      console.log((fechaCitaActualFin >= citaMod.fechaCitaIni && fechaCitaActualFin <= citaMod.fechaCitaFin));
-      console.log(fechaCitaActualFin);
-      if((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
+        let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
+        let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000)
+        if((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
          (fechaCitaActualFin > citaMod.fechaCitaIni && fechaCitaActualFin < citaMod.fechaCitaFin))
-      {
-        return false;
-      }
-      return true;
+        {
+          return false;
+        }
+        return true;
     });
   }
 
   addUpdate():void{
+    if(this.validaFechaCita()){
+      Swal.fire({
+        icon:'error',
+        title:'Fecha no disponible',
+        text:'No se pueden agendar una cita para fecha/hora menor a la fecha/hora actual'
+      });
+      return;
+    }
     if(!this.isValidSpot()){
       Swal.fire({
         icon:'warning',
@@ -311,6 +316,7 @@ export class RecepcionComponent implements OnInit{
   }
 
   cambiaFecha():any{
+    this.fechaActual = new Date(this.fechaCita+' 00:00:00');
     this.getCitas();
   }
 
@@ -345,6 +351,37 @@ export class RecepcionComponent implements OnInit{
       timer: 1500
     });
     this.limpiar();
+  }
+
+  minusDay():void{
+    let dateTmp = new Date(this.fechaCita+' 00:00:00');
+    let minusDay = new Date(dateTmp.getTime());
+    minusDay.setDate(minusDay.getDate() - 1);
+    let month = (minusDay.getMonth()+1) < 10 ? ('0'+(minusDay.getMonth()+1)) : (minusDay.getMonth()+1);
+    this.fechaCita = minusDay.getFullYear()+'-'+month+'-'+minusDay.getDate();
+    this.fechaActual = new Date(this.fechaCita+' 00:00:00');
+    this.getCitas();
+  }
+
+  plusDay():void{
+    let dateTmp = new Date(this.fechaCita+' 00:00:00');
+    let plusDay = new Date(dateTmp.getTime());
+    plusDay.setDate(plusDay.getDate() + 1);
+    let month = (plusDay.getMonth()+1) < 10 ? ('0'+(plusDay.getMonth()+1)) : (plusDay.getMonth()+1);
+    this.fechaCita = plusDay.getFullYear()+'-'+month+'-'+plusDay.getDate();
+    this.fechaActual = new Date(this.fechaCita+' 00:00:00');
+    this.getCitas();
+  }
+
+  validaFechaCita():boolean{
+    let fechaHoy = new Date();
+    let fehaCitaTentativa = new Date(this.fechaCita+' '+this.cita.horaCita);
+    console.log(fehaCitaTentativa);
+    console.log(fechaHoy);
+    if(fechaHoy.getTime() >= fehaCitaTentativa.getTime()){
+      return true; //la fecha de la cita es menor a la fecha eactual, no se puede agendar una cita
+    }
+    return false;
   }
 
 }

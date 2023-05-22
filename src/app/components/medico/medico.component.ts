@@ -6,12 +6,13 @@ import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
 import { CitasService } from 'src/app/service/citas.service';
 import { Global } from 'src/app/service/Global';
+import { MedicosService } from 'src/app/service/medicos.service';
 
 @Component({
   selector: 'app-medico',
   templateUrl: './medico.component.html',
   styleUrls: ['./medico.component.css'],
-  providers:[CitasService]
+  providers:[MedicosService, CitasService]
 })
 export class MedicoComponent implements OnInit{
   
@@ -23,22 +24,33 @@ export class MedicoComponent implements OnInit{
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
-  private idMedico:string='6453042d49a5f0d4320c9f83';
+  private idMedico:string='';
   public HighlightRow:number=-1;
+  public medicos:Medico[] = [];
+  public medico:Medico= new Medico('','','');
   
 
-  constructor(private citasService:CitasService){}
+  constructor(private medicoService:MedicosService, private citasService:CitasService){}
+  
   ngOnInit(): void {
     this.dia = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate()+'';
     this.mes = (this.fechaActual.getMonth() + 1) < 10 ? '0'+(this.fechaActual.getMonth() + 1)  : (this.fechaActual.getMonth() + 1)+'';
     this.year = this.fechaActual.getFullYear()+'';
-    this.getCitas();
+    this.medicoService.getAllMedicos().subscribe(res=>{
+      if(res.status===Global.OK){
+        this.medicos = res.body.medicos;
+        this.idMedico = this.medicos[0]._id;
+        this.medico = this.medicos[0];
+        this.getCitas();
+      }
+    });
+    //this.getCitas();
   }
 
   getCitas():void{
     this.citasService.getCitasByFechaAndMedico(this.year+'-'+this.mes+'-'+this.dia,this.idMedico).subscribe(res=>{
       if(res.status === Global.OK){
-        this.citas = res.citas;
+        this.citas = res.body.citas;
       }
     });
   }
@@ -53,5 +65,9 @@ export class MedicoComponent implements OnInit{
     this.HighlightRow = -1;
   }
 
-  
+  changeMedico(event:any):void{
+    this.medico = this.medicos[event.target["selectedIndex"]];
+    this.idMedico = this.medico._id;
+    this.getCitas();
+  }
 }

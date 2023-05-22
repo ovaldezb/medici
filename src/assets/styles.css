@@ -27,7 +27,8 @@
 }
 
 .active {
-  background-color: greenyellow;
+  background-color: rgb(194, 196, 246);
+  color: rgb(30, 57, 80) !important;
 }
 
 
@@ -39,4 +40,40 @@
   background-color: grey;
   color: white;
   text-align: center;
+}
+
+.content {
+  width: 84%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.contentActive {
+  width: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+.sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background-color:#6ebaf4;
+  color: antiquewhite;
+}
+
+.sidebarActive {
+  margin-left: -250px;
 }

@@ -1,1 +1,21 @@
-<p>login works!</p>
+<app-header></app-header>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1>Iniciar Sesión</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        Correo Electrónico: <input type="text" name="username" [(ngModel)]="user.email">
+      </div>
+      <div class="row">
+        Contrasena: <input type="password" name="password" [(ngModel)]="user.password">
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <button class="btn btn-primary" (click)="signIn()">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
