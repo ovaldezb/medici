@@ -27,15 +27,17 @@ export class HeaderComponent implements OnInit{
   constructor(private cognitoService:CognitoService){}
   
   public user:IUser = {} as IUser;
-
+  public nombreUsuario:string='';
   ngOnInit(): void {
-    this.cognitoService.getUser()
-    .then(user=>{
-      console.log(user);
-    })
-    .catch(err=>{
-      console.log(err);
-    })
+    if(this.cognitoService.isAuthenticated()){
+      this.cognitoService.getUser()
+      .then(user=>{
+        this.nombreUsuario = user.attributes.given_name+' '+user.attributes.middle_name
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    }
   }
 
   isAuthenticated():boolean{

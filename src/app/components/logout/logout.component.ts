@@ -12,9 +12,8 @@ export class LogoutComponent implements OnInit{
   constructor(private router:Router, private cognitoService:CognitoService){}
 
   ngOnInit():void{
-    console.log('OnInit');
     this.cognitoService.signOut().then(()=>{
-      //this.router.navigateByUrl('/login');
+      this.router.navigate(['/login']);
     }).catch(err=>{
       console.log('Error',err);
     });

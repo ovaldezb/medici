@@ -9,11 +9,12 @@ import { EnfermeriaComponent } from './components/enfermeria/enfermeria.componen
 import { FormsModule } from '@angular/forms';
 import { appRoutingProvider, routing } from './app.routing';
 import { LoginComponent } from './components/login/login.component';
-import { AdmomComponent } from './components/admom/admom.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PesograficaComponent } from './components/pesografica/pesografica.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { HeaderComponent } from './components/header/header.component';
+import { RegistroComponent } from './components/registro/registro.component';
+import { PerfilesComponent } from './components/perfiles/perfiles.component';
 
 
 
@@ -25,10 +26,11 @@ import { HeaderComponent } from './components/header/header.component';
     FarmaciaComponent,
     EnfermeriaComponent,
     LoginComponent,
-    AdmomComponent,
     PesograficaComponent,
     LogoutComponent,
-    HeaderComponent
+    HeaderComponent,
+    RegistroComponent,
+    PerfilesComponent
   ],
   imports: [
     BrowserModule,

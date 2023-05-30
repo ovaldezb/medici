@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="card">
+    <div class="row">
+      <div class="col card">
+        <form class="row g-3 needs-validation" novalidate>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="nombre" #nombre="ngModel" [(ngModel)]="perfil.nombre" placeholder="Nombre del Perfil"  required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-primary" type="submit" (click)="agregaActualizaPerfil()">{{btnAccion}}</button>
+            <button class="btn btn-secondary" type="submit" (click)="limpiar()">Limpiar</button>
+          </div>        
+        </form>
+      </div>
+      <div class="col card">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="text-align: center;">Perfil</th>
+              <th style="text-align: center;">Acción</th>
+            </tr>
+          </thead>
+        </table>
+        <div style="height: 120px;overflow: auto;border: 1px solid red;margin-top: -15px;">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let perfil of perfiles; let i=index;" (click)="selectRow(i)"  [class.selected]="i == HighlightRow">
+              <td>{{perfil.nombre}}</td>
+              <td style="text-align: center;">
+                <div class="row">
+                  <div class="col-2">
+                    <button class="btn btn-outline-success" (click)="editRow(i)">
+                      <fa-icon [icon]="faPencil"></fa-icon>
+                    </button>
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-outline-danger" (click)="deletePerfil(i)">
+                      <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

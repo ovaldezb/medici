@@ -9,6 +9,7 @@ import { Paciente } from 'src/app/models/paciente';
 import { Medico } from 'src/app/models/medico';
 import { Signos } from 'src/app/models/signos';
 import Swal from 'sweetalert2';
+import { CognitoService } from 'src/app/service/cognito.service';
 
 @Component({
   selector: 'app-enfermeria',
@@ -34,7 +35,8 @@ export class EnfermeriaComponent implements OnInit{
   constructor(
     private citasService:CitasService, 
     private signosService:SignosService, 
-    private pacienteService: PacienteService){}
+    private pacienteService: PacienteService, 
+    private cognitoService:CognitoService){}
 
   ngOnInit(): void {
     this.dia = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate()+'';
@@ -44,11 +46,20 @@ export class EnfermeriaComponent implements OnInit{
   }
 
   getCitas():any{
-    this.citasService.getCitasByFecha(this.year+'-'+this.mes+'-'+this.dia).subscribe(res=>{
-      if(res.status === Global.OK){
-        this.citas = res.body.citas;
-      }
-    });
+    this.cognitoService.getCurrentSession()
+    .then(res=>{
+      console.log(res);
+      let token = res.getIdToken().getJwtToken();
+      this.citasService.getCitasByFecha(this.year+'-'+this.mes+'-'+this.dia, token)
+      .subscribe(res=>{
+        if(res.status === Global.OK && res.body.citas.length > 0){
+          this.citas = res.body.citas;
+        }
+      });
+    })
+    .catch(err=>{
+      console.log(err);
+    })
   }
 
   guardaSignos():void{
@@ -110,18 +121,21 @@ export class EnfermeriaComponent implements OnInit{
 
   updateCita():void{
     this.cita.isSignosTomados = true;
-    console.log(this.cita);
-    this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
-      if(res.status===Global.OK){
-        this.clear();
-        Swal.fire({
-          icon:'success',
-          title:'Se guardaron los signos correctamente!',
-          showCloseButton:true,
-          timer:1000
-        });
-      }
-    });
+    this.cognitoService.getCurrentSession()
+    .then(res=>{
+      let token = res.getIdToken().getJwtToken();
+      this.citasService.updateCita(this.cita._id,this.cita,token).subscribe(res=>{
+        if(res.status===Global.OK){
+          this.clear();
+          Swal.fire({
+            icon:'success',
+            title:'Se guardaron los signos correctamente!',
+            showCloseButton:true,
+            timer:1000
+          });
+        }
+      });
+    })
   }
 
   updatePaciente():void{

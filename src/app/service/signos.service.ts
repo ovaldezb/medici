@@ -7,7 +7,6 @@ import { Global } from "./Global";
 @Injectable()
 export class SignosService{
 
-  public headers : HttpHeaders = new HttpHeaders().set('Content-Type','application/json');
 
   constructor(private _http:HttpClient){
   }

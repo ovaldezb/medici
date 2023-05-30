@@ -16,17 +16,30 @@ export class CognitoService {
       Auth: environment.cognito,
     });
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
-    console.log(this.authenticationSubject);
   }
 
   public signUp(user: IUser): Promise<any> {
+    Auth.userAttributes
     return Auth.signUp({
       username: user.email,
       password: user.password,
+      attributes:{
+        given_name:user.nombre,
+        middle_name:user.apellidoP,
+        family_name: user.apellidoM,
+        birthdate: user.dob,
+        gender: user.sexo,
+        phone_number: user.telefono,
+        'custom:perfil' : user.perfil,
+        'custom:cedula' : user.cedula,
+        'custom:isAdmin' : new String(user.isAdmin),
+        'custom:rfc' : user.rfc,
+        'custom:especialidad' : user.especialidad,
+      },
     });
   }
 
-  public confirmSignUp(user:IUser):Promise<any>{
+  public async confirmSignUp(user:IUser):Promise<any>{
     return Auth.confirmSignUp(user.email, user.code);
   }
 
@@ -34,7 +47,6 @@ export class CognitoService {
     return Auth.signIn(user.email, user.password)
     .then(()=>{
       this.authenticationSubject.next(true);
-      console.log(Auth.currentUserInfo())
     });
   }
 
@@ -51,5 +63,9 @@ export class CognitoService {
 
   public isAuthenticated():boolean{
     return this.authenticationSubject.value
+  }
+
+  public getCurrentSession():Promise<any>{
+    return Auth.currentSession();
   }
 }

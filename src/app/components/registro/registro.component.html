@@ -1,0 +1,180 @@
+<app-header></app-header>
+<div class="container">
+  <div *ngIf="!isConfirm" class="card">
+    <div class="card-header text-center">
+      <h1>Administracion de Usuarios</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col card">
+          <h2 class="text-center">Alta de Usuario</h2>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">
+              <fa-icon [icon]="faEnvelope"></fa-icon>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Correo Electrónico"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="user.email"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <fa-icon [icon]="faLock"></fa-icon>
+            </span>
+            <input type="password" class="form-control" [(ngModel)]="user.password" placeholder="Contraseña"/>
+            <span class="input-group-text">
+              <fa-icon [icon]="statusIcon"></fa-icon>
+            </span>
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="user.repeatPassword" (keyup)="validar()" placeholder="Repetir Contraseña"/>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="user.nombre"
+              placeholder="Nombre"
+            />
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="user.apellidoP"
+              placeholder="Apellido Paterno"
+            />
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="user.apellidoM"
+              placeholder="Apellido Materno"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text"> Perfil </span>
+            <select name="idPerfil" [(ngModel)]="idPerfil" class="form-select" (change)="perfilChange($event)">
+              <option *ngFor="let perf of perfiles" [ngValue]="perf._id">{{perf.nombre}}</option>
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              Fecha de Nacimiento
+            </span>
+            <input type="date" class="form-control" [(ngModel)]="user.dob" >
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              RFC
+            </span>
+            <input type="text" class="form-control" [(ngModel)]="user.rfc" >
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <fa-icon [icon]="faVenusMars"></fa-icon>
+            </span>
+            <div class="row">
+              <div class="col-4">
+                M<input type="radio" class="form-check-input" name="sexo" value="M" [checked]="usuario.sexo==='M'" (change)="selectSex('M')"/>
+              </div>
+              <div class="col-4">
+                F<input type="radio" class="form-check-input" name="sexo" value="F" [checked]="usuario.sexo==='F'" (change)="selectSex('F')"/>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <fa-icon [icon]="faPhone"></fa-icon>
+            </span>
+            <input type="tel" class="form-control" name="telefono" [(ngModel)]="user.telefono"  placeholder="Teléfono"/>
+          </div>
+          <div *ngIf="isMedico()" class="input-group mb-3">
+            <span class="input-group-text">
+              <fa-icon [icon]="faUserDoctor"></fa-icon>
+            </span>
+            <input type="text" class="form-control" name="especialidad" [(ngModel)]="user.especialidad"  placeholder="Especialidad" />
+            <span class="input-group-text">
+              <fa-icon [icon]="faScroll"></fa-icon>
+            </span>
+            <input type="text" class="form-control" name="cedula" placeholder="Cédula" [(ngModel)]="user.cedula" />
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button class="btn btn-primary" (click)="signUp()">
+                Registro
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h2 style="text-align: center;" class="h2">Lista de Usuarios</h2>
+            <table class="table ">
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Nombre</th>
+                  <th style="text-align: center;">Especialidad</th>
+                  <th style="text-align: center;">Acción</th>
+                </tr>
+              </thead>
+            </table>
+            <div style="width:100%; height:150px; overflow:auto; margin-top:-20px">
+              <table class="table" style="width: 100%;">
+                <tbody>
+                  <tr *ngFor="let usuario of usuarios; let i = index" (click)="selectRow(i)">
+                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.apellidoP}} {{usuario.apellidoM}}</td>
+                    <td>
+                      <span class="icon is-small is-left">
+                        <a href="http://"><fa-icon [icon]="faPencil"></fa-icon></a>
+                      </span> &nbsp;
+                      <span class="icon is-small is-left">
+                        <a href="http://" (click)="borrarUsuario(i)"><fa-icon [icon]="faTrashCan"></fa-icon></a>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form *ngIf="isConfirm" class="row g-3">
+    <div class="card-header text-center">
+      <h1>Confirmar Identidad</h1>
+    </div>
+    <div class="col-auto">
+      <label for="staticEmail2" class="visually-hidden">Email</label>
+      <input
+        type="text"
+        readonly
+        class="form-control-plaintext"
+        id="staticEmail2"
+        value="{{ user.email }}"/>
+    </div>
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        name="codigo"
+        [(ngModel)]="user.code"
+        placeholder="Código de Verificación"/>
+    </div>
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-primary mb-3"
+        (click)="confirmSignUp()">
+        Confirmar Indentidad
+      </button>
+    </div>
+  </form>
+</div>

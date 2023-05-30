@@ -5,6 +5,7 @@ import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
 import { CitasService } from 'src/app/service/citas.service';
+import { CognitoService } from 'src/app/service/cognito.service';
 import { Global } from 'src/app/service/Global';
 import { MedicosService } from 'src/app/service/medicos.service';
 
@@ -30,7 +31,9 @@ export class MedicoComponent implements OnInit{
   public medico:Medico= new Medico('','','');
   
 
-  constructor(private medicoService:MedicosService, private citasService:CitasService){}
+  constructor(private medicoService:MedicosService, 
+              private citasService:CitasService,
+              private cognitoService:CognitoService){}
   
   ngOnInit(): void {
     this.dia = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate()+'';
@@ -48,11 +51,19 @@ export class MedicoComponent implements OnInit{
   }
 
   getCitas():void{
-    this.citasService.getCitasByFechaAndMedico(this.year+'-'+this.mes+'-'+this.dia,this.idMedico).subscribe(res=>{
-      if(res.status === Global.OK){
-        this.citas = res.body.citas;
-      }
+    this.cognitoService.getCurrentSession()
+    .then(res=>{
+      let token = res.getIdToken().getJwtToken();
+      this.citasService.getCitasByFechaAndMedico(this.year+'-'+this.mes+'-'+this.dia,this.idMedico,token).subscribe(res=>{
+        if(res.status === Global.OK){
+          this.citas = res.body.citas;
+        }
+      });
+    })
+    .catch(err=>{
+      console.log(err);
     });
+    
   }
 
   atenderPaciente(index:number):void{
