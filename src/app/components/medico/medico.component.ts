@@ -51,19 +51,11 @@ export class MedicoComponent implements OnInit{
   }
 
   getCitas():void{
-    this.cognitoService.getCurrentSession()
-    .then(res=>{
-      let token = res.getIdToken().getJwtToken();
-      this.citasService.getCitasByFechaAndMedico(this.year+'-'+this.mes+'-'+this.dia,this.idMedico,token).subscribe(res=>{
-        if(res.status === Global.OK){
-          this.citas = res.body.citas;
-        }
-      });
-    })
-    .catch(err=>{
-      console.log(err);
+    this.citasService.getCitasByFechaAndMedico(this.year+'-'+this.mes+'-'+this.dia,this.idMedico).subscribe(res=>{
+      if(res.status === Global.OK){
+        this.citas = res.body.citas;
+      }
     });
-    
   }
 
   atenderPaciente(index:number):void{

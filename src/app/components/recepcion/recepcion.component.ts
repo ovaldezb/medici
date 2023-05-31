@@ -9,7 +9,6 @@ import { MedicosService } from 'src/app/service/medicos.service';
 import { PacienteService } from 'src/app/service/paciente.service';
 import { CitasService } from 'src/app/service/citas.service';
 import Swal from 'sweetalert2';
-import { CognitoService } from 'src/app/service/cognito.service';
 
 export interface Mes {
   value: string;
@@ -74,8 +73,7 @@ export class RecepcionComponent implements OnInit{
   ];
   constructor(private medicoService: MedicosService, 
               private pacienteService: PacienteService,
-              private citasService: CitasService,
-              private cognitoService: CognitoService){
+              private citasService: CitasService){
 
   }
   
@@ -231,37 +229,28 @@ export class RecepcionComponent implements OnInit{
             if(res.status===Global.OK){
               this.cita.paciente = res.body.paciente;
               this.cita.medico = this.medico;
-              this.cognitoService.getCurrentSession()
-              .then(res=>{
-                let token = res.getIdToken().getJwtToken();
-                this.citasService.addCita(this.cita,token).subscribe(resCita=>{
-                  if(resCita.status===Global.OK){
-                    this.citaExitosa();
-                  }else{
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'La Cita no se pudo generar '+resCita.message,
-                      showConfirmButton: true,
-                      timer: 1500
-                    });
-                  }
-                });
-              })
+              this.citasService.addCita(this.cita).subscribe(resCita=>{
+                if(resCita.status===Global.OK){
+                  this.citaExitosa();
+                }else{
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'La Cita no se pudo generar '+resCita.message,
+                    showConfirmButton: true,
+                    timer: 1500
+                  });
+                }
+              });
             }
           });
         }else{
           this.cita.paciente = this.paciente;
-          this.cita.medico = this.medico;
-          this.cognitoService.getCurrentSession()
-          .then(res=>{
-            let token = res.getIdToken().getJwtToken();
-            this.citasService.addCita(this.cita,token).subscribe(res=>{
-              if(res.status===Global.OK){
-                this.citaExitosa();
-              }
-            });
-          })
-          
+          this.cita.medico = this.medico; 
+          this.citasService.addCita(this.cita).subscribe(res=>{
+            if(res.status===Global.OK){
+              this.citaExitosa();
+            }
+          });
         }
       }
     });
@@ -275,35 +264,26 @@ export class RecepcionComponent implements OnInit{
     })
     .then(resultado =>{
       if(resultado.isConfirmed){
-        this.cognitoService.getCurrentSession()
-        .then(res=>{
-          let token = res.getIdToken().getJwtToken();
-          this.citasService.updateCita(this.cita._id,this.cita,token).subscribe(res=>{
-            if(res.status === Global.OK){
-              Swal.fire({
-                icon:'success',
-                text: 'La cita se actualizó correctamente',
-                timer: 1500
-              });
-              this.limpiar();
-            }
-          });
-        })
+        this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
+          if(res.status === Global.OK){
+            Swal.fire({
+              icon:'success',
+              text: 'La cita se actualizó correctamente',
+              timer: 1500
+            });
+            this.limpiar();
+          }
+        });
       }
     });
   }
 
   getCitas():any{
-    this.cognitoService.getCurrentSession()
-    .then(res=>{
-      let token = res.getIdToken().getJwtToken();
-      this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico,token).subscribe(res=>{
-        if(res.citas != undefined){
-          this.citas = res.citas;
-        }
-      });
-    })
-    .catch();
+    this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico).subscribe(res=>{
+      if(res.citas != undefined){
+        this.citas = res.citas;
+      }
+    });
   }
 
   editarCita(index:number):any{
@@ -320,21 +300,17 @@ export class RecepcionComponent implements OnInit{
       confirmButtonText:'OK'
     }).then(resultado=>{
       if(resultado.isConfirmed){
-        this.cognitoService.getCurrentSession()
-        .then(res=>{
-          let token = res.getIdToken().getJwtToken();
-          this.citasService.deleteCita(this.citas[index]._id,token).subscribe(res=>{
-            if(res.status === Global.OK){
-              this.getCitas();
-              Swal.fire({
-                icon:'success',
-                text: 'La cita se eliminó exitosamente',
-                timer: 1500
-              });
-              this.getCitas();
-            }
-          });
-        })
+        this.citasService.deleteCita(this.citas[index]._id).subscribe(res=>{
+          if(res.status === Global.OK){
+            this.getCitas();
+            Swal.fire({
+              icon:'success',
+              text: 'La cita se eliminó exitosamente',
+              timer: 1500
+            });
+            this.getCitas();
+          }
+        });
       }
     });
   }

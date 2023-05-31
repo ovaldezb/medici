@@ -7,7 +7,12 @@ import Swal from 'sweetalert2';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import { Global } from 'src/app/service/Global';
 import { PerfilService } from 'src/app/service/perfil.service';
-import { Perfil } from 'src/app/models/perfil';
+//import { Perfil } from 'src/app/models/perfil';
+
+export interface Perfil{
+  _id:string,
+  nombre:string
+}
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -28,14 +33,19 @@ export class RegistroComponent  implements OnInit{
   public faLockOpen = faLockOpen;
   public statusIcon = faLockOpen;
   public usuarios:IUser[] = [];
-  public usuario:IUser = new IUser('','','','','','','','','','','M','','',false,'','','');
-  public perfiles:Perfil[] = [];
+  //public usuario:IUser = new IUser('','','','','','','','','','','M','','',false,'','','');
+  //public perfiles:Perfil[] = [];
   public perfil:Perfil = {} as Perfil;
   public faUserDoctor = faUserDoctor;
   public faPencil = faPencil;
   public faTrashCan = faTrashCan;
   public idPerfil: string = '';
-
+  perfiles: Perfil[] =[
+    {_id:'1', nombre:'ADMINISTRADOR'},
+    {_id:'2', nombre:'MEDICO'},
+    {_id:'3', nombre:'RECEPCION'},
+    {_id:'4', nombre:'ENFERMERA'},
+  ];
   constructor(private router:Router, 
     private cognitoService:CognitoService,
     private usuariosService: UsuariosService,
@@ -43,18 +53,19 @@ export class RegistroComponent  implements OnInit{
     this.isConfirm = false
   }
   ngOnInit(): void {
-    this.loadPerfiles();
+    //this.loadPerfiles();
   }
 
-  loadPerfiles():void{
+  /*loadPerfiles():void{
     this.perfilService.getAllPerfiles()
     .subscribe(res=>{
+      console.log(res);
       if(res.status === Global.OK){
         this.perfiles = res.body.perfiles;
         this.perfil = this.perfiles[0];
       }
     });
-  }
+  }*/
 
   signUp():void{
     this.user.isAdmin = (this.perfil.nombre === Global.ADMINISTRADOR);
@@ -63,12 +74,9 @@ export class RegistroComponent  implements OnInit{
     this.user.cedula = this.user.cedula === undefined ? '' : this.user.cedula;
     this.user.especialidad = this.user.especialidad=== undefined ? '': this.user.especialidad;
     this.user.perfil = this.perfil.nombre;
-    //console.log(this.user);
-    //return;
     this.cognitoService.signUp(this.user)
     .then(()=>{
       this.isConfirm = true;
-      console.log(this.isConfirm);
     })
     .catch((err)=>{
       console.log('Error al hacer el signUp');
@@ -84,7 +92,7 @@ export class RegistroComponent  implements OnInit{
     this.cognitoService.confirmSignUp(this.user)
     .then(()=>{
       this.isConfirm = false;
-      this.router.navigate(['/login']);
+      this.user = new IUser('','','','','','','','','','','M','','',false,'','','');
     })
     .catch((err)=>{
       console.log('Error al hacer el signUp',err);

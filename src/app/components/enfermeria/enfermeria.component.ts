@@ -46,20 +46,12 @@ export class EnfermeriaComponent implements OnInit{
   }
 
   getCitas():any{
-    this.cognitoService.getCurrentSession()
-    .then(res=>{
-      console.log(res);
-      let token = res.getIdToken().getJwtToken();
-      this.citasService.getCitasByFecha(this.year+'-'+this.mes+'-'+this.dia, token)
-      .subscribe(res=>{
-        if(res.status === Global.OK && res.body.citas.length > 0){
-          this.citas = res.body.citas;
-        }
-      });
-    })
-    .catch(err=>{
-      console.log(err);
-    })
+    this.citasService.getCitasByFecha(this.year+'-'+this.mes+'-'+this.dia)
+    .subscribe(res=>{
+      if(res.status === Global.OK && res.body.citas.length > 0){
+        this.citas = res.body.citas;
+      }
+    });
   }
 
   guardaSignos():void{
@@ -121,10 +113,7 @@ export class EnfermeriaComponent implements OnInit{
 
   updateCita():void{
     this.cita.isSignosTomados = true;
-    this.cognitoService.getCurrentSession()
-    .then(res=>{
-      let token = res.getIdToken().getJwtToken();
-      this.citasService.updateCita(this.cita._id,this.cita,token).subscribe(res=>{
+      this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
         if(res.status===Global.OK){
           this.clear();
           Swal.fire({
@@ -135,7 +124,7 @@ export class EnfermeriaComponent implements OnInit{
           });
         }
       });
-    })
+    
   }
 
   updatePaciente():void{

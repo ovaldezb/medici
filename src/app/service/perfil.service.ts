@@ -15,6 +15,7 @@ export class PerfilService {
   }
 
   getAllPerfiles():Observable<any>{
+    console.log('GetAllPerfiles');
     return this._http.get(Global.urlPerfil,{observe:'response'});
   }
 

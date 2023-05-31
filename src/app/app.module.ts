@@ -15,6 +15,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
+import { HttpCognitoInterceptorService } from './service/http-cognito-interceptor.service';
 
 
 
@@ -39,7 +40,11 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
     routing,
     FontAwesomeModule
   ],
-  providers: [appRoutingProvider],
+  providers: [appRoutingProvider,{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpCognitoInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

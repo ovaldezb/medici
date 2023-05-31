@@ -11,32 +11,23 @@ export class CitasService{
   constructor(private _http:HttpClient){
   }
 
-  addCita(cita:Cita, token:any):Observable<any>{
-    const headers = new HttpHeaders()
-    .set('Content-Type','application/json')
-    .set('Authorization',token);
+  addCita(cita:Cita):Observable<any>{
     return this._http.post(Global.urlCita,cita,{observe: 'response'});
   }
 
-  getCitasByFechaAndMedico(fechaFiltro:string, idMedico:string, token:any):Observable<any>{
-    const headers = new HttpHeaders()
-    .set('Content-Type','application/json')
-    .set('Authorization',token);
-    return this._http.get(Global.urlCita+'/'+fechaFiltro+'/'+idMedico,{headers: headers});
+  getCitasByFechaAndMedico(fechaFiltro:string, idMedico:string):Observable<any>{
+    return this._http.get(Global.urlCita+'/'+fechaFiltro+'/'+idMedico,{observe: 'response'});
   }
   
-  getCitasByFecha(fechaFiltro:string, token:any):Observable<any>{
-    const headers = new HttpHeaders()
-    .set('Content-Type','application/json')
-    .set('Authorization',token);
-    return this._http.get(Global.urlCita+'/'+fechaFiltro,{headers: headers});
+  getCitasByFecha(fechaFiltro:string):Observable<any>{
+    return this._http.get(Global.urlCita+'/'+fechaFiltro,{observe: 'response'});
   }
 
-  updateCita(idCita:String,cita:Cita, token:any):Observable<any>{
+  updateCita(idCita:String,cita:Cita):Observable<any>{
     return this._http.put(Global.urlCita+'/'+idCita,cita,{observe: 'response'});
   }
 
-  deleteCita(idCita:String, token:any):Observable<any>{
+  deleteCita(idCita:String):Observable<any>{
     return this._http.delete(Global.urlCita+'/'+idCita,{observe:'response'});
   }
 }
