@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { IUser } from '../../models/user';
 import Swal from 'sweetalert2';
+import { Global } from 'src/app/service/Global';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent {
 
   public user: IUser;
+  public perfiles:Array<String>=new Array();
 
   constructor(private router: Router, private congnitoService: CognitoService){
     this.user = { } as IUser;
@@ -19,7 +21,25 @@ export class LoginComponent {
   public signIn():void{
     this.congnitoService.signIn(this.user)
     .then(()=>{
-      this.router.navigateByUrl('/recepcion')
+      this.congnitoService.getUser()
+      .then(user=>{
+        this.perfiles = user.signInUserSession.accessToken.payload['cognito:groups'];
+        const perfil = this.perfiles[0];
+        switch (perfil){
+          case Global.ADMINISTRADOR:
+            this.router.navigateByUrl('/registro');
+            break;
+          case Global.ENFERMERA:
+            this.router.navigateByUrl('/enfermeria');
+            break;
+          case Global.MEDICO:
+            this.router.navigateByUrl('/medico');
+            break;
+          case Global.REPECION:
+            this.router.navigateByUrl('/recepcion');
+            break;
+        }
+      })
     })
     .catch((err)=>{
       Swal.fire({

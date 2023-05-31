@@ -18,7 +18,6 @@ export class HttpCognitoInterceptorService implements HttpInterceptor{
           Authorization: token
         }
       });
-      console.log('req=',req);
       return next.handle(req);
     }));
   }

@@ -76,7 +76,7 @@
             <select class="form-select mb-3 border-success" aria-label="Default select example" 
                     [(ngModel)]="idMedico" name="idMedico" (change)="cambiaMedico($event)">
               <option *ngFor="let medico of medicos" [ngValue]="medico._id">
-                {{ medico.nombre }} - {{ medico.especialidad }}
+                {{ medico.nombre }} {{medico.apellidoP}} - {{ medico.especialidad }}
               </option>
             </select>
           </div>

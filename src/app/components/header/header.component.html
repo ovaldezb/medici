@@ -8,16 +8,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li *ngIf="isAdmin() || isRecepcion()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/recepcion" [routerLinkActive]="['active']">Recepción</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="isAdmin() || isEnfermera()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/enfermeria" [routerLinkActive]="['active']">Enfermeria</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="isAdmin() || isMedico()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/medico" [routerLinkActive]="['active']">Médico</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="isAdmin()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/registro" [routerLinkActive]="['active']">Administración</a>
         </li>
       </ul>

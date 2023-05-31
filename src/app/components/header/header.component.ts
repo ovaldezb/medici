@@ -7,6 +7,7 @@ import { faCalendarCheck,
   faAlignLeft,
   faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { IUser } from 'src/app/models/user';
+import { Global } from 'src/app/service/Global';
 import { CognitoService } from 'src/app/service/cognito.service';
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit{
   public faRightFromBracket = faRightFromBracket;
   public faAlignLeft = faAlignLeft;
   public status:boolean = false;
+  public perfiles:Array<String>=new Array();
 
   
   constructor(private cognitoService:CognitoService){}
@@ -33,6 +35,7 @@ export class HeaderComponent implements OnInit{
       this.cognitoService.getUser()
       .then(user=>{
         this.nombreUsuario = user.attributes.given_name+' '+user.attributes.middle_name
+        this.perfiles = user.signInUserSession.accessToken.payload['cognito:groups'];
       })
       .catch(err=>{
         console.log(err);
@@ -42,5 +45,21 @@ export class HeaderComponent implements OnInit{
 
   isAuthenticated():boolean{
     return this.cognitoService.isAuthenticated();  
+  }
+
+  isAdmin():boolean{
+    return this.perfiles.includes(Global.ADMINISTRADOR);
+  }
+
+  isMedico():boolean{
+    return this.perfiles.includes(Global.MEDICO);
+  }
+
+  isRecepcion():boolean{
+    return this.perfiles.includes(Global.REPECION);
+  }
+
+  isEnfermera():boolean{
+    return this.perfiles.includes(Global.ENFERMERA);
   }
 }

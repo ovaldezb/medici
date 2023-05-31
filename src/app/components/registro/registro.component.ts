@@ -20,7 +20,7 @@ export interface Perfil{
   providers:[UsuariosService,PerfilService]
 })
 export class RegistroComponent  implements OnInit{
-  public user:IUser = {} as IUser;
+  public user:IUser = new IUser('','','','','','','','','','','M','','',false,'','','');
   public isConfirm: boolean;
   public faCalendar = faCalendar;
   public faScroll = faScroll;
@@ -33,8 +33,6 @@ export class RegistroComponent  implements OnInit{
   public faLockOpen = faLockOpen;
   public statusIcon = faLockOpen;
   public usuarios:IUser[] = [];
-  //public usuario:IUser = new IUser('','','','','','','','','','','M','','',false,'','','');
-  //public perfiles:Perfil[] = [];
   public perfil:Perfil = {} as Perfil;
   public faUserDoctor = faUserDoctor;
   public faPencil = faPencil;

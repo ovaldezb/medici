@@ -58,7 +58,7 @@ export class CognitoService {
   }
 
   public getUser():Promise<any>{
-    return Auth.currentUserInfo();
+    return Auth.currentAuthenticatedUser();
   }
 
   public isAuthenticated():boolean{

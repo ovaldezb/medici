@@ -9,6 +9,7 @@ import { MedicosService } from 'src/app/service/medicos.service';
 import { PacienteService } from 'src/app/service/paciente.service';
 import { CitasService } from 'src/app/service/citas.service';
 import Swal from 'sweetalert2';
+import { IUser } from 'src/app/models/user';
 
 export interface Mes {
   value: string;
@@ -38,7 +39,7 @@ export class RecepcionComponent implements OnInit{
   public faPencil = faPencil;
   public faTrashCan = faTrashCan;
   public idMedico:string = '';
-  public medicos:Medico[] = [];
+  public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','',new Date(),'',0,'');
   public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new Medico('','',''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
   public citas:Cita[] = [];
