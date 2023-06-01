@@ -1,10 +1,10 @@
 export var Global ={
-  urlCita:     'https://ov7wau3au2.execute-api.us-east-1.amazonaws.com/dev/cita',
-  urlMedico:   'https://rhbdnkzfcc.execute-api.us-east-1.amazonaws.com/dev/medico',
-  urlPaciente: 'https://qps94bwspa.execute-api.us-east-1.amazonaws.com/dev/paciente',
-  urlPerfil:   'https://3xw06kbmoe.execute-api.us-east-1.amazonaws.com/dev/perfil',
-  urlSignos:   'https://4ip47pzoah.execute-api.us-east-1.amazonaws.com/dev/signos',
-  urlUsuario:  'https://pq4cwm511c.execute-api.us-east-1.amazonaws.com/dev/usuario',
+  urlCita:     'https://a5rezlvqr9.execute-api.us-east-1.amazonaws.com/dev/cita',
+  urlMedico:   'https://d9tf3h7b9l.execute-api.us-east-1.amazonaws.com/dev/medico',
+  urlPaciente: 'https://6zyl298mb4.execute-api.us-east-1.amazonaws.com/dev/paciente',
+  urlPerfil:   'https://h0x9k2oih3.execute-api.us-east-1.amazonaws.com/dev/perfil',
+  urlSignos:   'https://vafaun2lh0.execute-api.us-east-1.amazonaws.com/dev/signos',
+  urlUsuario:  'https://j9xjkqmkte.execute-api.us-east-1.amazonaws.com/dev/usuario',
   
   AGREGAR:'Agregar',
   ACTUALIZAR:'Actualizar',

@@ -27,7 +27,7 @@ export class MedicoComponent implements OnInit{
   private year:string = '';
   private idMedico:string='';
   public HighlightRow:number=-1;
-  public medicos:Medico[] = [];
+  //public medicos:Medico[] = [];
   public medico:Medico= new Medico('','','');
   
 
@@ -39,15 +39,15 @@ export class MedicoComponent implements OnInit{
     this.dia = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate()+'';
     this.mes = (this.fechaActual.getMonth() + 1) < 10 ? '0'+(this.fechaActual.getMonth() + 1)  : (this.fechaActual.getMonth() + 1)+'';
     this.year = this.fechaActual.getFullYear()+'';
-    this.medicoService.getAllMedicos().subscribe(res=>{
-      if(res.status===Global.OK){
-        this.medicos = res.body.medicos;
-        this.idMedico = this.medicos[0]._id;
-        this.medico = this.medicos[0];
+    this.cognitoService.getUser()
+    .then(user=>{
+      this.medicoService.getMedicoByEmail(user.attributes.email)
+      .subscribe(res=>{
+        this.medico = res.body.medico;
+        this.idMedico = this.medico._id;
         this.getCitas();
-      }
-    });
-    //this.getCitas();
+      });
+    })
   }
 
   getCitas():void{
@@ -68,9 +68,4 @@ export class MedicoComponent implements OnInit{
     this.HighlightRow = -1;
   }
 
-  changeMedico(event:any):void{
-    this.medico = this.medicos[event.target["selectedIndex"]];
-    this.idMedico = this.medico._id;
-    this.getCitas();
-  }
 }

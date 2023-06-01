@@ -9,13 +9,6 @@
               <fa-icon [icon]="faUserDoctor"></fa-icon>{{fechaActual | date:'dd-MMM-YYYY'}}
             </span>
           </div>
-          <div class="col">
-            <select class="form-control" (change)="changeMedico($event)">
-              <option *ngFor="let medico of medicos" [ngValue]="medico._id">
-                {{ medico.nombre }} - {{ medico.especialidad }}
-              </option>
-            </select>
-          </div>
         </div>
         <table class="table table-bordered" style="margin: auto;">
           <thead>
