@@ -1,10 +1,10 @@
 export var Global ={
-  urlCita:     'https://a5rezlvqr9.execute-api.us-east-1.amazonaws.com/dev/cita',
-  urlMedico:   'https://d9tf3h7b9l.execute-api.us-east-1.amazonaws.com/dev/medico',
-  urlPaciente: 'https://6zyl298mb4.execute-api.us-east-1.amazonaws.com/dev/paciente',
-  urlPerfil:   'https://h0x9k2oih3.execute-api.us-east-1.amazonaws.com/dev/perfil',
-  urlSignos:   'https://vafaun2lh0.execute-api.us-east-1.amazonaws.com/dev/signos',
-  urlUsuario:  'https://j9xjkqmkte.execute-api.us-east-1.amazonaws.com/dev/usuario',
+  urlCita:     'https://jtq2qqbabf.execute-api.us-east-1.amazonaws.com/dev/cita',
+  urlMedico:   'https://6q4x7np717.execute-api.us-east-1.amazonaws.com/dev/medico',
+  urlPaciente: 'https://uyfbxbdsr7.execute-api.us-east-1.amazonaws.com/dev/paciente',
+  urlPerfil:   'https://j2fgtlvwyh.execute-api.us-east-1.amazonaws.com/dev/perfil',
+  urlSignos:   'https://qligm8qqt7.execute-api.us-east-1.amazonaws.com/dev/signos',
+  urlUsuario:  'https://pwik18v3ai.execute-api.us-east-1.amazonaws.com/dev/usuario',
   
   AGREGAR:'Agregar',
   ACTUALIZAR:'Actualizar',
@@ -16,5 +16,7 @@ export var Global ={
   MEDICO:'MEDICO',
   ENFERMERA:'ENFERMERA',
   ADMINISTRADOR:'ADMINISTRADOR',
-  REPECION:'RECEPCION'
+  REPECION:'RECEPCION',
+
+  REFRESH_CITA: 60*1000 // cada minuto va ir a consultar si hay nuevas citas
 }

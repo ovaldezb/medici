@@ -115,27 +115,46 @@
         <div class="col">
           <div class="card">
             <h2 style="text-align: center;" class="h2">Lista de Usuarios</h2>
-            <table class="table ">
+            <table class="table table-bordered">
+              <colgroup>
+                <col width="25%">
+                <col width="30%">
+                <col width="25%">
+                <col width="20%">
+              </colgroup>
               <thead>
                 <tr>
-                  <th style="text-align: center;">Nombre</th>
-                  <th style="text-align: center;">Especialidad</th>
-                  <th style="text-align: center;">Acción</th>
+                  <th style="text-align: center;font-size: small;">Nombre</th>
+                  <th style="text-align: center;font-size: small;">Apellido</th>
+                  <th style="text-align: center;font-size: small;">Perfil</th>
+                  <th style="text-align: center;font-size: small;">Acc</th>
                 </tr>
               </thead>
             </table>
-            <div style="width:100%; height:150px; overflow:auto; margin-top:-20px">
-              <table class="table" style="width: 100%;">
+            <div style="width:100%; height:250px; overflow:auto; margin-top:-17px">
+              <table class="table table-bordered table-hover" style="width: 100%;">
+                <colgroup>
+                  <col width="25%">
+                  <col width="30%">
+                  <col width="25%">
+                  <col width="20%">
+                </colgroup>
                 <tbody>
                   <tr *ngFor="let usuario of usuarios; let i = index" (click)="selectRow(i)">
                     <td>{{usuario.nombre}}</td>
                     <td>{{usuario.apellidoP}} {{usuario.apellidoM}}</td>
-                    <td>
+                    <td>{{usuario.perfil}}</td>
+                    <td style="text-align: center;">
                       <span class="icon is-small is-left">
-                        <a href="http://"><fa-icon [icon]="faPencil"></fa-icon></a>
+                        <a *ngIf="!usuario.isAdmin" href="" title="Editar Usuario">
+                          <fa-icon [icon]="faPencil"></fa-icon>
+                        </a>
+                        <fa-icon *ngIf="usuario.isAdmin" [icon]="faPencil" title="El usuario Administrador no se puede editar"></fa-icon>
                       </span> &nbsp;
                       <span class="icon is-small is-left">
-                        <a href="http://" (click)="borrarUsuario(i)"><fa-icon [icon]="faTrashCan"></fa-icon></a>
+                        <a *ngIf="!usuario.isAdmin && usuario.isDisabled" href="http://" (click)="borrarUsuario(i)" title="Habilitar Usuario"><fa-icon [icon]="faUserSlash"></fa-icon></a>
+                        <a *ngIf="!usuario.isAdmin && !usuario.isDisabled" href="http://" (click)="borrarUsuario(i)" title="Deshabilitar Usuario"><fa-icon [icon]="faUser"></fa-icon></a>
+                        <fa-icon *ngIf="usuario.isAdmin" [icon]="faUserSlash" title="El usuario Administrador no se puede deshabilitar"></fa-icon>
                       </span>
                     </td>
                   </tr>

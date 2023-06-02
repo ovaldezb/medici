@@ -10,7 +10,7 @@
             </span>
           </div>
         </div>
-        <table class="table table-bordered" style="margin: auto;">
+        <table class="table table-primary table-bordered" style="margin: auto;">
           <thead>
             <tr>
               <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
@@ -26,8 +26,8 @@
             </tr>
           </thead>
         </table>
-        <div style="text-align: center; width: 100%">
-          <table class="table table-stripe table-bordered" style="margin: auto;height: 400px;">
+        <div style="width: 100%; border: 2px solid rgb(100, 100, 152);overflow: auto;height: 400px;">
+          <table class="table table-hover table-bordered" style="margin: auto;">
             <tbody>
               <tr *ngFor="let cita of citas; let i = index"  
                     [class.selectedMedico]="i == HighlightRow" 
@@ -67,15 +67,30 @@
             </tbody>
           </table>
           <hr>
+          <p>Socializar/Escuchar al paciente</p>
+          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" [style.width]="intervaloE1Porcentaje+'%'"></div>
+          </div>
+          <p>Revisar/Oscultar</p>
+          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" [style.width]="intervaloE2Porcentaje+'%'"></div>
+          </div>
+          <p>Diagnosticar</p>
+          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" [style.width]="intervaloE3Porcentaje+'%'"></div>
+          </div>
+          <p>Cerrar</p>
+          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" [style.width]="intervaloE4Porcentaje+'%'"></div>
+          </div>
+          <hr>          
           <div class="row">
             <div class="col">
               <div class="card">
                 <form #userForm="ngForm">
                   <div class="mb-3">
                     <label for="" class="label">Receta</label>
-                    
                       <textarea class="form-control" placeholder="Introduzca los medicamentes y su frecuencia de consumo"></textarea>
-                    
                   </div>
                   <div class="mb-3">
                     <label for="" class="label">Comentarios</label>

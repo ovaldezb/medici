@@ -4,6 +4,7 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { IUser } from '../../models/user';
 import Swal from 'sweetalert2';
 import { Global } from 'src/app/service/Global';
+import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,6 +12,8 @@ import { Global } from 'src/app/service/Global';
 })
 export class LoginComponent {
 
+  public faUser = faUser;
+  public faKey = faKey;
   public user: IUser;
   public perfiles:Array<String>=new Array();
 

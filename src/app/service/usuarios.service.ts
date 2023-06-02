@@ -14,7 +14,7 @@ export class UsuariosService {
     return this._http.get(Global.urlUsuario,{observe:'response'});
   }
 
-  deleteUsuario(idUsuario:string, email:string):Observable<any>{
-    return this._http.delete(Global.urlUsuario+'/'+idUsuario+'/'+email,{observe:'response'});
+  updateUsuario(idUsuario:string, email:string, flag:boolean, usuario:any):Observable<any>{
+    return this._http.put(Global.urlUsuario+'/'+idUsuario+'/'+email+'/'+flag,usuario,{observe:'response'});
   }
 }

@@ -1,21 +1,42 @@
-<app-header></app-header>
-<div class="container">
-  <div class="card">
-    <div class="card-header">
-      <h1>Iniciar Sesión</h1>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        Correo Electrónico: <input type="text" name="username" [(ngModel)]="user.email">
-      </div>
-      <div class="row">
-        Contrasena: <input type="password" name="password" [(ngModel)]="user.password">
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="row">
-        <button class="btn btn-primary" (click)="signIn()">Login</button>
+<section class="vh-100" style="background-color: #618b9a;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img src="https://static.vecteezy.com/system/resources/previews/000/353/792/original/vector-health-icon.jpg"
+                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+            </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+                <form>
+                  <div class="d-flex align-items-center mb-3 pb-1 text-center">
+                    <span class="h1 fw-bold mb-0 ">Clínica B&B</span>
+                  </div>
+
+                  <h5 class="fw-normal mb-3 pb-3 text-center" style="letter-spacing: 1px;">Inicia Sesión en tu cuenta</h5>
+
+                  <div class="mb-4">
+                    <input type="email" name="username" [(ngModel)]="user.email" class="form-control form-control-lg" placeholder="Correo Electrónico"/>
+                  </div>
+
+                  <div class="mb-4">
+                    <input type="password" name="password" [(ngModel)]="user.password" class="form-control form-control-lg" placeholder="Contraseña" />
+                  </div>
+
+                  <div class="pt-1 mb-4">
+                    <button class="btn btn-dark btn-lg btn-block" type="button" (click)="signIn()">Entrar</button>
+                  </div>
+
+                  <a class="small text-muted" href="#!">Olvidaste tu Contraseña ?</a>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>

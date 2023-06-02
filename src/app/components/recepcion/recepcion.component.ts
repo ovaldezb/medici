@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Cita } from 'src/app/models/citas';
-import { Medico } from 'src/app/models/medico';
 import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
 import { Global } from 'src/app/service/Global';
@@ -41,9 +40,9 @@ export class RecepcionComponent implements OnInit{
   public idMedico:string = '';
   public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','',new Date(),'',0,'');
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new Medico('','',''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
+  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new IUser('','','','','','','','','','','','','',false,'','','',false),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
   public citas:Cita[] = [];
-  public medico:Medico= new Medico('','','');
+  public medico:IUser= {} as IUser;
   public listaPacientesNombre:Paciente[] = [];
   public listaPacientesApellido:Paciente[] = [];
   public listaPacientesTelefono:Paciente[] = [];
@@ -281,8 +280,8 @@ export class RecepcionComponent implements OnInit{
 
   getCitas():any{
     this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico).subscribe(res=>{
-      if(res.citas != undefined){
-        this.citas = res.citas;
+      if(res.body.citas != undefined){
+        this.citas = res.body.citas;
       }
     });
   }
@@ -336,7 +335,7 @@ export class RecepcionComponent implements OnInit{
   limpiar():void{
     this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','',new Date(),'',0,'');
-    this.cita = new Cita('',this.paciente,new Medico('','',''),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','',false,'','','',false),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
     this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
     this.mes = '01';
@@ -377,8 +376,6 @@ export class RecepcionComponent implements OnInit{
   validaFechaCita():boolean{
     let fechaHoy = new Date();
     let fehaCitaTentativa = new Date(this.fechaCita+' '+this.cita.horaCita);
-    console.log(fehaCitaTentativa);
-    console.log(fechaHoy);
     if(fechaHoy.getTime() >= fehaCitaTentativa.getTime()){
       return true; //la fecha de la cita es menor a la fecha eactual, no se puede agendar una cita
     }

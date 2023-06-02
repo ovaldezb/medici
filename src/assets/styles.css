@@ -1,27 +1,27 @@
-.selected {  
-  color: rgb(81, 237, 60) !important; 
+.selected {
+  color: rgb(81, 237, 60) !important;
   background-color: dodgerblue;
-  font-weight: bold; 
-} 
-
-.selectedMedico {  
-  color: wheat !important; 
-  background-color: darkblue;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
-.conSignos{
+.selectedMedico {
+  color: wheat !important;
+  background-color: darkblue;
+  font-weight: bold;
+}
+
+.conSignos {
   background-color: darkseagreen !important;
   color: black;
   font-weight: normal;
 }
 
-.sinSignos{
+.sinSignos {
   background-color: rgb(227, 160, 178) !important;
 }
 
 @media screen and (max-width: 768px) {
-  #menu-toggle:checked + .nav-menu {
+  #menu-toggle:checked+.nav-menu {
     display: block;
   }
 }
@@ -70,10 +70,15 @@
 .sidebar {
   min-width: 250px;
   max-width: 250px;
-  background-color:#6ebaf4;
+  background-color: #6ebaf4;
   color: antiquewhite;
 }
 
 .sidebarActive {
   margin-left: -250px;
 }
+
+.form-outline {
+  position:relative;
+  width:100%
+ }

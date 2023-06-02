@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/models/user';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { Router } from '@angular/router';
-import { faLockOpen, faScroll, faCalendar, faLock, faUser, faEnvelope, faPerson, faVenusMars, faPhone, faUserDoctor, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faLockOpen, faScroll, faCalendar, faLock, faUser, faEnvelope, faPerson, faVenusMars, faPhone, faUserDoctor, faPencil, faUserSlash } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import { Global } from 'src/app/service/Global';
@@ -20,7 +20,7 @@ export interface Perfil{
   providers:[UsuariosService,PerfilService]
 })
 export class RegistroComponent  implements OnInit{
-  public user:IUser = new IUser('','','','','','','','','','','M','','',false,'','','');
+  public user:IUser = new IUser('','','','','','','','','','','M','','',false,'','','',false);
   public isConfirm: boolean;
   public faCalendar = faCalendar;
   public faScroll = faScroll;
@@ -36,7 +36,7 @@ export class RegistroComponent  implements OnInit{
   public perfil:Perfil = {} as Perfil;
   public faUserDoctor = faUserDoctor;
   public faPencil = faPencil;
-  public faTrashCan = faTrashCan;
+  public faUserSlash = faUserSlash;
   public idPerfil: string = '';
   perfiles: Perfil[] =[
     {_id:'1', nombre:'ADMINISTRADOR'},
@@ -52,6 +52,7 @@ export class RegistroComponent  implements OnInit{
   }
   ngOnInit(): void {
     //this.loadPerfiles();
+    this.loadAllUsuarios();
   }
 
   /*loadPerfiles():void{
@@ -90,7 +91,8 @@ export class RegistroComponent  implements OnInit{
     this.cognitoService.confirmSignUp(this.user)
     .then(()=>{
       this.isConfirm = false;
-      this.user = new IUser('','','','','','','','','','','M','','',false,'','','');
+      this.user = new IUser('','','','','','','','','','','M','','',false,'','','',false);
+      this.loadAllUsuarios();
     })
     .catch((err)=>{
       console.log('Error al hacer el signUp',err);
@@ -130,18 +132,26 @@ export class RegistroComponent  implements OnInit{
   }
 
   borrarUsuario(index:number):void{
+    let msgDisable = 'deshabilitar';
+    let  msgResponse = 'deshabilitado';
+    if(this.usuarios[index].isDisabled){
+      msgDisable = 'habilitar';
+      msgResponse = 'habilitado';
+    }
     Swal.fire({
-      title:'Esta seguro que desea eliminar a éste Usuario? ',
-      text: this.usuarios[index].nombre,
+      title:'Esta seguro que desea '+msgDisable+' al usuario?',
+      text: this.usuarios[index].nombre+' '+this.usuarios[index].apellidoP+' '+this.usuarios[index].apellidoM,
         showCancelButton:true,
         confirmButtonText:'Si'
     }).then(resultado=>{
       if(resultado.isConfirmed){
-        this.usuariosService.deleteUsuario(this.usuarios[index]._id, this.usuarios[index].email).subscribe((res)=>{
+        const currentUserDisable = this.usuarios[index];
+        currentUserDisable.isDisabled = !currentUserDisable.isDisabled;
+        this.usuariosService.updateUsuario(currentUserDisable._id, currentUserDisable.email,currentUserDisable.isDisabled,currentUserDisable).subscribe((res)=>{
           if(res.status===Global.OK){
             Swal.fire({
               icon: 'success',
-              title: 'El médico se ha eliminado exitosamente',
+              title: 'El usuario se ha '+msgResponse+' exitosamente',
               showConfirmButton: false,
               timer: 1500
             });
