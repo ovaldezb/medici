@@ -16,6 +16,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
 import { HttpCognitoInterceptorService } from './service/http-cognito-interceptor.service';
+import { ResetpwdComponent } from './components/resetpwd/resetpwd.component';
 
 
 
@@ -31,7 +32,8 @@ import { HttpCognitoInterceptorService } from './service/http-cognito-intercepto
     LogoutComponent,
     HeaderComponent,
     RegistroComponent,
-    PerfilesComponent
+    PerfilesComponent,
+    ResetpwdComponent
   ],
   imports: [
     BrowserModule,

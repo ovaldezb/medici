@@ -9,6 +9,7 @@ import { PacienteService } from 'src/app/service/paciente.service';
 import { CitasService } from 'src/app/service/citas.service';
 import Swal from 'sweetalert2';
 import { IUser } from 'src/app/models/user';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 export interface Mes {
   value: string;
@@ -189,6 +190,14 @@ export class RecepcionComponent implements OnInit{
   }
 
   addUpdate():void{
+    if(this.validaFechaNacimiento()){
+      Swal.fire({
+        icon:'warning',
+        title:'La fecha de nacimiento no es válida',
+        text: 'dia:'+this.dia+' mes:'+this.mes+' año:'+this.anio
+      });
+      return;
+    }
     if(this.validaFechaCita()){
       Swal.fire({
         icon:'error',
@@ -313,6 +322,11 @@ export class RecepcionComponent implements OnInit{
         });
       }
     });
+  }
+
+  validaFechaNacimiento():boolean{
+    const fechaValida = Date.parse(this.anio+'-'+this.mes+'-'+this.dia);
+    return isNaN(fechaValida);
   }
 
   cambiaFecha():any{

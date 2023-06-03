@@ -9,6 +9,7 @@ import { LogoutComponent } from "./components/logout/logout.component";
 import { RegistroComponent } from "./components/registro/registro.component";
 import { PerfilesComponent } from "./components/perfiles/perfiles.component";
 import { RouteGuardService } from "./service/route-guard.service";
+import { ResetpwdComponent } from "./components/resetpwd/resetpwd.component";
 //Import Component
 
 
@@ -20,8 +21,9 @@ const appRoutes: Routes = [
   { path: 'enfermeria', component: EnfermeriaComponent, canActivate:[RouteGuardService]},
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent},
-  { path: 'registro', component: RegistroComponent}, //, canActivate:[RouteGuardService]
-  { path: 'perfiles', component: PerfilesComponent, canActivate:[RouteGuardService] }
+  { path: 'registro', component: RegistroComponent, canActivate:[RouteGuardService]}, 
+  { path: 'perfiles', component: PerfilesComponent, canActivate:[RouteGuardService] },
+  { path: 'reset', component: ResetpwdComponent}
 ];
 
 

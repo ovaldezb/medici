@@ -1,0 +1,59 @@
+<app-header></app-header>
+<section class="ftco-section">
+  <div class="container">
+    <div *ngIf="!isSent" class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="login-wrap p-4 p-md-5">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <fa-icon [icon]="faUser"></fa-icon>
+          </div>
+          <h3 class="text-center mb-4">Resetear Contraseña</h3>
+          <form class="login-form" #userForm="ngForm">
+            <div class="form-group input-group d-flex">
+              <span class="input-group-text" id="basic-addon1">
+                <fa-icon [icon]="faEnvelopeCircleCheck"></fa-icon>
+              </span>
+              <input type="email" class="form-control rounded-left" name="usuario" [(ngModel)]="user.email" placeholder="Correo Electrónico" required pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary rounded submit p-3 px-5" type="submit" (click)="sendConfirmationEmail()" [disabled]="userForm.invalid">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isSent" class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="login-wrap p-4 p-md-5">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <fa-icon [icon]="faUser"></fa-icon>
+          </div>
+          <h3 class="text-center mb-4">Ingresar Nueva Contraseña y Código de Validación</h3>
+          <form class="login-form" #userFormReset="ngForm">
+            <div class="form-group input-group">
+              <span class="input-group-text" id="basic-addon1">
+                <fa-icon [icon]="faLock"></fa-icon>
+              </span>
+              <input type="password" name="password" class="form-control rounded-left" [(ngModel)]="user.password" placeholder="Nueva Contraseña" required>
+            </div>
+            <div class="form-group input-group d-flex">
+              <span class="input-group-text" id="basic-addon1">
+                <fa-icon [icon]="faLockShow"></fa-icon>
+              </span>
+              <input type="password" name="re-password" class="form-control rounded-left" [(ngModel)]="confirmPassword" (keyup)="validatePwd()" required placeholder="Verificar Contraseña">
+            </div>
+            <div class="form-group input-group d-md-flex">
+              <span class="input-group-text" id="basic-addon1">
+                <fa-icon [icon]="faCalculator"></fa-icon>
+              </span>
+              <input type="text" name="codigo" class="form-control rounded-left" [(ngModel)]="user.code" placeholder="Código de Verificación" required>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary rounded submit p-3 px-5" (click)="forgotPasswordSubmit()" [disabled]="userFormReset.invalid || !comparePwd()">Resetear Contraseña</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

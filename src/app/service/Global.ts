@@ -17,6 +17,7 @@ export var Global ={
   ENFERMERA:'ENFERMERA',
   ADMINISTRADOR:'ADMINISTRADOR',
   REPECION:'RECEPCION',
+  SUCCESS:'SUCCESS',
 
   REFRESH_CITA: 60*1000 // cada minuto va ir a consultar si hay nuevas citas
 }

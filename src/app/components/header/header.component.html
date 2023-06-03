@@ -24,16 +24,24 @@
     </div>
 
     <div *ngIf="isAuthenticated()" class="d-flex" role="search">
-      <span class="icon">
-        {{nombreUsuario}}
-        <fa-icon [icon]="faUser"></fa-icon>
-      </span>
-      <a routerLink="/logout">
-        <span class="icon">
-          Salir
-          <fa-icon [icon]="faRightFromBracket"></fa-icon>
-        </span>
-      </a>
+      <div class="row">
+        <div class="col-10">
+          <span class="icon">
+            {{nombreUsuario}}
+            <fa-icon [icon]="faIcon2Display"></fa-icon>
+          </span>
+        </div>
+        <div class="col-6 text-end">
+          <a routerLink="/logout">
+            <span class="icon">
+              Salir
+              <fa-icon [icon]="faRightFromBracket"></fa-icon>
+            </span>
+          </a>
+        </div>
+      </div>
+      
+      
     </div>
 
   </div>

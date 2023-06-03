@@ -69,4 +69,13 @@ export class CognitoService {
   public getCurrentSession():Promise<any>{
     return Auth.currentSession();
   }
+
+  public forgotPassword(email:string):Promise<any>{
+    return Auth.forgotPassword(email);
+  }
+
+  public forgotPasswordSubmit(email:string,code:string,newPassword:string):Promise<any>{
+    return Auth.forgotPasswordSubmit(email,code,newPassword);
+  }
+
 }
