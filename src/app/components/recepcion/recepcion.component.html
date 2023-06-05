@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-8 card">
+        <div class="col card">
           <div class="row">
             <div class="col text-end">
               <button class="btn btn-primary" (click)="minusDay()">
@@ -24,7 +24,7 @@
               </button>
             </div>
           </div>
-          <table class="table" style="margin: auto">
+          <table class="table table-dark">
             <thead>
               <tr>
                 <th style="width: 29%; text-align: center">Nombre Paciente</th>
@@ -36,14 +36,12 @@
             </thead>
           </table>
           <div
-            style="
+            style=" width: 100%;
               text-align: center;
+              margin-top: -17px;
               height: 350px;
-              overflow: auto;
-              border: 1px solid rgb(213, 213, 248);
-            "
-          >
-            <table class="table is-bordered is-hoverable is-fullwidth">
+              overflow: auto;">
+            <table class="table table-bordered table-hover" style="width: 100%;">
               <tbody>
                 <tr *ngFor="let cita of citas; let i = index">
                   <td style="width: 29%">
@@ -54,15 +52,15 @@
                   <td style="width: 16%">{{ cita.duracion }}</td>
                   <td style="width: 20%">
                     <span class="icon is-small is-left">
-                      <a (click)="editarCita(i)"
-                        ><fa-icon [icon]="faPencil"></fa-icon
-                      ></a>
+                      <a (click)="editarCita(i)" href="http://">
+                        <fa-icon [icon]="faPencil"></fa-icon>
+                      </a>
                     </span>
                     &nbsp;
                     <span class="icon is-small is-left">
-                      <a (click)="borrarCita(i)"
-                        ><fa-icon [icon]="faTrashCan"></fa-icon
-                      ></a>
+                      <a (click)="borrarCita(i)" href="http://">
+                        <fa-icon [icon]="faTrashCan"></fa-icon>
+                      </a>
                     </span>
                   </td>
                 </tr>
@@ -70,7 +68,7 @@
             </table>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col">
           <div class="card">
             <form #userForm="ngForm">
               <div class="mb-3">
