@@ -1,73 +1,17 @@
 <app-header></app-header>
-<div class="container text-center" style="margin-left: 10px">
+<div class="container">
   <div class="card">
     <div class="card-header text-center">
-      <h2>Agenda para <strong>{{ medico.nombre }} {{medico.apellidoP}} - {{ medico.especialidad }} </strong> </h2>
+      <h2>
+        Agenda para
+        <strong
+          >{{ medico.nombre }} {{ medico.apellidoP }} -
+          {{ medico.especialidad }}
+        </strong>
+      </h2>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col card">
-          <div class="row">
-            <div class="col text-end">
-              <button class="btn btn-primary" (click)="minusDay()">
-                <fa-icon [icon]="faArrowLeft"></fa-icon>
-              </button>
-            </div>
-            <div class="col">
-              <span class="form-label">{{
-                fechaActual | date : "dd-MMM-YYYY"
-              }}</span>
-            </div>
-            <div class="col text-start">
-              <button class="btn btn-primary" (click)="plusDay()">
-                <fa-icon [icon]="faArrowRight"></fa-icon>
-              </button>
-            </div>
-          </div>
-          <table class="table table-dark">
-            <thead>
-              <tr>
-                <th style="width: 29%; text-align: center">Nombre Paciente</th>
-                <th style="width: 25%; text-align: center">Teléfono</th>
-                <th style="width: 10%; text-align: center">Hora</th>
-                <th style="width: 16%; text-align: center">Duración</th>
-                <th style="width: 20%; text-align: center">Acción</th>
-              </tr>
-            </thead>
-          </table>
-          <div
-            style=" width: 100%;
-              text-align: center;
-              margin-top: -17px;
-              height: 350px;
-              overflow: auto;">
-            <table class="table table-bordered table-hover" style="width: 100%;">
-              <tbody>
-                <tr *ngFor="let cita of citas; let i = index">
-                  <td style="width: 29%">
-                    {{ cita.paciente.nombre }} {{ cita.paciente.apellido }}
-                  </td>
-                  <td style="width: 25%">{{ cita.paciente.telefono }}</td>
-                  <td style="width: 10%">{{ cita.horaCita }}</td>
-                  <td style="width: 16%">{{ cita.duracion }}</td>
-                  <td style="width: 20%">
-                    <span class="icon is-small is-left">
-                      <a (click)="editarCita(i)" href="http://">
-                        <fa-icon [icon]="faPencil"></fa-icon>
-                      </a>
-                    </span>
-                    &nbsp;
-                    <span class="icon is-small is-left">
-                      <a (click)="borrarCita(i)" href="http://">
-                        <fa-icon [icon]="faTrashCan"></fa-icon>
-                      </a>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
         <div class="col">
           <div class="card">
             <form #userForm="ngForm">
@@ -391,6 +335,83 @@
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="row">
+              <div class="col text-end">
+                <button class="btn btn-primary" (click)="minusDay()">
+                  <fa-icon [icon]="faArrowLeft"></fa-icon>
+                </button>
+              </div>
+              <div class="col">
+                <span class="form-label">{{
+                  fechaActual | date : "dd-MMM-YYYY"
+                }}</span>
+              </div>
+              <div class="col text-start">
+                <button class="btn btn-primary" (click)="plusDay()">
+                  <fa-icon [icon]="faArrowRight"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <table class="table table-dark">
+              <colgroup>
+                <col width="29%" />
+                <col width="25%" />
+                <col width="10%" />
+                <col width="26%" />
+                <col width="10%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th style="text-align: center; font-size: small">Paciente</th>
+                  <th style="text-align: center; font-size: small">Teléfono</th>
+                  <th style="text-align: center; font-size: small">Hora</th>
+                  <th style="text-align: center; font-size: small">Duración</th>
+                  <th style="text-align: center; font-size: small">Acción</th>
+                </tr>
+              </thead>
+            </table>
+            <div
+              style="
+                width: 100%;
+                text-align: center;
+                margin-top: -17px;
+                height: 350px;
+                overflow: auto;
+              "
+            >
+              <table
+                class="table table-bordered table-hover"
+                style="width: 100%"
+              >
+                <tbody>
+                  <tr *ngFor="let cita of citas; let i = index">
+                    <td style="width: 29%">
+                      {{ cita.paciente.nombre }} {{ cita.paciente.apellido }}
+                    </td>
+                    <td style="width: 25%">{{ cita.paciente.telefono }}</td>
+                    <td style="width: 10%">{{ cita.horaCita }}</td>
+                    <td style="width: 16%">{{ cita.duracion }}</td>
+                    <td style="width: 20%">
+                      <span class="icon is-small is-left">
+                        <a (click)="editarCita(i)" href="http://">
+                          <fa-icon [icon]="faPencil"></fa-icon>
+                        </a>
+                      </span>
+                      &nbsp;
+                      <span class="icon is-small is-left">
+                        <a (click)="borrarCita(i)" href="http://">
+                          <fa-icon [icon]="faTrashCan"></fa-icon>
+                        </a>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
