@@ -78,7 +78,6 @@ export class RegistroComponent  implements OnInit{
       this.isConfirm = true;
     })
     .catch((err)=>{
-      console.log('Error al hacer el signUp');
       Swal.fire({
         icon:'error',
         title: 'Error al hacer el SignUp',
@@ -141,8 +140,8 @@ export class RegistroComponent  implements OnInit{
     Swal.fire({
       title:'Esta seguro que desea '+msgDisable+' al usuario?',
       text: this.usuarios[index].nombre+' '+this.usuarios[index].apellidoP+' '+this.usuarios[index].apellidoM,
-        showCancelButton:true,
-        confirmButtonText:'Si'
+      showCancelButton:true,
+      confirmButtonText:'Si'
     }).then(resultado=>{
       if(resultado.isConfirmed){
         const currentUserDisable = this.usuarios[index];

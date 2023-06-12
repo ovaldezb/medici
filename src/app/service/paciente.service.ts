@@ -6,7 +6,7 @@ import { Paciente } from "../models/paciente";
 
 @Injectable()
 export class PacienteService{
-  public headers : HttpHeaders = new HttpHeaders().set('Content-Type','application/json');
+  //public headers : HttpHeaders = new HttpHeaders().set('Content-Type','application/json');
 
   constructor(private _http:HttpClient){
   }

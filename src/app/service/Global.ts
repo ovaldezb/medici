@@ -4,6 +4,7 @@ export var Global ={
   urlPaciente: 'https://uyfbxbdsr7.execute-api.us-east-1.amazonaws.com/dev/paciente',
   urlPerfil:   'https://j2fgtlvwyh.execute-api.us-east-1.amazonaws.com/dev/perfil',
   urlSignos:   'https://qligm8qqt7.execute-api.us-east-1.amazonaws.com/dev/signos',
+  urlSucursal: 'https://c1ta08mzt6.execute-api.us-east-1.amazonaws.com/dev/sucursal',
   urlUsuario:  'https://pwik18v3ai.execute-api.us-east-1.amazonaws.com/dev/usuario',
   
   AGREGAR:'Agregar',

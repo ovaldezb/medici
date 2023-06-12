@@ -1,0 +1,130 @@
+<app-header></app-header>
+<div class="container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h2>Administración de Sucursales</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <form #useForm="">
+              <div class="row">
+                <div class="col">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">
+                      <fa-icon [icon]="faIdCard"></fa-icon>
+                    </span>
+                    <input type="text" class="form-control" name="identificador" placeholder="Id de la Sucursal" #identificador="ngModel" [(ngModel)]="sucursal.identificador">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <fa-icon [icon]="faUserTie"></fa-icon>
+                    </span>
+                    <input type="text" class="form-control" name="nombreAdmin" #nombreAdmin="ngModel" [(ngModel)]="sucursal.nombreAdmin" placeholder="Nombre Administrador">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <fa-icon [icon]="faPhone"></fa-icon>
+                    </span>
+                    <input type="text" class="form-control" name="telefono" #telefono="ngModel" [(ngModel)]="sucursal.telefono" placeholder="Teléfono Sucursal">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <fa-icon [icon]="faHouse"></fa-icon>
+                    </span>
+                    <input type="text" class="form-control" name="direccion" #direccion="ngModel" [(ngModel)]="sucursal.direccion" placeholder="Dirección">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <fa-icon [icon]="faLocationDot"></fa-icon>
+                    </span>
+                    <input type="text" class="form-control" name="codigoPostal" #codigoPostal="ngModel" [(ngModel)]="sucursal.codigoPostal" placeholder="Código Postal">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <fa-icon [icon]="faCircleCheck"></fa-icon>
+                    </span>
+                    <label for="">Habilitar Sucursal&nbsp;&nbsp;</label>
+                    <input type="checkbox" class="form-check-input" name="isEnabled" #isEnabled="ngModel" [(ngModel)]="sucursal.isEnabled" >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="control text-end">
+                    <button class="btn btn-primary" (click)="guardarEditar()">{{btnAccion}}
+                      <span *ngIf="showSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-secondary" (click)="limpiar()">Limpiar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col">
+          <table class="table table-bordered">
+            <colgroup>
+              <col width="10%"> 
+              <col width="20%">
+              <col width="15%">
+              <col width="15%">
+              <col width="13%">
+              <col width="10%">
+              <col width="17%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="text-align: center;font-size: small;">ID</th>
+                <th style="text-align: center;font-size: small;">Dir</th>
+                <th style="text-align: center;font-size: small;">CP</th>
+                <th style="text-align: center;font-size: small;">Admin</th>
+                <th style="text-align: center;font-size: small;">Tel</th>
+                <th style="text-align: center;font-size: small;">Estts</th>
+                <th style="text-align: center;font-size: small;">Actn</th>
+              </tr>
+            </thead>
+          </table>
+          <div style="height: 300px; overflow: auto; margin-top: -17px;border: 2px solid brown;">
+            <table class="table table-bordered table-hover">
+              <colgroup>
+                <col width="10%"> 
+                <col width="20%">
+                <col width="15%">
+                <col width="15%">
+                <col width="13%">
+                <col width="10%">
+                <col width="17%">
+              </colgroup>
+              <tbody>
+                <tr *ngFor="let sucursal of sucursales; let i = index">
+                  <td style="font-size: small;">{{sucursal.identificador}}</td>
+                  <td style="font-size: small;">{{sucursal.direccion}}</td>
+                  <td style="font-size: small;">{{sucursal.codigoPostal}}</td>
+                  <td style="font-size: small;">{{sucursal.nombreAdmin}}</td>
+                  <td style="font-size: small;">{{sucursal.telefono}}</td>
+                  <td style="font-size: small;">{{sucursal.isEnabled}}</td>
+                  <td style="text-align: center;">
+                    <span class="icon is-small is-left">
+                      <a href="" (click)="seleccionar(i)">
+                        <fa-icon [icon]="faPencil" size="xs" style="color:dodgerblue"></fa-icon>
+                      </a>
+                    </span>&nbsp;
+                    <span class="icon is-small is-left">
+                      <a href="http://" (click)="deleteSucursal(i)">
+                        <fa-icon [icon]="faTrash" size="xs" style="color:crimson"></fa-icon>
+                      </a>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
