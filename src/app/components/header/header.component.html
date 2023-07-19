@@ -17,6 +17,9 @@
         <li *ngIf="isAdmin() || isMedico()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/medico" [routerLinkActive]="['active']">Médico</a>
         </li>
+        <li *ngIf="isAdmin() || isMedico()" class="nav-item">
+          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/consulta" [routerLinkActive]="['active']">Consultar Enfermedad</a>
+        </li>
         <li *ngIf="isAdmin()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/sucursal" [routerLinkActive]="['active']">Sucursales</a>
         </li>

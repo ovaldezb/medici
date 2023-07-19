@@ -1,5 +1,6 @@
 export var Global ={
   urlCita:     'https://jtq2qqbabf.execute-api.us-east-1.amazonaws.com/dev/cita',
+  urlEnfermed: 'https://s4pu89w0p5.execute-api.us-east-1.amazonaws.com/dev/enfermedad',
   urlMedico:   'https://6q4x7np717.execute-api.us-east-1.amazonaws.com/dev/medico',
   urlPaciente: 'https://uyfbxbdsr7.execute-api.us-east-1.amazonaws.com/dev/paciente',
   urlPerfil:   'https://j2fgtlvwyh.execute-api.us-east-1.amazonaws.com/dev/perfil',

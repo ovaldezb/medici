@@ -35,7 +35,8 @@ export class CognitoService {
         'custom:isAdmin' : new String(user.isAdmin),
         'custom:rfc' : user.rfc,
         'custom:especialidad' : user.especialidad,
-        'custom:isDisabled' : new String(user.isDisabled)
+        'custom:isDisabled' : new String(user.isDisabled),
+        'custom:sucursal': user.sucursal
       },
     });
   }

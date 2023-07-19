@@ -18,6 +18,8 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
 import { HttpCognitoInterceptorService } from './service/http-cognito-interceptor.service';
 import { ResetpwdComponent } from './components/resetpwd/resetpwd.component';
 import { SucursalesComponent } from './components/sucursales/sucursales.component';
+import { EnrollComponent } from './components/enroll/enroll.component';
+import { ConsultaEnfermedadComponent } from './components/consulta-enfermedad/consulta-enfermedad.component';
 
 
 
@@ -35,7 +37,9 @@ import { SucursalesComponent } from './components/sucursales/sucursales.componen
     RegistroComponent,
     PerfilesComponent,
     ResetpwdComponent,
-    SucursalesComponent
+    SucursalesComponent,
+    EnrollComponent,
+    ConsultaEnfermedadComponent
   ],
   imports: [
     BrowserModule,

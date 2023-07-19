@@ -11,8 +11,8 @@ import { PerfilesComponent } from "./components/perfiles/perfiles.component";
 import { RouteGuardService } from "./service/route-guard.service";
 import { ResetpwdComponent } from "./components/resetpwd/resetpwd.component";
 import { SucursalesComponent } from "./components/sucursales/sucursales.component";
-//Import Component
-
+import { EnrollComponent } from "./components/enroll/enroll.component";
+import { ConsultaEnfermedadComponent } from "./components/consulta-enfermedad/consulta-enfermedad.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,7 +25,9 @@ const appRoutes: Routes = [
   { path: 'registro', component: RegistroComponent, canActivate:[RouteGuardService]}, 
   { path: 'perfiles', component: PerfilesComponent, canActivate:[RouteGuardService] },
   { path: 'reset', component: ResetpwdComponent},
-  { path: 'sucursal', component:SucursalesComponent, canActivate:[RouteGuardService] }
+  { path: 'sucursal', component:SucursalesComponent, canActivate:[RouteGuardService] },
+  { path: 'enroll', component: EnrollComponent },
+  { path: 'consulta', component: ConsultaEnfermedadComponent }
 ];
 
 

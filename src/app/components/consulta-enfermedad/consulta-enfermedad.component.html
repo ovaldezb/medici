@@ -1,0 +1,42 @@
+<app-header></app-header>
+<div class="container">
+  <!--div class="grid text-center">
+    <div *ngFor="let sintoma of listaSintomas" class="g-col-4">
+      <button type="button" class="btn btn-outline-success" disabled>{{sintoma}}</button>
+    </div>
+  </div-->
+  <div class="container px-4 text-center">
+    <div class="row gx-5">
+      <div *ngFor="let sintoma of listaSintomas" class="col">
+       <div class="p-3">{{sintoma}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <form #userForm="ngForm">
+      <div class="mb-3">
+        <label for="" class="form-label">Síntoma</label>
+        <input type="text" name="sintomas" #sintomas="ngModel" [(ngModel)]="enfermedad.sintomas">
+        <button type="button" class="btn btn-primary" (click)="consultaEnfermedad()">Consultar</button>
+        <button type="button" class="btn btn-secondary" (click)="limpiar()">Limpiar</button>
+      </div>
+    </form>
+    <div *ngIf="isLoading" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div style="height: 450px;overflow: auto; border: 2px solid black;">
+      <table class="table">
+        <tbody>
+          <tr *ngFor="let enfermedad of listEnfermedades">
+            <td>{{enfermedad.patologia}}</td>
+            <td>
+              <textarea name="" id="" cols="30" rows="2">{{enfermedad.sintomas}}</textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -17,6 +17,7 @@ export class IUser {
     public especialidad: string,
     public dob: string,
     public rfc: string,
-    public isDisabled:boolean
+    public isDisabled:boolean,
+    public sucursal:string
   ){}
 }

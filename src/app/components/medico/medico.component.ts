@@ -21,8 +21,8 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public faUserDoctor = faUserDoctor;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public paciente: Paciente = new Paciente('','','',new Date(),'',0,'');
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,''),new IUser('','','','','','','','','','','','','',false,'','','',false),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,''),0,0,0,0,new Date()));
+  public paciente: Paciente = new Paciente('','','',new Date(),'',0,'','');
+  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,'',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date()));
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';

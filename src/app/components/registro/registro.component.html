@@ -58,7 +58,7 @@
             />
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"> Perfil </span>
+            <span class="input-group-text"> Rol </span>
             <select name="idPerfil" [(ngModel)]="idPerfil" class="form-select" (change)="perfilChange($event)">
               <option *ngFor="let perf of perfiles" [ngValue]="perf._id">{{perf.nombre}}</option>
             </select>
@@ -103,6 +103,14 @@
               <fa-icon [icon]="faScroll"></fa-icon>
             </span>
             <input type="text" class="form-control" name="cedula" placeholder="Cédula" [(ngModel)]="user.cedula" />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <fa-icon [icon]="faLocation"></fa-icon>
+            </span>
+            <select name="idSucursal" [(ngModel)]="idSucursal" class="form-select" >
+              <option *ngFor="let suc of sucursales" [ngValue]="suc._id">{{suc.identificador}} - {{suc.codigoPostal}}</option>
+            </select>
           </div>
           <div class="row">
             <div class="col-12">
