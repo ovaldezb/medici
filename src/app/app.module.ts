@@ -20,6 +20,8 @@ import { ResetpwdComponent } from './components/resetpwd/resetpwd.component';
 import { SucursalesComponent } from './components/sucursales/sucursales.component';
 import { EnrollComponent } from './components/enroll/enroll.component';
 import { ConsultaEnfermedadComponent } from './components/consulta-enfermedad/consulta-enfermedad.component';
+import { AdministracionComponent } from './components/administracion/administracion.component';
+import { PacienteComponent } from './components/paciente/paciente.component';
 
 
 
@@ -39,7 +41,9 @@ import { ConsultaEnfermedadComponent } from './components/consulta-enfermedad/co
     ResetpwdComponent,
     SucursalesComponent,
     EnrollComponent,
-    ConsultaEnfermedadComponent
+    ConsultaEnfermedadComponent,
+    AdministracionComponent,
+    PacienteComponent
   ],
   imports: [
     BrowserModule,

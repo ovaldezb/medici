@@ -4,8 +4,7 @@
     <div class="card-header text-center">
       <h2>
         Agenda para
-        <strong
-          >{{ medico.nombre }} {{ medico.apellidoP }} -
+        <strong>{{ medico.nombre }} {{ medico.apellidoP }} -
           {{ medico.especialidad }}
         </strong>
       </h2>
@@ -22,8 +21,7 @@
                   aria-label="Default select example"
                   [(ngModel)]="idMedico"
                   name="idMedico"
-                  (change)="cambiaMedico($event)"
-                >
+                  (change)="cambiaMedico($event)">
                   <option *ngFor="let medico of medicos" [ngValue]="medico._id">
                     {{ medico.nombre }} {{ medico.apellidoP }} -
                     {{ medico.especialidad }}
@@ -53,23 +51,18 @@
                     [(ngModel)]="cita.horaCita"
                     required
                   />
-                  <small
-                    *ngIf="!horaCita.valid && horaCita.touched"
-                    style="background-color: red; font-size: large"
-                    >Selecciona una hora!</small
-                  >
+                  <small *ngIf="!horaCita.valid && horaCita.touched"
+                    style="background-color: red; font-size: large">Selecciona una hora!</small>
                 </div>
                 <div class="col">
                   <label for="" class="form-label">Duración</label>
                   <select
                     class="form-select border-success"
                     [(ngModel)]="duracion"
-                    name="duracion"
-                  >
+                    name="duracion">
                     <option
                       *ngFor="let tiempoDur of tiempoDuracion"
-                      [ngValue]="tiempoDur.value"
-                    >
+                      [ngValue]="tiempoDur.value">
                       {{ tiempoDur.viewValue }}
                     </option>
                   </select>
@@ -87,8 +80,7 @@
                       [(ngModel)]="paciente.nombre"
                       placeholder="Nombre Paciente"
                       (keyup)="buscaPacienteMatch($event, 'nombre')"
-                      required
-                    />
+                      required/>
                     <div
                       *ngIf="listaPacientesNombre.length != 0"
                       style="
@@ -96,9 +88,7 @@
                         height: 150px;
                         overflow: auto;
                         margin-top: 0px;
-                        border: 2px solid black;
-                      "
-                    >
+                        border: 2px solid black;">
                       <table class="table table-striped table-bordered">
                         <thead>
                           <tr>
@@ -106,9 +96,9 @@
                             <th>
                               <span class="icon-text">
                                 <span class="icon">
-                                  <a (click)="cerrarNombre()"
-                                    ><fa-icon [icon]="faCircleXmark"></fa-icon
-                                  ></a>
+                                  <a (click)="cerrarNombre()">
+                                    <fa-icon [icon]="faCircleXmark"></fa-icon>
+                                  </a>
                                 </span>
                               </span>
                             </th>
@@ -118,13 +108,11 @@
                           <tr
                             *ngFor="
                               let paciente of listaPacientesNombre;
-                              let i = index
-                            "
+                              let i = index"
                             (click)="selectedRow(i)"
-                            style="cursor: pointer"
-                          >
+                            style="cursor: pointer">
                             <td colspan="2">
-                              {{ paciente.nombre }} {{ paciente.apellido }} -
+                              {{ paciente.nombre }} {{ paciente.apellidoP }} -
                               {{ paciente.telefono }}
                             </td>
                           </tr>
@@ -142,7 +130,7 @@
                       class="form-control border-success"
                       name="apellido"
                       #apellido="ngModel"
-                      [(ngModel)]="paciente.apellido"
+                      [(ngModel)]="paciente.apellidoP"
                       (keyup)="buscaPacienteMatch($event, 'apellido')"
                       placeholder="Apellido Paciente"
                       required
@@ -173,16 +161,12 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            *ngFor="
-                              let paciente of listaPacientesApellido;
-                              let i = index
-                            "
+                          <tr *ngFor="let paciente of listaPacientesApellido;
+                              let i = index"
                             (click)="selectedRow(i)"
-                            style="cursor: pointer"
-                          >
+                            style="cursor: pointer">
                             <td>
-                              {{ paciente.nombre }} {{ paciente.apellido }} -
+                              {{ paciente.nombre }} {{ paciente.apellidoP }} -
                               {{ paciente.telefono }}
                             </td>
                           </tr>
@@ -221,9 +205,7 @@
                               <th>
                                 <span class="icon-text">
                                   <span class="icon">
-                                    <a (click)="cerrarTelefono()"
-                                      ><fa-icon [icon]="faCircleXmark"></fa-icon
-                                    ></a>
+                                    <a (click)="cerrarTelefono()"><fa-icon [icon]="faCircleXmark"></fa-icon></a>
                                   </span>
                                 </span>
                               </th>
@@ -239,7 +221,7 @@
                               style="cursor: pointer"
                             >
                               <td>
-                                {{ paciente.nombre }} {{ paciente.apellido }} -
+                                {{ paciente.nombre }} {{ paciente.apellidoP }} -
                                 {{ paciente.telefono }}
                               </td>
                             </tr>
@@ -248,17 +230,23 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col">
+                    <div class="mb-3">
+                      <input type="text" name="folio"  #folio="ngModel" [(ngModel)]="paciente.carnet" class="form-control border-success" (keyup)="buscaFolio($event)" placeholder="Folio">
+                      <div *ngIf="isLoadingCarnet" class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
               <div class="mb-3">
                 <div class="row">
                   <div class="col">
                     <label class="form-label">Sexo</label>
                   </div>
                   <div class="col">
-                    <label for="" class="radio"
-                      >M
+                    <label for="" class="radio">M
                       <input
                         type="radio"
                         class="form-check-input border-success"
@@ -269,15 +257,12 @@
                     </label>
                   </div>
                   <div class="col">
-                    <label class="radio"
-                      >F
-                      <input
-                        type="radio"
+                    <label class="radio">F
+                      <input type="radio"
                         class="form-check-input border-success"
                         name="sexo"
                         value="F"
-                        [(ngModel)]="paciente.sexo"
-                      />
+                        [(ngModel)]="paciente.sexo"/>
                     </label>
                   </div>
                 </div>
@@ -293,8 +278,7 @@
                       #dd="ngModel"
                       [(ngModel)]="dia"
                       placeholder="Día"
-                      required
-                    />
+                      required/>
                   </div>
                   <div class="col">
                     <select class="form-select" name="mes" [(ngModel)]="mes">
@@ -311,8 +295,7 @@
                       #yy="ngModel"
                       [(ngModel)]="anio"
                       placeholder="Año"
-                      required
-                    />
+                      required/>
                   </div>
                 </div>
               </div>
@@ -321,13 +304,12 @@
                   class="btn btn-primary"
                   style="margin: auto"
                   (click)="addUpdate()"
-                  [disabled]="userForm.invalid"
-                >
+                  [disabled]="userForm.invalid" >
                   {{ btnAccion }}
                 </button>
                 &nbsp;
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-dark"
                   style="margin: auto"
                   (click)="limpiar()"
                 >
@@ -390,7 +372,7 @@
                 <tbody>
                   <tr *ngFor="let cita of citas; let i = index">
                     <td style="width: 29%">
-                      {{ cita.paciente.nombre }} {{ cita.paciente.apellido }}
+                      {{ cita.paciente.nombre }} {{ cita.paciente.apellidoP }}
                     </td>
                     <td style="width: 25%">{{ cita.paciente.telefono }}</td>
                     <td style="width: 10%">{{ cita.horaCita }}</td>
@@ -414,6 +396,41 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="listaPacientesCarnet.length > 0" class="modal show modal-dialog-centered" tabindex="-1" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Carnet {{carnet.folio}} - Citas disponibles: {{carnet.noConsultasDisponibles}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Nacimiento</th>
+              <th>Sexo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let paciente of carnet.pacientes; let i = index" (click)="selectRow(i)" [class.selected]="i == higlightIndex">
+              <td>{{paciente.nombre}}</td>
+              <td>{{paciente.apellidoP}}</td>
+              <td>{{paciente.fechaNacimiento | date:'dd-MMM-YYYY'}}</td>
+              <td>{{paciente.sexo}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="seleccionarPaciente()">Seleccionar Paciente</button>
       </div>
     </div>
   </div>

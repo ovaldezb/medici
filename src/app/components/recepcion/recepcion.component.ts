@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft, faL } from '@fortawesome/free-solid-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
@@ -9,7 +9,9 @@ import { PacienteService } from 'src/app/service/paciente.service';
 import { CitasService } from 'src/app/service/citas.service';
 import Swal from 'sweetalert2';
 import { IUser } from 'src/app/models/user';
-import { text } from '@fortawesome/fontawesome-svg-core';
+import { CarnetService } from 'src/app/service/carnet.service';
+import { Carnet } from 'src/app/models/carnet';
+//import { text } from '@fortawesome/fontawesome-svg-core';
 
 export interface Mes {
   value: string;
@@ -25,33 +27,37 @@ export interface Duracion{
   selector: 'app-recepcion',
   templateUrl: './recepcion.component.html',
   styleUrls: ['./recepcion.component.css'],
-  providers: [MedicosService, PacienteService,CitasService]
+  providers: [MedicosService, PacienteService,CitasService, CarnetService]
 })
 
-export class RecepcionComponent implements OnInit{
+export class RecepcionComponent implements OnInit, OnChanges{
 
   public fechaActual: Date = new Date();
-  public duracion : number = 15;
+  public duracion : number = 20;
   public faCircleXmark = faCircleXmark;
   public faCalendarPlus = faCalendarPlus;
   public faArrowRight = faArrowRight;
   public faArrowLeft = faArrowLeft;
   public faPencil = faPencil;
   public faTrashCan = faTrashCan;
+  public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];
-  public paciente:Paciente = new Paciente('','','',new Date(),'',0,'','');
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,'',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date()));
+  public paciente:Paciente = new Paciente('','','','',new Date(),'',0,'','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'',0,'','',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date()));
   public citas:Cita[] = [];
+  public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
   public listaPacientesNombre:Paciente[] = [];
   public listaPacientesApellido:Paciente[] = [];
   public listaPacientesTelefono:Paciente[] = [];
+  public listaPacientesCarnet:Paciente[] = [];
   public btnAccion:string = Global.AGENDAR;
   public dia:string='';
   public mes:string='01';
   public anio:string='';
   public fechaCita:string = new Date().toLocaleDateString('en-CA');//.split('T')[0];
+  public isLoadingCarnet : boolean = false;
   meses: Mes[] = [
     {value: '01', viewValue: 'Enero'},
     {value: '02', viewValue: 'Febrero'},
@@ -68,14 +74,16 @@ export class RecepcionComponent implements OnInit{
   ];
   tiempoDuracion: Duracion[] = [
     { value:15, viewValue:'15 min' },
-    { value:20, viewValue:'20 min' },
-    { value:25, viewValue:'25 min' },
-    { value:30, viewValue:'30 min' },
+    { value:20, viewValue:'20 min' }
   ];
   constructor(private medicoService: MedicosService, 
               private pacienteService: PacienteService,
-              private citasService: CitasService){
+              private citasService: CitasService,
+              private carnetService:CarnetService){
 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
   
   ngOnInit(): void {
@@ -102,26 +110,25 @@ export class RecepcionComponent implements OnInit{
           this.listaPacientesNombre = [];// lower alpha (a-z)
         return;
     }*/
-    if(tipo==='nombre'){
+    if(tipo===Global.NOMBRE){
       if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.nombre.length===0) {
         this.listaPacientesNombre = [];
         return;
       }
-      this.pacienteService.findPacienteByNombre(this.paciente.nombre).subscribe(res=>{
-        if(res.status===Global.OK){
-          if(res.body.pacientes.length > 0){
-            this.listaPacientesNombre = res.body.pacientes;
-          }else{
-            this.listaPacientesNombre = [];
-          }
+      this.pacienteService.findPacienteByNombre(this.paciente.nombre)
+      .subscribe(res=>{
+        if(res.status===Global.OK && res.body.pacientes != undefined && res.body.pacientes.length > 0){
+          this.listaPacientesNombre = res.body.pacientes;
+        }else{
+          this.listaPacientesNombre = [];
         }
       });
-    }else if(tipo === 'apellido'){
-      if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.apellido.length===0) {
+    }else if(tipo === Global.APELLIDO){
+      if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.apellidoP.length===0) {
         this.listaPacientesApellido = [];
         return;
       }
-      this.pacienteService.findPacienteByApellido(this.paciente.apellido).subscribe(res=>{
+      this.pacienteService.findPacienteByApellido(this.paciente.apellidoP).subscribe(res=>{
         if(res.status===Global.OK){
           if(res.body.pacientes.length > 0){
             this.listaPacientesApellido = res.body.pacientes;
@@ -130,7 +137,7 @@ export class RecepcionComponent implements OnInit{
           }
         }
       });
-    }else if(tipo === 'telefono'){
+    }else if(tipo === Global.TELEFONO){
       if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.telefono.length===0) {
         this.listaPacientesTelefono = [];
         return;
@@ -147,6 +154,29 @@ export class RecepcionComponent implements OnInit{
     }
   }
 
+  buscaFolio(event:any):void{
+    if(event.keyCode === 13){
+      this.isLoadingCarnet = true;
+      this.carnetService.getCarnetByFolio(this.paciente.carnet)
+      .subscribe(res=>{
+        this.isLoadingCarnet = false;
+        if(res.status===Global.OK && res.body.carnet.length > 0 ){
+          this.carnet = res.body.carnet[0];
+          this.listaPacientesCarnet = res.body.carnet[0].pacientes;
+        }else{
+          Swal.fire({
+            text:'No se encontró información para el folio:'+this.paciente.carnet,
+            timer:Global.TIMER_OFF
+          });
+        }
+      });
+    }
+  }
+
+  closeModal():void{
+    this.listaPacientesCarnet = [];
+  }
+
   selectedRow(index:number):void{
     if(this.listaPacientesNombre.length > 0){
       this.paciente = this.listaPacientesNombre[index];
@@ -155,10 +185,22 @@ export class RecepcionComponent implements OnInit{
     }else if(this.listaPacientesTelefono.length >0){
       this.paciente = this.listaPacientesTelefono[index];
     }
+    if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
+      this.obtieneCarnet();
+    }
     this.calculaFechaNacimiento();
     this.listaPacientesNombre = [];
     this.listaPacientesApellido = [];
     this.listaPacientesTelefono = [];
+  }
+
+  obtieneCarnet():void{
+    this.carnetService.getCarnetByFolio(this.paciente.carnet)
+    .subscribe(res=>{
+      if(res.status === Global.OK){
+        this.carnet = res.body.carnet[0];
+      }
+    });
   }
 
   calculaFechaNacimiento():void{
@@ -166,7 +208,6 @@ export class RecepcionComponent implements OnInit{
     this.anio = fechaNacimiento.getFullYear().toString();
     this.dia = fechaNacimiento.getDate().toString();
     this.mes = (fechaNacimiento.getMonth()+1) < 10 ? '0'+(fechaNacimiento.getMonth()+1) : ''+(fechaNacimiento.getMonth()+1);
-    
   }
 
   isValidSpot():boolean{
@@ -234,11 +275,13 @@ export class RecepcionComponent implements OnInit{
         this.cita.fechaCita = new Date(Number(fechaCitaArray[0]),(Number(fechaCitaArray[1])-1),Number(fechaCitaArray[2]));
         this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
         if(this.paciente._id===''){ //es nuevo
-          this.pacienteService.addPaciente(this.paciente).subscribe(res=>{
+          this.pacienteService.addPaciente(this.paciente)
+          .subscribe(res=>{
             if(res.status===Global.OK){
               this.cita.paciente = res.body.paciente;
               this.cita.medico = this.medico;
-              this.citasService.addCita(this.cita).subscribe(resCita=>{
+              this.citasService.addCita(this.cita)
+              .subscribe(resCita=>{
                 if(resCita.status===Global.OK){
                   this.citaExitosa();
                 }else{
@@ -257,11 +300,28 @@ export class RecepcionComponent implements OnInit{
           this.cita.medico = this.medico; 
           this.citasService.addCita(this.cita).subscribe(res=>{
             if(res.status===Global.OK){
+              console.log(res);
+              if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
+                this.modificaCarnetCitas(this.paciente.carnet,Global.MENOSUNO);
+                this.carnet.citas.push(res.body.cita._id);
+                console.log(this.carnet.citas);
+                this.carnetService.updateCarnet(this.carnet._id,this.carnet)
+                .subscribe(res1=>{
+                  console.log(res1);
+                });
+              }
               this.citaExitosa();
             }
           });
         }
       }
+    });
+  }
+
+  modificaCarnetCitas(folio:string, amount:number):void{
+    this.carnetService.updateCitasCarnet(folio,amount)
+    .subscribe(res=>{
+      console.log('Se disminuyó el número de citas disponibles');
     });
   }
 
@@ -305,13 +365,16 @@ export class RecepcionComponent implements OnInit{
   borrarCita(index:number):any{
     Swal.fire({
       title:'Desea eliminar ésta Cita?',
+      text:'En caso de que el paciente esté asociado a un carnet, ésta consulta no se descontará',
       showCancelButton:true,
       confirmButtonText:'OK'
     }).then(resultado=>{
       if(resultado.isConfirmed){
         this.citasService.deleteCita(this.citas[index]._id).subscribe(res=>{
           if(res.status === Global.OK){
-            this.getCitas();
+            if(this.citas[index].paciente.carnet != null && this.citas[index].paciente.carnet != undefined){
+              this.modificaCarnetCitas(this.citas[index].paciente.carnet,Global.UNO);
+            }
             Swal.fire({
               icon:'success',
               text: 'La cita se eliminó exitosamente',
@@ -348,12 +411,13 @@ export class RecepcionComponent implements OnInit{
 
   limpiar():void{
     this.btnAccion = Global.AGENDAR;
-    this.paciente = new Paciente('','','',new Date(),'',0,'','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date()));
+    this.paciente = new Paciente('','','','',new Date(),'',0,'','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date()));
     this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
     this.mes = '01';
     this.anio = '';
+    this.carnet = new Carnet('','',new Date(),0,[],[]);
   }
 
   citaExitosa():void{
@@ -394,6 +458,16 @@ export class RecepcionComponent implements OnInit{
       return true; //la fecha de la cita es menor a la fecha eactual, no se puede agendar una cita
     }
     return false;
+  }
+
+  seleccionarPaciente():void{
+    this.paciente = this.carnet.pacientes[this.higlightIndex];
+    this.calculaFechaNacimiento();
+    this.closeModal();
+  }
+
+  selectRow(index:number):void{
+    this.higlightIndex = index;
   }
 
 }

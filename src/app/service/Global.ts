@@ -1,4 +1,5 @@
 export var Global ={
+  urlCarnet:   'https://0a6yjaj11b.execute-api.us-east-1.amazonaws.com/dev/carnet',
   urlCita:     'https://jtq2qqbabf.execute-api.us-east-1.amazonaws.com/dev/cita',
   urlEnfermed: 'https://s4pu89w0p5.execute-api.us-east-1.amazonaws.com/dev/enfermedad',
   urlMedico:   'https://6q4x7np717.execute-api.us-east-1.amazonaws.com/dev/medico',
@@ -14,12 +15,25 @@ export var Global ={
   GUARDAR:'Guardar',
   CANCELAR:'Cancelar',
   AGENDAR: 'Agendar',
+  ALTA: 'Alta',
   OK:200,
   MEDICO:'MEDICO',
   ENFERMERA:'ENFERMERA',
   ADMINISTRADOR:'ADMINISTRADOR',
   REPECION:'RECEPCION',
   SUCCESS:'SUCCESS',
-
-  REFRESH_CITA: 60*1000 // cada minuto va ir a consultar si hay nuevas citas
+  ENTER:13,
+  REFRESH_CITA: 60*1000, // cada minuto va ir a consultar si hay nuevas citas
+  TIMER_OFF:2500,
+  UNO:1,
+  MENOSUNO:-1,
+  NOMBRE:'nombre',
+  APELLIDO:'apellido',
+  TELEFONO:'telefono',
+  TAB_USUARIO:'usuario',
+  TAB_PACIENTE:'paciente',
+  TAB_CARNET:'carnet',
+  SI:'Si',
+  OK_TEXT:'Ok',
+  NO:'No'
 }

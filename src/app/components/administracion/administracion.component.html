@@ -1,0 +1,18 @@
+<app-header></app-header>
+<ul class="nav nav-tabs justify-content-center">
+  <li class="nav-item">
+    <a *ngIf="tabActivo==='usuario'" class="nav-link active" aria-current="page" aria-disabled="true">Usuario</a>
+    <a *ngIf="tabActivo!='usuario'" class="nav-link " aria-current="page"  (click)="clickUsuario('usuario')" style="cursor: pointer;">Usuario</a>
+  </li>
+  <li class="nav-item">
+    <a *ngIf="tabActivo==='paciente'" class="nav-link active" aria-disabled="true" >Paciente</a>
+    <a *ngIf="tabActivo!='paciente'" class="nav-link"  (click)="clickUsuario('paciente')" style="cursor: pointer;">Paciente</a>
+  </li>
+  <li class="nav-item">
+    <a *ngIf="tabActivo==='carnet'" class="nav-link active"  aria-disabled="true">Carnet</a>
+    <a *ngIf="tabActivo!='carnet'" class="nav-link"  (click)="clickUsuario('carnet')" style="cursor: pointer;">Carnet</a>
+  </li>
+</ul>
+<app-registro *ngIf="tabActivo==='usuario'"></app-registro>
+<app-enroll *ngIf="tabActivo==='carnet'"></app-enroll>
+<app-paciente *ngIf="tabActivo==='paciente'"></app-paciente>

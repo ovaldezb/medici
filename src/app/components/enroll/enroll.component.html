@@ -1,31 +1,140 @@
-<app-header></app-header>
 <div class="container text-center">
   <div class="row">
     <div class="col">
-      <form action="">
-        <input type="text" name="" id="">
-        <button type="button" class="btn btn-primary">Buscar</button>
-      </form>
+      <div class="row">
+        <div class="col">
+          <form #carnetForm="ngForm">
+            <input type="text" name="folio"  placeholder="Folio del carnet"  [(ngModel)]="folio" required>
+            <button class="btn btn-primary" (click)="buscaCarnet()" [disabled]="carnetForm.invalid">Buscar Carnet</button>
+            <button class="btn btn-dark" (click)="limpiarCarnet()">Limpiar</button>
+          </form>
+        </div>
+      </div>
+      <div *ngIf="isSearchingCarnet" class="spinner-border" role="status">
+        <span class="visually">B&B</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <a *ngIf="isAdd && listaPacientesCarnet.length>0" href="http://" (click)="addCarnet()" title="Alta Paciente">
+            <fa-icon [icon]="faUserPlus"></fa-icon>
+          </a>
+          <a *ngIf="!isAdd && listaPacientesCarnet.length>0" href="http://" (click)="editCarnet()" title="Alta Paciente">
+            <fa-icon [icon]="faFilePen"></fa-icon>
+          </a>
+          <fa-icon *ngIf="listaPacientesCarnet.length===0" [icon]="faUserPlus"></fa-icon>
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+          <a *ngIf="HighlightRow!=-1 && listaPacientesCarnet.length>0" href="http://" (click)="deleteMember()">
+            <fa-icon [icon]="faUserXmark"></fa-icon>
+          </a>
+          <fa-icon *ngIf="HighlightRow===-1 || listaPacientesCarnet.length===0" [icon]="faUserXmark"></fa-icon>
+        </div>
+      </div>
+      <hr>
+      <div style="height: 250px;border: 2px solid black;">
+        <table class="table">
+          <thead class="table-dark"> 
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Fecha de Nacimiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let paciente of listaPacientesCarnet; let i = index" (click)="selectRow(i)" [class.selected]= "i == HighlightRow">
+              <td>{{i+1}}</td>
+              <td>{{paciente.nombre}}</td>
+              <td>{{paciente.apellidoP}}</td>
+              <td>{{paciente.fechaNacimiento | date:'dd-MMM-YYYY'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <table *ngIf="carnet.citas.length >0" class="table table-dark table-bordered">
+        <colgroup>
+          <col width="10%"/>
+          <col width="35%" />
+          <col width="20%" />
+          <col width="35%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th style="text-align: center;">No</th>
+            <th style="text-align: center;">Paciente</th>
+            <th style="text-align: center;">Fecha</th>
+            <th style="text-align: center;">Médico</th>
+          </tr>
+        </thead>
+      </table>
+      <div *ngIf="carnet.citas.length >0" style="height: 250px;border: 2px solid black;margin-top: -17px;">
+        <table class="table table-bordered">
+          <colgroup>
+            <col width="10%"/>
+            <col width="35%" />
+            <col width="20%" />
+            <col width="35%" />
+          </colgroup>
+          <tbody>
+            <tr *ngFor="let cita of carnet.citas; let i = index">
+              <td style="text-align: center;">{{i+1}}</td>
+              <td style="text-align: center;">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
+              <td style="text-align: center;">{{cita.fechaCita | date:'dd-MMM-YYYY'}}</td>
+              <td style="text-align: center;">{{cita.medico.nombre}} {{cita.medico.apellidoP}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="col">
       <div class="row">
-        <div class="col">Add</div>
-        <div class="col"></div>
-        <div class="col"></div>
+        <form #userForm="ngForm">
+            <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" required (keyup)="buscaPacienteEnter($event)">
+            <button type="button" class="btn btn-primary" (click)="buscaPaciente()" [disabled]="userForm.invalid">Buscar Paciente</button>
+        </form>
       </div>
-      <table class="table">
+      <div class="row">
+        <div class="col">
+          <input type="radio" name="buscar" value="nombre" (change)="selectTipoBusqueda($event)" [checked]="tipoBusqueda==='nombre'">
+          <label class="form-check-label"><small>Nombre</small></label>
+        </div>
+        <div class="col">
+          <input type="radio" name="buscar" value="apellido" (change)="selectTipoBusqueda($event)" [checked]="tipoBusqueda==='apellido'">
+          <label class="form-check-label">Apellido</label>
+        </div>
+        <div class="col">
+          <input type="radio" name="buscar" value="telefono" (change)="selectTipoBusqueda($event)" [checked]="tipoBusqueda==='telefono'">
+          <label class="form-check-label">Teléfono</label>
+        </div>
+      </div>
+      <div *ngIf="isSearching" class="spinner-border" role="status">
+        <span class="visually">B&B</span>
+      </div>
+      <div class="row">
+      <table *ngIf="listaPacientes.length > 0" class="table">
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Relación</th>
+            <th>Teléfono</th>
+            <th>Carnet</th>
           </tr>
         </thead>
+      </table>
+      <table class="table table-hover">
         <tbody>
-
+          <tr *ngFor="let paciente of listaPacientes; let i = index" (dblclick)="agregarPacienteCarnet(i)">
+            <td>{{paciente.nombre}}</td>
+            <td>{{paciente.apellidoP}}</td>
+            <td>{{paciente.telefono}}</td>
+            <td>{{paciente.carnet}}</td>
+          </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>

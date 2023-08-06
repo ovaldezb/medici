@@ -78,7 +78,6 @@ export class RegistroComponent  implements OnInit{
     .subscribe(res=>{
       if(res.status===Global.OK && res.body.sucursales.length > 0){
         this.sucursales = res.body.sucursales;
-        console.log(this.sucursales);
       }
     });
   }

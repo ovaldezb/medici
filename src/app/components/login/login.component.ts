@@ -30,7 +30,7 @@ export class LoginComponent {
         const perfil = this.perfiles[0];
         switch (perfil){
           case Global.ADMINISTRADOR:
-            this.router.navigateByUrl('/registro');
+            this.router.navigateByUrl('/admon');
             break;
           case Global.ENFERMERA:
             this.router.navigateByUrl('/enfermeria');

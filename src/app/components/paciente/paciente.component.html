@@ -1,0 +1,130 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header text-center">
+      Gestión de Pacientes
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">          
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control border-success" [(ngModel)]="nombrePaciente" name="nombrePaciente" placeholder="Nombre" (keyup)="buscarPacienteNombre($event)">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control border-success" [(ngModel)]="apellidoPaterno" name="apellidoPaterno" placeholder="Apellido Paterno" (keyup)="buscaPacienteApellido($event)" >
+              </div>
+              <div class="col">
+                <button type="button" class="btn btn-primary">Buscar</button>
+              </div>
+            </div>
+        </div>
+        <div *ngIf="listaPacientes.length > 0" class="row">
+          <div class="col">
+            <table class="table table-dark table-bordered">
+              <colgroup>
+                <col width="20%"/>
+                <col width="20%"/>
+                <col width="20%"/>
+                <col width="20%"/>
+                <col width="20%"/>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Nombre</th>
+                  <th style="text-align: center;">Apellido Paterno</th>
+                  <th style="text-align: center;">Apellido Materno</th>
+                  <th style="text-align: center;">Fec Nac</th>
+                  <th style="text-align: center;">Teléfono</th>
+                </tr>
+              </thead>
+            </table>
+            <div *ngIf="listaPacientes.length > 0" style="margin-top: -17px;overflow: auto;height: 100px;">
+              <table class="table table-bordered">
+                <colgroup>
+                  <col width="20%"/>
+                  <col width="20%"/>
+                  <col width="20%"/>
+                  <col width="20%"/>
+                  <col width="20%"/>
+                </colgroup>
+                <tbody>
+                  <tr *ngFor="let paciente of listaPacientes; let i = index;" (click)="selectPacienteNombre(i)">
+                    <td>{{paciente.nombre}}</td>
+                    <td>{{paciente.apellidoP}}</td>
+                    <td>{{paciente.apellidoM}}</td>
+                    <td>{{paciente.fechaNacimiento | date:'dd-MMM-YYYY'}}</td>
+                    <td>{{paciente.telefono}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <hr>
+        </div>
+      </div>
+      <form #manejaPacienteForm="ngForm">
+        <div class="row" style="border: 2px red solid;">
+          <div class="col">
+            <div class="row mb-3" style="margin-top: 15px;">
+              <div class="col">
+                <input type="text" class="form-control border-success" name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" id="" placeholder="Nombre" required>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control border-success" name="apellidoP" #apellidoP="ngModel" [(ngModel)]="paciente.apellidoP" placeholder="Apellido Paterno" required>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control border-success" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM" placeholder="Apellido Materno" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="label">Fecha de Nacimiento</label>
+              <div class="col">
+                <input type="text" name="dia" class="form-control border-success" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" required>
+              </div>
+              <div class="col">
+                <select name="mes" class="form-select border-success" name="mes" [(ngModel)]="mes">
+                  <option *ngFor="let mes of meses" value="{{mes.value}}">
+                    {{mes.viewValue}}
+                  </option>
+                </select>
+              </div>
+              <div class="col">
+                <input type="text" name="anio" class="form-control border-success" [(ngModel)]="anio" placeholder="Año" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-4">
+                <input type="tel" name="telefono" class="form-control border-success" #telefono="ngModel" [(ngModel)]="paciente.telefono" placeholder="Teléfono">
+              </div>
+              <div class="col-4">
+                <input type="email" name="email" class="form-control border-success" #correo="ngModel" [(ngModel)]="paciente.correo" placeholder="Correo Electrónico">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Sexo</label>
+              </div>
+              <div class="col">
+                <label class="radio">M</label>
+                <input type="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo" class="form-check-input border-success">
+              </div>
+              <div class="col">
+                <label class="radio">F</label>
+                <input type="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo" class="form-check-input border-success">
+              </div>
+            </div>
+            <div class="control" style="text-align: right;">
+              <button type="button" class="btn btn-primary" (click)="altaUpdatePaciente()" [disabled]="manejaPacienteForm.invalid">{{btnAccion}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-dark" (click)="limpiar()">Limpiar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

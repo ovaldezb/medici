@@ -6,13 +6,13 @@ import { LoginComponent } from "./components/login/login.component";
 import { MedicoComponent } from "./components/medico/medico.component";
 import { RecepcionComponent } from "./components/recepcion/recepcion.component";
 import { LogoutComponent } from "./components/logout/logout.component";
-import { RegistroComponent } from "./components/registro/registro.component";
 import { PerfilesComponent } from "./components/perfiles/perfiles.component";
 import { RouteGuardService } from "./service/route-guard.service";
 import { ResetpwdComponent } from "./components/resetpwd/resetpwd.component";
 import { SucursalesComponent } from "./components/sucursales/sucursales.component";
 import { EnrollComponent } from "./components/enroll/enroll.component";
 import { ConsultaEnfermedadComponent } from "./components/consulta-enfermedad/consulta-enfermedad.component";
+import { AdministracionComponent } from "./components/administracion/administracion.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -22,11 +22,11 @@ const appRoutes: Routes = [
   { path: 'enfermeria', component: EnfermeriaComponent, canActivate:[RouteGuardService]},
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent},
-  { path: 'registro', component: RegistroComponent, canActivate:[RouteGuardService]}, 
+  { path: 'admon', component: AdministracionComponent, canActivate:[RouteGuardService]}, 
   { path: 'perfiles', component: PerfilesComponent, canActivate:[RouteGuardService] },
   { path: 'reset', component: ResetpwdComponent},
   { path: 'sucursal', component:SucursalesComponent, canActivate:[RouteGuardService] },
-  { path: 'enroll', component: EnrollComponent },
+  { path: 'carnet', component: EnrollComponent },
   { path: 'consulta', component: ConsultaEnfermedadComponent }
 ];
 

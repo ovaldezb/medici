@@ -8,7 +8,6 @@ import { Cita } from 'src/app/models/citas';
 import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
 import Swal from 'sweetalert2';
-import { CognitoService } from 'src/app/service/cognito.service';
 import { IUser } from 'src/app/models/user';
 
 @Component({
@@ -25,13 +24,14 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','',new Date(),'',0,'',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,new Signos('',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date()));
-  public paciente:Paciente = new Paciente('','','',new Date(),'',0,'','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'',0,'','',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date()));
+  public paciente:Paciente = new Paciente('','','','',new Date(),'',0,'','','');
   public medico:IUser = {} as IUser;
-  public signos: Signos = new Signos('',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date());
+  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date());
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
+  
   constructor(
     private citasService:CitasService, 
     private signosService:SignosService, 
@@ -137,9 +137,9 @@ export class EnfermeriaComponent implements OnInit{
   clear():void{
     this.HighlightRow = -1;
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date());
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date());
     this.medico = new IUser('','','','','','','','','','','','','',false,'','','',false,'');
-    this.paciente = new Paciente('','','',new Date(),'',0,'','');
+    this.paciente = new Paciente('','','','',new Date(),'',0,'','','');
     this.btnAccion = Global.GUARDAR;
   }
 
@@ -155,7 +155,7 @@ export class EnfermeriaComponent implements OnInit{
       this.signos = this.cita.signos;
       this.btnAccion = Global.ACTUALIZAR;
     }else{
-      this.signos = new Signos('',new Paciente('','','',new Date(),'',0,'',''),0,0,0,0,new Date());
+      this.signos = new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date());
       this.btnAccion = Global.GUARDAR
     }
   }
