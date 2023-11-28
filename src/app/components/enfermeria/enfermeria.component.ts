@@ -24,10 +24,10 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'',0,'','',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date()));
-  public paciente:Paciente = new Paciente('','','','',new Date(),'',0,'','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date()));
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','');
   public medico:IUser = {} as IUser;
-  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date());
+  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date());
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -59,7 +59,7 @@ export class EnfermeriaComponent implements OnInit{
         title:'Desea guardar estos Signos?',
         html:'<table>'+
                 '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td></tr>'+
-                '<tr><td style="text-align:right;">Estatura:</td><td style="text-align:left;">&nbsp;'+this.paciente.estatura+'m</td></tr>'+
+                '<tr><td style="text-align:right;">Estatura:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td></tr>'+
                 '<tr><td style="text-align:right;">Peso:</td><td style="text-align:left;">&nbsp;'+this.signos.peso+'Kg</td></tr>'+
                 '<tr><td style="text-align:right;">Cistólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionCis+'</td></tr>'+
                 '<tr><td style="text-align:right;">Diastólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionDias+'</td></tr>'+  
@@ -83,7 +83,7 @@ export class EnfermeriaComponent implements OnInit{
         title:'Desea actualizar estos Signos?',
         html:'<table>'+
                 '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td></tr>'+
-                '<tr><td style="text-align:right;">Estatura:</td><td style="text-align:left;">&nbsp;'+this.paciente.estatura+'m</td></tr>'+
+                '<tr><td style="text-align:right;">Estatura:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td></tr>'+
                 '<tr><td style="text-align:right;">Peso:</td><td style="text-align:left;">&nbsp;'+this.signos.peso+'Kg</td></tr>'+
                 '<tr><td style="text-align:right;">Cistólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionCis+'</td></tr>'+
                 '<tr><td style="text-align:right;">Diastólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionDias+'</td></tr>'+  
@@ -101,7 +101,6 @@ export class EnfermeriaComponent implements OnInit{
                 showCloseButton:true,
                 timer:1000
               });
-              this.updatePaciente();
               this.clear();
             }
           });
@@ -137,9 +136,9 @@ export class EnfermeriaComponent implements OnInit{
   clear():void{
     this.HighlightRow = -1;
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date());
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date());
     this.medico = new IUser('','','','','','','','','','','','','',false,'','','',false,'');
-    this.paciente = new Paciente('','','','',new Date(),'',0,'','','');
+    this.paciente = new Paciente('','','','',new Date(),'','','','');
     this.btnAccion = Global.GUARDAR;
   }
 
@@ -155,7 +154,7 @@ export class EnfermeriaComponent implements OnInit{
       this.signos = this.cita.signos;
       this.btnAccion = Global.ACTUALIZAR;
     }else{
-      this.signos = new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date());
+      this.signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date());
       this.btnAccion = Global.GUARDAR
     }
   }

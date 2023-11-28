@@ -43,8 +43,8 @@ export class RecepcionComponent implements OnInit, OnChanges{
   public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];
-  public paciente:Paciente = new Paciente('','','','',new Date(),'',0,'','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'',0,'','',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date()));
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date()));
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -411,8 +411,8 @@ export class RecepcionComponent implements OnInit, OnChanges{
 
   limpiar():void{
     this.btnAccion = Global.AGENDAR;
-    this.paciente = new Paciente('','','','',new Date(),'',0,'','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','','',new Date(),'',0,'','',''),0,0,0,0,new Date()));
+    this.paciente = new Paciente('','','','',new Date(),'','','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date()));
     this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
     this.mes = '01';

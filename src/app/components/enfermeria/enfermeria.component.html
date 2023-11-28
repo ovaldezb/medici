@@ -37,7 +37,7 @@
                 <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
                 <td style="width: 20%">{{cita.horaCita}}</td>
                 <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.paciente.estatura+'m' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.estatura+'m' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionCis : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
@@ -87,7 +87,7 @@
             <div class="col">
               <div class="mb-3">
                   <label for="" class="form-label">Estatura</label>
-                  <input type="number" class="form-control" name="estatura" #estatura="ngModel" [(ngModel)]="paciente.estatura" placeholder="Estatura" required>
+                  <input type="number" class="form-control" name="estatura" #estatura="ngModel" [(ngModel)]="signos.estatura" placeholder="Estatura" required>
               </div>
             </div>
             <div class="col">
@@ -121,7 +121,7 @@
               name="submit" 
               [disabled]="cita._id==='' || 
                           userForm.invalid || 
-                          paciente.estatura === 0 || 
+                          signos.estatura === 0 || 
                           signos.peso===0 || 
                           signos.temperatura===0 || 
                           signos.presionCis === 0 || signos.presionDias===0"

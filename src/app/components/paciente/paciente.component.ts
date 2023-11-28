@@ -16,7 +16,7 @@ export interface Mes {
 })
 export class PacienteComponent {
 
-  public paciente : Paciente = new Paciente('','','','',new Date(),'M',0,'','','');
+  public paciente : Paciente = new Paciente('','','','',new Date(),'M','','','');
   public dia:string='';
   public mes:string='01';
   public anio:string='';
@@ -83,7 +83,7 @@ export class PacienteComponent {
   }
 
   limpiar():void{
-    this.paciente = new Paciente('','','','',new Date(),'M',0,'','','');
+    this.paciente = new Paciente('','','','',new Date(),'M','','','');
     this.dia='';
     this.mes = '01';
     this.anio = '';

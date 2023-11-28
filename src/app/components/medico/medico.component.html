@@ -35,7 +35,7 @@
                 <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
                 <td style="width: 20%">{{cita.horaCita}}</td>
                 <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.paciente.estatura+'m' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.estatura+'m' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionCis : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
@@ -59,7 +59,7 @@
             </thead>
             <tbody>
               <tr>
-                <td style="text-align: center;">{{paciente.estatura}}</td>
+                <td style="text-align: center;">{{cita.signos.estatura}}</td>
                 <td style="text-align: center;">{{cita.signos.temperatura}}</td>
                 <td style="text-align: center;">{{cita.signos.peso}}</td>
                 <td style="text-align: center;">{{cita.signos.presionCis}} - {{cita.signos.presionDias}}</td>
