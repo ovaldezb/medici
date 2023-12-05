@@ -50,10 +50,12 @@
     <div class="col-4">
       <div class="card">
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
-          <h1 class="title text-center">Médico:</h1>
           <div class="row">
             <div class="col">
-              <p class="label">{{medico.nombre}}</p>
+              <h4>Medico:</h4>
+            </div>
+            <div class="col">
+              <p class="label">{{medico.nombre}} {{medico.apellidoP}}</p>
             </div>
             <div class="col">
               <p class="label">{{medico.especialidad}}</p>
@@ -63,8 +65,10 @@
       </div>
       <div class="card">
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
-          <h1 class="title ">Paciente:</h1>
           <div class="row">
+            <div class="col">
+              <h4 class="title ">Paciente:</h4>
+            </div>
             <div class="col">
               <p class="label ">{{paciente.nombre}} {{paciente.apellidoP}}</p>
             </div>
@@ -75,7 +79,7 @@
         </div>
       </div>
       <div class="card" style="border: 1px solid rgba(229, 243, 218, 0.753);">
-        <h1 class="title text-center">Signos:</h1>
+        <h2 class="title text-center">Signos:</h2>
         <form #userForm="ngForm">
           <div class="row">
             <div class="col">
@@ -113,6 +117,36 @@
                   <label for="" class="form-label">Presión Daistólica</label>
                   <input type="number" class="form-control" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" required>
               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="">F. Cardiaca</label>
+                <input type="number" class="form-control" name="feccard" #frecuenciaCardiaca="ngModel" [(ngModel)]="signos.frecuenciaCardiaca">
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="">F. Respiratoria</label>
+                <input type="number" class="form-control" name="fecrespira" #frecuenciaRespiratoria="ngModel" [(ngModel)]="signos.frecuenciaRespiratoria">
+              </div>
+            </div>
+          </div>   
+          <div class="row">
+            <div class="col">
+              <label for="">SPO2</label>
+              <input type="number" class="form-control" name="spo2" #spo2="ngModel" [(ngModel)]="signos.spo2">
+            </div>
+            <div class="col">
+              <label for="">Glucotest</label>
+              <input type="number" class="form-control" name="glucotest" #glucotest="ngModel" [(ngModel)]="signos.glucotest">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="">Descripción</label>
+              <textarea name="descripcion" class="form-control" #descripcion="ngModel" [(ngModel)]="signos.descripcion" cols="30" rows="10"></textarea>
             </div>
           </div>
           <div class="field" style="text-align: right;">

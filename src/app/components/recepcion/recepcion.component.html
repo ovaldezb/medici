@@ -57,6 +57,7 @@
                 <div class="col">
                   <label for="" class="form-label">Duración</label>
                   <select
+                    disabled
                     class="form-select border-success"
                     [(ngModel)]="duracion"
                     name="duracion">
@@ -213,13 +214,8 @@
                           </thead>
                           <tbody>
                             <tr
-                              *ngFor="
-                                let paciente of listaPacientesTelefono;
-                                let i = index
-                              "
-                              (click)="selectedRow(i)"
-                              style="cursor: pointer"
-                            >
+                              *ngFor="let paciente of listaPacientesTelefono;let i = index"
+                              (click)="selectedRow(i)"style="cursor: pointer">
                               <td>
                                 {{ paciente.nombre }} {{ paciente.apellidoP }} -
                                 {{ paciente.telefono }}

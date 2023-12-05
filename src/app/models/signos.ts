@@ -13,6 +13,8 @@ export class Signos{
     public fechaToma: Date,
     public frecuenciaCardiaca: number,
     public frecuenciaRespiratoria: number,
-    public spo2:number
+    public spo2:number,
+    public glucotest:number,
+    public descripcion:string
   ){}
 }

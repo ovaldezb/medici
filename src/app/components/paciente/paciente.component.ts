@@ -76,6 +76,7 @@ export class PacienteComponent {
   }
 
   selectPacienteNombre(index:number):void{
+    this.paciente = new Paciente('','','','',new Date(),'M','','','');
     this.paciente = this.listaPacientes[index];
     this.calculaFechaNacimiento();
     this.listaPacientes =[];
