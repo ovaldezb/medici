@@ -39,7 +39,7 @@
                 <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.estatura+'m' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionCis : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionSis : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
               </tr>
             </tbody>
@@ -86,7 +86,7 @@
             </div>
             <div class="col">
               <div class="mb-3">
-                  <label for="" class="form-label">Estatura</label>
+                  <label for="" class="form-label">Talla</label>
                   <input type="number" class="form-control" name="estatura" #estatura="ngModel" [(ngModel)]="signos.estatura" placeholder="Estatura" required>
               </div>
             </div>
@@ -103,8 +103,8 @@
             <div class="col">
               <div class="mb-3">
                 
-                  <label for="" class="form-label">Presión Cistólica</label>
-                  <input type="number" class="form-control" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionCis" placeholder="Presión Cistólica" required>
+                  <label for="" class="form-label">Presión Sistólica</label>
+                  <input type="number" class="form-control" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionSis" placeholder="Presión Cistólica" required>
                 
               </div>
             </div>
@@ -124,7 +124,7 @@
                           signos.estatura === 0 || 
                           signos.peso===0 || 
                           signos.temperatura===0 || 
-                          signos.presionCis === 0 || signos.presionDias===0"
+                          signos.presionSis === 0 || signos.presionDias===0"
               (click)="guardaSignos()"
               >{{btnAccion}}</button>
           </div>

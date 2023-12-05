@@ -3,35 +3,53 @@
     <div class="card-header text-center">
       <h1>Administración de Usuarios</h1>
     </div>
+    
     <div class="card-body">
       <div class="row">
         <div class="col card">
+          <form #altaUserForm="ngForm">
           <h2 class="text-center">Alta de Usuario</h2>
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
               <fa-icon [icon]="faEnvelope"></fa-icon>
             </span>
-            <input
-              type="text"
+            <input type="text"
+              name="email"
               class="form-control"
               placeholder="Correo Electrónico"
               aria-label="Username"
               aria-describedby="basic-addon1"
               [(ngModel)]="user.email"
-            />
+              required />
+            <span class="input-group-text">
+              <fa-icon [icon]="statusEmail"></fa-icon>
+            </span>
+            <input type="text"
+              name="repeatEmail"
+              class="form-control"
+              placeholder="Repetir Correo Electrónico"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="user.repeatEmail" (keyup)="validarEmail()" required/>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
               <fa-icon [icon]="faLock"></fa-icon>
             </span>
-            <input type="password" class="form-control" [(ngModel)]="user.password" placeholder="Contraseña"/>
+            <input 
+              type="password" 
+              name="password"
+              class="form-control" [(ngModel)]="user.password" placeholder="Contraseña"/>
             <span class="input-group-text">
-              <fa-icon [icon]="statusIcon"></fa-icon>
+              <fa-icon [icon]="statusEmail"></fa-icon>
             </span>
             <input
               type="password"
+              name="repeatPassword"
               class="form-control"
-              [(ngModel)]="user.repeatPassword" (keyup)="validar()" placeholder="Repetir Contraseña"/>
+              [(ngModel)]="user.repeatPassword" 
+              (keyup)="validarPwd()" placeholder="Repetir Contraseña"
+              required/>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
@@ -39,21 +57,27 @@
             </span>
             <input
               type="text"
+              name="nombre"
               class="form-control"
               [(ngModel)]="user.nombre"
               placeholder="Nombre"
+              required
             />
             <input
               type="text"
+              name="apellidop"
               class="form-control"
               [(ngModel)]="user.apellidoP"
               placeholder="Apellido Paterno"
+              required
             />
             <input
               type="text"
+              name="apellidom"
               class="form-control"
               [(ngModel)]="user.apellidoM"
               placeholder="Apellido Materno"
+              required
             />
           </div>
           <div class="input-group mb-3">
@@ -66,13 +90,13 @@
             <span class="input-group-text">
               Fecha de Nacimiento
             </span>
-            <input type="date" class="form-control" [(ngModel)]="user.dob" >
+            <input type="date" name="dob" class="form-control" [(ngModel)]="user.dob" >
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
               RFC
             </span>
-            <input type="text" class="form-control" [(ngModel)]="user.rfc" >
+            <input type="text" name="rfc" class="form-control" [(ngModel)]="user.rfc" >
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
@@ -113,12 +137,12 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button class="btn btn-primary" (click)="signUp()">
-                Registro
-              </button>
+              <button class="btn btn-primary" (click)="signUp()" [disabled]="altaUserForm.invalid" >Registro</button>
             </div>
           </div>
+        </form>
         </div>
+      
         <div class="col">
           <div class="card">
             <h2 style="text-align: center;" class="h2">Lista de Usuarios</h2>
@@ -173,7 +197,7 @@
       </div>
     </div>
   </div>
-  <form *ngIf="isConfirm" class="row g-3">
+  <div *ngIf="isConfirm" class="row g-3">
     <div class="card-header text-center">
       <h1>Confirmar Identidad</h1>
     </div>
@@ -202,5 +226,5 @@
         Confirmar Indentidad
       </button>
     </div>
-  </form>
+  </div>
 </div>

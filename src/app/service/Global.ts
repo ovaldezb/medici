@@ -35,5 +35,6 @@ export var Global ={
   TAB_CARNET:'carnet',
   SI:'Si',
   OK_TEXT:'Ok',
-  NO:'No'
+  NO:'No',
+  COD_MX:'+52'
 }

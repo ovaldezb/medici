@@ -8,8 +8,11 @@ export class Signos{
     public temperatura: number,
     public estatura: number,
     public peso:number,
-    public presionCis:number,
+    public presionSis:number,
     public presionDias:number,
-    public fechaToma: Date
+    public fechaToma: Date,
+    public frecuenciaCardiaca: number,
+    public frecuenciaRespiratoria: number,
+    public spo2:number
   ){}
 }

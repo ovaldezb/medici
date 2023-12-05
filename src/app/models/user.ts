@@ -2,6 +2,7 @@ export class IUser {
   constructor(
     public _id:string,
     public email: string,
+    public repeatEmail: string,
     public password: string,
     public repeatPassword: string,
     public code: string,

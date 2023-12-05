@@ -15,10 +15,10 @@
       </div>
       <div class="row">
         <div class="col">
-          <a *ngIf="isAdd && listaPacientesCarnet.length>0" href="http://" (click)="addCarnet()" title="Alta Paciente">
+          <a *ngIf="isAdd && listaPacientesCarnet.length>0" href="http://" (click)="addCarnet()" title="Alta Carnet">
             <fa-icon [icon]="faUserPlus"></fa-icon>
           </a>
-          <a *ngIf="!isAdd && listaPacientesCarnet.length>0" href="http://" (click)="editCarnet()" title="Alta Paciente">
+          <a *ngIf="!isAdd && listaPacientesCarnet.length>0" href="http://" (click)="editCarnet()" title="Edita Carnet">
             <fa-icon [icon]="faFilePen"></fa-icon>
           </a>
           <fa-icon *ngIf="listaPacientesCarnet.length===0" [icon]="faUserPlus"></fa-icon>
@@ -79,6 +79,9 @@
             <col width="35%" />
           </colgroup>
           <tbody>
+            <tr>
+              <td colspan="4">Registro de Citas por Carnet</td>
+            </tr>
             <tr *ngFor="let cita of carnet.citas; let i = index">
               <td style="text-align: center;">{{i+1}}</td>
               <td style="text-align: center;">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>

@@ -22,7 +22,7 @@ export interface Perfil{
   providers:[UsuariosService,PerfilService, SucursalService]
 })
 export class RegistroComponent  implements OnInit{
-  public user:IUser = new IUser('','','','','','','','','','','M','','',false,'','','',false,'');
+  public user:IUser = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
   public isConfirm: boolean;
   public faCalendar = faCalendar;
   public faScroll = faScroll;
@@ -33,7 +33,8 @@ export class RegistroComponent  implements OnInit{
   public faVenusMars = faVenusMars;
   public faPhone = faPhone;
   public faLockOpen = faLockOpen;
-  public statusIcon = faLockOpen;
+  public statusPwd = faLockOpen;
+  public statusEmail = faLockOpen;
   public faLocation = faLocation;
   public usuarios:IUser[] = [];
   public perfil:Perfil = {} as Perfil;
@@ -89,6 +90,7 @@ export class RegistroComponent  implements OnInit{
     this.user.cedula = this.user.cedula === undefined ? '' : this.user.cedula;
     this.user.especialidad = this.user.especialidad=== undefined ? '': this.user.especialidad;
     this.user.perfil = this.perfil.nombre;
+    this.user.telefono = Global.COD_MX+this.user.telefono;
     this.cognitoService.signUp(this.user)
     .then(()=>{
       this.isConfirm = true;
@@ -106,7 +108,7 @@ export class RegistroComponent  implements OnInit{
     this.cognitoService.confirmSignUp(this.user)
     .then(()=>{
       this.isConfirm = false;
-      this.user = new IUser('','','','','','','','','','','M','','',false,'','','',false,'');
+      this.user = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
       this.loadAllUsuarios();
     })
     .catch((err)=>{
@@ -134,11 +136,19 @@ export class RegistroComponent  implements OnInit{
     this.user.sexo = sexo;
   }
 
-  validar():void{
-    if(this.user.password === this.user.repeatPassword){
-      this.statusIcon = faLock;
+  validarEmail():void{
+    if(this.user.email === this.user.repeatEmail){
+      this.statusEmail = faLock;
     }else{
-      this.statusIcon = faLockOpen
+      this.statusEmail = faLockOpen
+    }
+  }
+
+  validarPwd():void{
+    if(this.user.password === this.user.repeatPassword){
+      this.statusPwd = faLock;
+    }else{
+      this.statusPwd = faLockOpen
     }
   }
 
