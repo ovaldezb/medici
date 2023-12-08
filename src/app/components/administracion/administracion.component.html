@@ -12,7 +12,12 @@
     <a *ngIf="tabActivo==='carnet'" class="nav-link active"  aria-disabled="true">Carnet</a>
     <a *ngIf="tabActivo!='carnet'" class="nav-link"  (click)="clickUsuario('carnet')" style="cursor: pointer;">Carnet</a>
   </li>
+  <li>
+    <a *ngIf="tabActivo==='farmacia'" class="nav-link active"  aria-disabled="true">Farmacia</a>
+    <a *ngIf="tabActivo!='farmacia'" class="nav-link"  (click)="clickUsuario('farmacia')" style="cursor: pointer;">Farmacia</a>
+  </li>
 </ul>
 <app-registro *ngIf="tabActivo==='usuario'"></app-registro>
 <app-enroll *ngIf="tabActivo==='carnet'"></app-enroll>
 <app-paciente *ngIf="tabActivo==='paciente'"></app-paciente>
+<app-farmacia *ngIf="tabActivo==='farmacia'"></app-farmacia>

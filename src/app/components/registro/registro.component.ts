@@ -9,7 +9,7 @@ import { SucursalService } from 'src/app/service/sucursal.service';
 import { Global } from 'src/app/service/Global';
 import { PerfilService } from 'src/app/service/perfil.service';
 import { Sucursal } from 'src/app/models/sucursal';
-//import { Perfil } from 'src/app/models/perfil';
+import { Especialidad } from 'src/app/models/especialidad';
 
 export interface Perfil{
   _id:string,
@@ -22,7 +22,7 @@ export interface Perfil{
   providers:[UsuariosService,PerfilService, SucursalService]
 })
 export class RegistroComponent  implements OnInit{
-  public user:IUser = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
+  public usuario:IUser = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
   public isConfirm: boolean;
   public faCalendar = faCalendar;
   public faScroll = faScroll;
@@ -43,6 +43,7 @@ export class RegistroComponent  implements OnInit{
   public faUserSlash = faUserSlash;
   public idPerfil: string = '';
   public idSucursal: string = '';
+  public btnAccion: string = Global.REGISTRAR;
   public sucursales:Sucursal[] = [];
   perfiles: Perfil[] =[
     {_id:'1', nombre:'ADMINISTRADOR'},
@@ -50,6 +51,22 @@ export class RegistroComponent  implements OnInit{
     {_id:'3', nombre:'RECEPCION'},
     {_id:'4', nombre:'ENFERMERA'},
   ];
+  especialidades: Especialidad[] = [
+    {_id:1, descripcion:'Médico General'},
+    {_id:2, descripcion:'Cirugia General'},
+    {_id:3, descripcion:'Neurología'},
+    {_id:4, descripcion:'Neurocirugía'},
+    {_id:5, descripcion:'Ginecología y Obstetricia'},
+    {_id:6, descripcion:'Pediatría'},
+    {_id:7, descripcion:'Variatría'},
+    {_id:8, descripcion:'Medicina Interna'},
+    {_id:9, descripcion:'Odontología'},
+    {_id:10, descripcion:'Psicología'},
+    {_id:111, descripcion:'Nutrición'}
+  ]
+
+
+
   constructor(private router:Router, 
     private cognitoService:CognitoService,
     private usuariosService: UsuariosService,
@@ -84,14 +101,14 @@ export class RegistroComponent  implements OnInit{
   }
 
   signUp():void{
-    this.user.isAdmin = (this.perfil.nombre === Global.ADMINISTRADOR);
-    let dob = this.user.dob;
-    this.user.dob = dob.replace(/-/g,'/');
-    this.user.cedula = this.user.cedula === undefined ? '' : this.user.cedula;
-    this.user.especialidad = this.user.especialidad=== undefined ? '': this.user.especialidad;
-    this.user.perfil = this.perfil.nombre;
-    this.user.telefono = Global.COD_MX+this.user.telefono;
-    this.cognitoService.signUp(this.user)
+    this.usuario.isAdmin = (this.perfil.nombre === Global.ADMINISTRADOR);
+    let dob = this.usuario.dob;
+    this.usuario.dob = dob.replace(/-/g,'/');
+    this.usuario.cedula = this.usuario.cedula === undefined ? '' : this.usuario.cedula;
+    this.usuario.especialidad = this.usuario.especialidad=== undefined ? '': this.usuario.especialidad;
+    this.usuario.perfil = this.perfil.nombre;
+    this.usuario.telefono = Global.COD_MX+this.usuario.telefono;
+    this.cognitoService.signUp(this.usuario)
     .then(()=>{
       this.isConfirm = true;
     })
@@ -105,10 +122,10 @@ export class RegistroComponent  implements OnInit{
   }
 
   confirmSignUp():void{
-    this.cognitoService.confirmSignUp(this.user)
+    this.cognitoService.confirmSignUp(this.usuario)
     .then(()=>{
       this.isConfirm = false;
-      this.user = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
+      this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
       this.loadAllUsuarios();
     })
     .catch((err)=>{
@@ -133,11 +150,11 @@ export class RegistroComponent  implements OnInit{
   }
 
   selectSex(sexo:string):void{
-    this.user.sexo = sexo;
+    this.usuario.sexo = sexo;
   }
 
   validarEmail():void{
-    if(this.user.email === this.user.repeatEmail){
+    if(this.usuario.email === this.usuario.repeatEmail){
       this.statusEmail = faLock;
     }else{
       this.statusEmail = faLockOpen
@@ -145,7 +162,7 @@ export class RegistroComponent  implements OnInit{
   }
 
   validarPwd():void{
-    if(this.user.password === this.user.repeatPassword){
+    if(this.usuario.password === this.usuario.repeatPassword){
       this.statusPwd = faLock;
     }else{
       this.statusPwd = faLockOpen
@@ -154,6 +171,13 @@ export class RegistroComponent  implements OnInit{
 
   isMedico():boolean{
     return this.perfil.nombre===Global.MEDICO;
+  }
+
+  editarUsuario(index:number):void{
+    this.usuario = this.usuarios[index];
+    this.usuario.dob = this.usuario.dob.replace('/','-').replace('/','-');
+    //this.idPerfil = '1';
+    this.btnAccion = Global.ACTUALIZAR;
   }
 
   borrarUsuario(index:number):void{
@@ -185,6 +209,9 @@ export class RegistroComponent  implements OnInit{
         });
       }
     })
-    
+  }
+
+  limpiar():void{
+    this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
   }
 }

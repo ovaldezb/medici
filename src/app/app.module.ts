@@ -22,9 +22,10 @@ import { EnrollComponent } from './components/enroll/enroll.component';
 import { ConsultaEnfermedadComponent } from './components/consulta-enfermedad/consulta-enfermedad.component';
 import { AdministracionComponent } from './components/administracion/administracion.component';
 import { PacienteComponent } from './components/paciente/paciente.component';
-
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HammerModule } from '@angular/platform-browser';
+import { IgxCalendarModule } from 'igniteui-angular';
+//I keep the new line
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,13 +51,17 @@ import { PacienteComponent } from './components/paciente/paciente.component';
     FormsModule,
     HttpClientModule,
     routing,
-    FontAwesomeModule
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    HammerModule,
+    IgxCalendarModule
   ],
-  providers: [appRoutingProvider,{
+  providers: [appRoutingProvider, {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpCognitoInterceptorService,
     multi: true
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

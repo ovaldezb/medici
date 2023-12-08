@@ -1,33 +1,31 @@
 <app-header></app-header>
 <div class="container text-center">
   <div class="row">
-    <div class="col-8">
+    <div class="col-7">
       <div class="card ">
-        <h1 class="title">Enfermeria -  Toma de Signos</h1>
+        <h4 class="title">Enfermeria -  Toma de Signos</h4>
         <span class="icon-text">
           <span class="icon">
             <fa-icon [icon]="faUserNurse"></fa-icon>
           </span>
           <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
         </span>
-        <table class="table" style="margin: auto;">
+        <table class="table table-bordered" style="margin: auto;">
           <thead>
             <tr>
-              <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
-              <th rowspan="2" style="width: 20%; text-align: center">Cita</th>
-              <th colspan="5" style="width: 55%; text-align: center">Signos</th>
-            </tr>
-            <tr>
+              <th style="width: 25%; text-align: center">Paciente</th>
+              <th style="width: 10%; text-align: center">Cita</th>
               <th style="width: 15%; text-align: center">Temp</th>
-              <th style="width: 10%; text-align: center">Est</th>
+              <th style="width: 10%; text-align: center">Talla</th>
               <th style="width: 10%; text-align: center">Peso</th>
-              <th style="width: 10%; text-align: center">Cis</th>
+              <th style="width: 10%; text-align: center">Sis</th>
               <th style="width: 10%; text-align: center">Dias</th>
+              <th style="width: 10%; text-align: center">IMC</th>
             </tr>
           </thead>
         </table>
         <div style="text-align: center; width: 100%">
-          <table class="table is-bordered is-hoverable is-fullwidth" style="margin: auto">
+          <table class="table table-bordered table-hoverable is-fullwidth" style="margin: auto">
             <tbody>
               <tr *ngFor="let cita of citas; let i = index"  
                     [class.selected]="i == HighlightRow" 
@@ -35,24 +33,25 @@
                     [class.sinSignos]="cita.isSignosTomados===false" 
                     [class.conSignos]="cita.isSignosTomados===true">
                 <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
-                <td style="width: 20%">{{cita.horaCita}}</td>
+                <td style="width: 10%">{{cita.horaCita}}</td>
                 <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.estatura+'m' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionSis : ''}}</td>
                 <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
+                <td style="width: 10%;">{{cita.signos != undefined ? (cita.signos.peso/(cita.signos.estatura*cita.signos.estatura/10000) | number:'1.0-2'): ''}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-5">
       <div class="card">
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
           <div class="row">
             <div class="col">
-              <h4>Medico:</h4>
+              <h5>Medico:</h5>
             </div>
             <div class="col">
               <p class="label">{{medico.nombre}} {{medico.apellidoP}}</p>
@@ -67,7 +66,7 @@
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
           <div class="row">
             <div class="col">
-              <h4 class="title ">Paciente:</h4>
+              <h5 class="title ">Paciente:</h5>
             </div>
             <div class="col">
               <p class="label ">{{paciente.nombre}} {{paciente.apellidoP}}</p>
@@ -79,69 +78,76 @@
         </div>
       </div>
       <div class="card" style="border: 1px solid rgba(229, 243, 218, 0.753);">
-        <h2 class="title text-center">Signos:</h2>
+        <h4 class="title text-center">Signos:</h4>
         <form #userForm="ngForm">
           <div class="row">
             <div class="col">
                 <div class="mb-3">
                   <label for="" class="form-label">Temperatura</label>
-                  <input type="number" class="form-control" name="temperatura" #temperatura="ngModel" [(ngModel)]="signos.temperatura" placeholder="Temperatura" required>
+                  <input type="number" class="form-control" name="temperatura" #temperatura="ngModel" [(ngModel)]="signos.temperatura" placeholder="Temperatura" (focus)="selectAllContent($event)" required>
                 </div>
             </div>
             <div class="col">
               <div class="mb-3">
                   <label for="" class="form-label">Talla</label>
-                  <input type="number" class="form-control" name="estatura" #estatura="ngModel" [(ngModel)]="signos.estatura" placeholder="Estatura" required>
-              </div>
-            </div>
-            <div class="col">
-              
-                <div class="mb-3">
-                  <label for="" class="form-label">Peso</label>
-                  <input type="number" class="form-control"name="peso" #peso="ngModel" [(ngModel)]="signos.peso" placeholder="Peso" required>
-                </div>
-              
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div class="mb-3">
-                
-                  <label for="" class="form-label">Presión Sistólica</label>
-                  <input type="number" class="form-control" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionSis" placeholder="Presión Cistólica" required>
-                
+                  <input type="number" class="form-control" name="estatura" #estatura="ngModel" [(ngModel)]="signos.estatura" placeholder="Estatura" (focus)="selectAllContent($event)" required>
               </div>
             </div>
             <div class="col">
               <div class="mb-3">
-                  <label for="" class="form-label">Presión Daistólica</label>
-                  <input type="number" class="form-control" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" required>
+                <label for="" class="form-label">Peso</label>
+                <input type="number" class="form-control"name="peso" #peso="ngModel" [(ngModel)]="signos.peso" placeholder="Peso" (focus)="selectAllContent($event)" required>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col">
               <div class="mb-3">
-                <label for="">F. Cardiaca</label>
-                <input type="number" class="form-control" name="feccard" #frecuenciaCardiaca="ngModel" [(ngModel)]="signos.frecuenciaCardiaca">
+                <label for="" class="form-label">P. Sistólica</label>
+                <input type="number" class="form-control" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionSis" placeholder="Presión Sistólica" (focus)="selectAllContent($event)" required>
               </div>
             </div>
             <div class="col">
               <div class="mb-3">
-                <label for="">F. Respiratoria</label>
-                <input type="number" class="form-control" name="fecrespira" #frecuenciaRespiratoria="ngModel" [(ngModel)]="signos.frecuenciaRespiratoria">
+                <label for="" class="form-label">P. Diastólica</label>
+                <input type="number" class="form-control" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" (focus)="selectAllContent($event)" required>
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="" class="form-label">F. Cardiaca</label>
+                <input type="number" class="form-control" name="feccard" #frecuenciaCardiaca="ngModel" [(ngModel)]="signos.frecuenciaCardiaca" (focus)="selectAllContent($event)">
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="" class="form-label">F. Respiratoria</label>
+                <input type="number" class="form-control" name="fecrespira" #frecuenciaRespiratoria="ngModel" [(ngModel)]="signos.frecuenciaRespiratoria" (focus)="selectAllContent($event)">
               </div>
             </div>
           </div>   
           <div class="row">
             <div class="col">
-              <label for="">SPO2</label>
-              <input type="number" class="form-control" name="spo2" #spo2="ngModel" [(ngModel)]="signos.spo2">
+              <label for="" class="form-label">SPO2</label>
+              <input type="number" class="form-control" name="spo2" #spo2="ngModel" [(ngModel)]="signos.spo2" (focus)="selectAllContent($event)">
             </div>
             <div class="col">
-              <label for="">Glucotest</label>
-              <input type="number" class="form-control" name="glucotest" #glucotest="ngModel" [(ngModel)]="signos.glucotest">
+              <label for="" class="form-label">Glucotest</label>
+              <input type="number" class="form-control" name="glucotest" #glucotest="ngModel" [(ngModel)]="signos.glucotest" (focus)="selectAllContent($event)">
             </div>
+          </div>
+          <div class="row">
+            <label for="">Escala de Dolor</label>
+            <div class="col" (click)="select(1)"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(3, 110, 3); cursor: pointer;" ></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceRollingEyes" size="lg" style="color: green;cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(121, 190, 29);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(140, 169, 36);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(180, 180, 38);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(151, 137, 32);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(151, 93, 32);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(174, 37, 37);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSadTear" size="lg" style="color: rgb(209, 51, 51);cursor: pointer;"></fa-icon></div>
+            <div class="col"><fa-icon [icon]="faFaceSadCry" size="lg" style="color: rgb(151, 32, 32);cursor: pointer;"></fa-icon></div>
           </div>
           <div class="row">
             <div class="col">

@@ -44,7 +44,7 @@ export class RecepcionComponent implements OnInit, OnChanges{
   public idMedico:string = '';
   public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,''));
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0));
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -212,6 +212,7 @@ export class RecepcionComponent implements OnInit, OnChanges{
 
   isValidSpot():boolean{
     if(this.citas === undefined) return true;
+    console.table([this.citas]);
     return this.citas.map(cita=>{
       return {
         fechaCitaIni:new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita),
@@ -221,8 +222,8 @@ export class RecepcionComponent implements OnInit, OnChanges{
       .every(citaMod =>{
         let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
         let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000)
-        if((fechaCitaActualIni > citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
-         (fechaCitaActualFin > citaMod.fechaCitaIni && fechaCitaActualFin < citaMod.fechaCitaFin))
+        if((fechaCitaActualIni >= citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
+         (fechaCitaActualFin >= citaMod.fechaCitaIni && fechaCitaActualFin < citaMod.fechaCitaFin))
         {
           return false;
         }
@@ -348,6 +349,7 @@ export class RecepcionComponent implements OnInit, OnChanges{
   }
 
   getCitas():any{
+    console.log('fechaCita:',this.fechaCita);
     this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico).subscribe(res=>{
       if(res.body.citas != undefined){
         this.citas = res.body.citas;
@@ -412,7 +414,7 @@ export class RecepcionComponent implements OnInit, OnChanges{
   limpiar():void{
     this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','','',new Date(),'','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,''));
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0));
     this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
     this.mes = '01';
@@ -436,7 +438,8 @@ export class RecepcionComponent implements OnInit, OnChanges{
     let minusDay = new Date(dateTmp.getTime());
     minusDay.setDate(minusDay.getDate() - 1);
     let month = (minusDay.getMonth()+1) < 10 ? ('0'+(minusDay.getMonth()+1)) : (minusDay.getMonth()+1);
-    this.fechaCita = minusDay.getFullYear()+'-'+month+'-'+minusDay.getDate();
+    let day = minusDay.getDate() < 10 ? ('0'+minusDay.getDate()) : minusDay.getDate();
+    this.fechaCita = minusDay.getFullYear()+'-'+month+'-'+day;
     this.fechaActual = new Date(this.fechaCita+' 00:00:00');
     this.getCitas();
   }
@@ -446,7 +449,8 @@ export class RecepcionComponent implements OnInit, OnChanges{
     let plusDay = new Date(dateTmp.getTime());
     plusDay.setDate(plusDay.getDate() + 1);
     let month = (plusDay.getMonth()+1) < 10 ? ('0'+(plusDay.getMonth()+1)) : (plusDay.getMonth()+1);
-    this.fechaCita = plusDay.getFullYear()+'-'+month+'-'+plusDay.getDate();
+    let day = plusDay.getDate() < 10 ? ('0'+plusDay.getDate()) : plusDay.getDate();
+    this.fechaCita = plusDay.getFullYear()+'-'+month+'-'+day;
     this.fechaActual = new Date(this.fechaCita+' 00:00:00');
     this.getCitas();
   }

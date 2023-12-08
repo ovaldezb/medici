@@ -19,9 +19,9 @@
             </tr>
             <tr>
               <th style="width: 15%; text-align: center;font-size: small; ">Temp</th>
-              <th style="width: 10%; text-align: center;font-size: small;">Est</th>
+              <th style="width: 10%; text-align: center;font-size: small;">Talla</th>
               <th style="width: 10%; text-align: center;font-size: small;">Peso</th>
-              <th style="width: 10%; text-align: center;font-size: small;">Cis</th>
+              <th style="width: 10%; text-align: center;font-size: small;">Sis</th>
               <th style="width: 10%; text-align: center;font-size: small;">Dias</th>
             </tr>
           </thead>
@@ -67,21 +67,43 @@
             </tbody>
           </table>
           <hr>
-          <p>Socializar/Escuchar al paciente</p>
-          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar" [style.width]="intervaloE1Porcentaje+'%'"></div>
+          <div class="container text-center">
+          <div class="row">
+            <div class="col">
+              <p>Socializar/Escuchar al paciente</p>
+            </div>
+            <div class="col">
+              <p>Revisar/Oscultar</p>
+            </div>
+            <div class="col">
+              <p>Diagnosticar</p>
+            </div>
+            <div class="col">
+              <p>Cerrar</p>
+            </div>
           </div>
-          <p>Revisar/Oscultar</p>
-          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar" [style.width]="intervaloE2Porcentaje+'%'"></div>
+          <div class="row">
+            <div class="col">
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" [style.width]="intervaloE1Porcentaje+'%'"></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" [style.width]="intervaloE2Porcentaje+'%'"></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" [style.width]="intervaloE3Porcentaje+'%'"></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" [style.width]="intervaloE4Porcentaje+'%'"></div>
+              </div>
+            </div>
           </div>
-          <p>Diagnosticar</p>
-          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar" [style.width]="intervaloE3Porcentaje+'%'"></div>
-          </div>
-          <p>Cerrar</p>
-          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar" [style.width]="intervaloE4Porcentaje+'%'"></div>
           </div>
           <hr>          
           <div class="row">

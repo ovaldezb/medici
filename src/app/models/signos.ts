@@ -15,6 +15,7 @@ export class Signos{
     public frecuenciaRespiratoria: number,
     public spo2:number,
     public glucotest:number,
-    public descripcion:string
+    public descripcion:string,
+    public imc:number
   ){}
 }

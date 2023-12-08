@@ -9,6 +9,7 @@ import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
 import Swal from 'sweetalert2';
 import { IUser } from 'src/app/models/user';
+import { faFaceSmile, faFaceRollingEyes, faFaceSadCry, faFaceSadTear, faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-enfermeria',
@@ -18,19 +19,24 @@ import { IUser } from 'src/app/models/user';
 
 })
 export class EnfermeriaComponent implements OnInit{
-  
+  public faFaceSadCry = faFaceSadCry;
+  public faFaceSadTear = faFaceSadTear;
+  public faFaceFrown = faFaceFrown;
+  public faFaceSmile = faFaceSmile;
+  public faFaceRollingEyes = faFaceRollingEyes;
   public btnAccion: string = Global.GUARDAR;
   public HighlightRow:number = -1;
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,''));
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0));
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','');
   public medico:IUser = {} as IUser;
-  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'');
+  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
+  public escala:number = 0;
   
   constructor(
     private citasService:CitasService, 
@@ -51,6 +57,14 @@ export class EnfermeriaComponent implements OnInit{
         this.citas = res.body.citas;
       }
     });
+  }
+
+  selectAllContent(event:any):void{
+    event.target.select();
+  }
+
+  select(index:number):void{
+    this.escala = index;
   }
 
   guardaSignos():void{
@@ -136,7 +150,7 @@ export class EnfermeriaComponent implements OnInit{
   clear():void{
     this.HighlightRow = -1;
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'');
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0);
     this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,'');
     this.paciente = new Paciente('','','','',new Date(),'','','','');
     this.btnAccion = Global.GUARDAR;
@@ -154,7 +168,7 @@ export class EnfermeriaComponent implements OnInit{
       this.signos = this.cita.signos;
       this.btnAccion = Global.ACTUALIZAR;
     }else{
-      this.signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'');
+      this.signos = new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0);
       this.btnAccion = Global.GUARDAR
     }
   }

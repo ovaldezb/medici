@@ -1,14 +1,14 @@
 <div class="container">
   <div *ngIf="!isConfirm" class="card">
     <div class="card-header text-center">
-      <h1>Administración de Usuarios</h1>
+      <h3>Administración de Usuarios</h3>
     </div>
     
     <div class="card-body">
       <div class="row">
         <div class="col card">
           <form #altaUserForm="ngForm">
-          <h2 class="text-center">Alta de Usuario</h2>
+          <h4 class="text-center">Alta de Usuario</h4>
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
               <fa-icon [icon]="faEnvelope"></fa-icon>
@@ -19,7 +19,7 @@
               placeholder="Correo Electrónico"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              [(ngModel)]="user.email"
+              [(ngModel)]="usuario.email"
               required />
             <span class="input-group-text">
               <fa-icon [icon]="statusEmail"></fa-icon>
@@ -30,7 +30,7 @@
               placeholder="Repetir Correo Electrónico"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              [(ngModel)]="user.repeatEmail" (keyup)="validarEmail()" required/>
+              [(ngModel)]="usuario.repeatEmail" (keyup)="validarEmail()" required/>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
@@ -39,7 +39,7 @@
             <input 
               type="password" 
               name="password"
-              class="form-control" [(ngModel)]="user.password" placeholder="Contraseña"/>
+              class="form-control" [(ngModel)]="usuario.password" placeholder="Contraseña"/>
             <span class="input-group-text">
               <fa-icon [icon]="statusEmail"></fa-icon>
             </span>
@@ -47,7 +47,7 @@
               type="password"
               name="repeatPassword"
               class="form-control"
-              [(ngModel)]="user.repeatPassword" 
+              [(ngModel)]="usuario.repeatPassword" 
               (keyup)="validarPwd()" placeholder="Repetir Contraseña"
               required/>
           </div>
@@ -59,7 +59,7 @@
               type="text"
               name="nombre"
               class="form-control"
-              [(ngModel)]="user.nombre"
+              [(ngModel)]="usuario.nombre"
               placeholder="Nombre"
               required
             />
@@ -67,7 +67,7 @@
               type="text"
               name="apellidop"
               class="form-control"
-              [(ngModel)]="user.apellidoP"
+              [(ngModel)]="usuario.apellidoP"
               placeholder="Apellido Paterno"
               required
             />
@@ -75,7 +75,7 @@
               type="text"
               name="apellidom"
               class="form-control"
-              [(ngModel)]="user.apellidoM"
+              [(ngModel)]="usuario.apellidoM"
               placeholder="Apellido Materno"
               required
             />
@@ -90,13 +90,13 @@
             <span class="input-group-text">
               Fecha de Nacimiento
             </span>
-            <input type="date" name="dob" class="form-control" [(ngModel)]="user.dob" >
+            <input type="date" name="dob" class="form-control" [(ngModel)]="usuario.dob" >
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
               RFC
             </span>
-            <input type="text" name="rfc" class="form-control" [(ngModel)]="user.rfc" >
+            <input type="text" name="rfc" class="form-control" [(ngModel)]="usuario.rfc" >
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
@@ -104,10 +104,10 @@
             </span>
             <div class="row">
               <div class="col-4">
-                M<input type="radio" class="form-check-input" name="sexo" value="M" [checked]="user.sexo==='M'" (change)="selectSex('M')"/>
+                M<input type="radio" class="form-check-input" name="sexo" value="M" [checked]="usuario.sexo==='M'" (change)="selectSex('M')"/>
               </div>
               <div class="col-4">
-                F<input type="radio" class="form-check-input" name="sexo" value="F" [checked]="user.sexo==='F'" (change)="selectSex('F')"/>
+                F<input type="radio" class="form-check-input" name="sexo" value="F" [checked]="usuario.sexo==='F'" (change)="selectSex('F')"/>
               </div>
             </div>
           </div>
@@ -115,17 +115,19 @@
             <span class="input-group-text">
               <fa-icon [icon]="faPhone"></fa-icon>
             </span>
-            <input type="tel" class="form-control" name="telefono" [(ngModel)]="user.telefono"  placeholder="Teléfono"/>
+            <input type="tel" class="form-control" name="telefono" [(ngModel)]="usuario.telefono"  placeholder="Teléfono"/>
           </div>
           <div *ngIf="isMedico()" class="input-group mb-3">
             <span class="input-group-text">
               <fa-icon [icon]="faUserDoctor"></fa-icon>
             </span>
-            <input type="text" class="form-control" name="especialidad" [(ngModel)]="user.especialidad"  placeholder="Especialidad" />
+            <select name="idEspecialidad" [(ngModel)]="usuario.especialidad" class="form-select" >
+              <option *ngFor="let espec of especialidades" [ngValue]="espec._id">{{espec.descripcion}}</option>
+            </select>
             <span class="input-group-text">
               <fa-icon [icon]="faScroll"></fa-icon>
             </span>
-            <input type="text" class="form-control" name="cedula" placeholder="Cédula" [(ngModel)]="user.cedula" />
+            <input type="text" class="form-control" name="cedula" placeholder="Cédula" [(ngModel)]="usuario.cedula" />
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
@@ -137,7 +139,8 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button class="btn btn-primary" (click)="signUp()" [disabled]="altaUserForm.invalid" >Registro</button>
+              <button class="btn btn-primary" (click)="signUp()" [disabled]="altaUserForm.invalid" >{{btnAccion}}</button>
+              <button class="btn btn-dark" (click)="limpiar()">Limpiar</button>
             </div>
           </div>
         </form>
@@ -145,7 +148,7 @@
       
         <div class="col">
           <div class="card">
-            <h2 style="text-align: center;" class="h2">Lista de Usuarios</h2>
+            <h4 style="text-align: center;" class="h2">Lista de Usuarios</h4>
             <table class="table table-bordered">
               <colgroup>
                 <col width="25%">
@@ -177,7 +180,7 @@
                     <td>{{usuario.perfil}}</td>
                     <td style="text-align: center;">
                       <span class="icon is-small is-left">
-                        <a *ngIf="!usuario.isAdmin" href="" title="Editar Usuario">
+                        <a *ngIf="!usuario.isAdmin" href="http://" title="Editar Usuario" (click)="editarUsuario(i)">
                           <fa-icon [icon]="faPencil"></fa-icon>
                         </a>
                         <fa-icon *ngIf="usuario.isAdmin" [icon]="faPencil" title="El usuario Administrador no se puede editar"></fa-icon>
@@ -208,14 +211,14 @@
         readonly
         class="form-control-plaintext"
         id="staticEmail2"
-        value="{{ user.email }}"/>
+        value="{{ usuario.email }}"/>
     </div>
     <div class="col-auto">
       <input
         type="text"
         class="form-control"
         name="codigo"
-        [(ngModel)]="user.code"
+        [(ngModel)]="usuario.code"
         placeholder="Código de Verificación"/>
     </div>
     <div class="col-auto">
