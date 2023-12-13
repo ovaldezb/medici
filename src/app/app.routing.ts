@@ -13,6 +13,7 @@ import { SucursalesComponent } from "./components/sucursales/sucursales.componen
 import { EnrollComponent } from "./components/enroll/enroll.component";
 import { ConsultaEnfermedadComponent } from "./components/consulta-enfermedad/consulta-enfermedad.component";
 import { AdministracionComponent } from "./components/administracion/administracion.component";
+import { DisponibilidadComponent } from "./components/disponibilidad/disponibilidad.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
   { path: 'reset', component: ResetpwdComponent},
   { path: 'sucursal', component:SucursalesComponent, canActivate:[RouteGuardService] },
   { path: 'carnet', component: EnrollComponent },
-  { path: 'consulta', component: ConsultaEnfermedadComponent }
+  { path: 'consulta', component: ConsultaEnfermedadComponent, canActivate:[RouteGuardService] },
+  { path: 'dispnibilidad', component: DisponibilidadComponent}
 ];
 
 

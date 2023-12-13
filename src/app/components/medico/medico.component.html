@@ -2,7 +2,7 @@
 <div class="container">
     <div *ngIf="HighlightRow === -1">
       <div class="card text-center">
-        <h1 class="title">Consulta Médica</h1>
+        <h4 class="title">Consulta Médica</h4>
         <div class="row">
           <div class="col">
             <span class="border">
@@ -45,91 +45,178 @@
         </div>
       </div>
     </div>
+    <table *ngIf="HighlightRow != -1" class="table">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th style="text-align: center;">Socializar/Escuchar al paciente</th>
+          <th style="text-align: center;">Revisar/Oscultar</th>
+          <th style="text-align: center;">Diagnosticar</th>
+          <th style="text-align: center;">Cerrar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" [style.width]="intervaloE1Porcentaje+'%'"></div>
+            </div>
+          </td>
+          <td>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" [style.width]="intervaloE2Porcentaje+'%'"></div>
+            </div>
+          </td>
+          <td>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" [style.width]="intervaloE3Porcentaje+'%'"></div>
+            </div>
+          </td>
+          <td>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" [style.width]="intervaloE4Porcentaje+'%'"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
     <div  *ngIf="HighlightRow != -1" style="border: 1px solid blue;height: 500px;">
       <div class="card" >
-        Está atendiendo al Paciente:  {{paciente.nombre}} {{paciente.apellidoP}}
-          <table class="table-primary">
-            <thead>
-              <tr>
-                <th style="text-align: center;">Talla</th>
-                <th style="text-align: center;">Temperatura</th>
-                <th style="text-align: center;">Peso</th>
-                <th style="text-align: center;">Presión</th>
-              </tr>
-            </thead>
+         <h3>Paciente:  {{paciente.nombre}} {{paciente.apellidoP}}</h3>
+          <table class="table table-primary table-striped-columns">
             <tbody>
               <tr>
-                <td style="text-align: center;">{{cita.signos.estatura}}</td>
+                <th style="text-align: center;">Temperatura</th>
+                <th style="text-align: center;">Talla</th>
+                <th style="text-align: center;">Peso</th>
+                <th style="text-align: center;">IMC</th>
+                <th style="text-align: center;">T/A</th>
+                <th style="text-align: center;">F. Respiratoria</th>
+                <th style="text-align: center;">F. Cardiaca</th>
+                <th style="text-align: center;">SPO2</th>
+                <th style="text-align: center;">Glucotest</th>
+              </tr>
+              <tr>
                 <td style="text-align: center;">{{cita.signos.temperatura}}</td>
+                <td style="text-align: center;">{{cita.signos.estatura}}</td>
                 <td style="text-align: center;">{{cita.signos.peso}}</td>
+                <td style="text-align: center;">{{cita.signos.peso/(cita.signos.estatura*cita.signos.estatura/10000) | number:'1.0-2'}}</td>
                 <td style="text-align: center;">{{cita.signos.presionSis}} - {{cita.signos.presionDias}}</td>
+                <td style="text-align: center;">{{cita.signos.frecuenciaRespiratoria}}</td>
+                <td style="text-align: center;">{{cita.signos.frecuenciaCardiaca}}</td>
+                <td style="text-align: center;">{{cita.signos.spo2}}</td>
+                <td style="text-align: center;">{{cita.signos.glucotest}}</td>
+              </tr>
+              <tr>
+                <td colspan="9">{{cita.signos.descripcion}}</td>
               </tr>
             </tbody>
           </table>
-          
-          <div class="container text-center">
-          <div class="row">
-            <div class="col">
-              <p>Socializar/Escuchar al paciente</p>
-            </div>
-            <div class="col">
-              <p>Revisar/Oscultar</p>
-            </div>
-            <div class="col">
-              <p>Diagnosticar</p>
-            </div>
-            <div class="col">
-              <p>Cerrar</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" [style.width]="intervaloE1Porcentaje+'%'"></div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" [style.width]="intervaloE2Porcentaje+'%'"></div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" [style.width]="intervaloE3Porcentaje+'%'"></div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" [style.width]="intervaloE4Porcentaje+'%'"></div>
-              </div>
-            </div>
-          </div>
-          </div>
+
           <hr>          
           <div class="row">
             <div class="col">
-              <div class="card">
-                <form #userForm="ngForm">
-                  <div class="mb-3">
-                    <label for="" class="label">Receta</label>
-                      <textarea class="form-control" placeholder="Introduzca los medicamentes y su frecuencia de consumo"></textarea>
-                  </div>
-                  <div class="mb-3">
-                    <label for="" class="label">Comentarios</label>
-                    
-                      <textarea class="form-control" placeholder="Introduzca algún comentario relevante sobre lo detectado en la consulta"></textarea>
-                    
-                  </div>
-                </form>
-              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Receta</th>
+                    <th>
+                      <a href="http://" (click)="abreBuscaMedicamento()" title="Seleccionar medicamento"> <fa-icon [icon]="faPills" style="cursor: pointer;"></fa-icon></a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let medicamento of receta.medicamentoReceta; let i = index">
+                    <td>{{medicamento.nombre}}</td>
+                    <td><input type="text" name="prescripcion" class="form-control" #prescipcion="ngModel" [(ngModel)]="medicamento.prescripcion" ></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            
           </div>
           <!--app-pesografica *ngIf="HighlightRow != -1"></!--app-pesografica-->
       </div>
-      
         <button class="btn btn-primary" (click)="finalizaConsulta()">Finalizar</button>
-      
     </div>
   
+    <div *ngIf="isMedicamentoOpen" class="modal fade show" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block;padding-left: 0px;">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-body">
+            <table>
+              <colgroup>
+                <col width="20%">
+                <col width="20%">
+                <col width="60%">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" name="nombre" class="form-control" #nombre="ngModel" [(ngModel)]="medicamento.nombre" (keyup)="buscaMedicamentoEnter($event)">
+                  </td>
+                  <td>
+                    <button type="submit" class="btn btn-primary" (click)="buscaMedicamento()">Buscar</button>
+                    <button class="btn btn-secondary" (click)="limpiarBusqueda()">Limpiar</button>
+                  </td>
+                  <td style="text-align: center;">
+                    <div *ngIf="isSearchingMedicamento" class="spinner-border" role="status">
+                      <span class="visually">B&B</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table *ngIf="listaBusquedaMedicamento.length>0" class="table table-bordered">
+              <colgroup>
+                <col width="10%">
+                <col width="30%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Familia</th>
+                  <th style="text-align: center;">Nombre</th>
+                  <th style="text-align: center;">Dosis Adulto</th>
+                  <th style="text-align: center;">Dosis Niño</th>
+                  <th style="text-align: center;">Presentación</th>
+                </tr>
+              </thead>
+            </table>
+            <div style="height: 300px;overflow: auto;margin-top: -15px;">
+              <table class="table table-bordered table-hover">
+                <colgroup>
+                  <col width="10%">
+                  <col width="30%">
+                  <col width="20%">
+                  <col width="20%">
+                  <col width="20%">
+                </colgroup>
+                <tbody>
+                  <tr *ngFor="let medicamento of listaBusquedaMedicamento; let i = index" [class.selected]="i == HighlightMedicamento" (click)="highlightMedicamento(i)" >
+                    <td>{{medicamento.familia}}</td>
+                    <td>{{medicamento.nombre}}</td>
+                    <td>{{medicamento.dosisAdulto}}</td>
+                    <td>{{medicamento.dosisNino}}</td>
+                    <td>{{medicamento.presentaciones}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cierraModal()">Close</button>
+            <button type="button" class="btn btn-primary" [disabled]="HighlightMedicamento===-1" (click)="seleccionaMedicamento()">Seleccionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 </div>

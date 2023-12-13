@@ -11,6 +11,6 @@ export class FarmaciaService {
   constructor(private _http:HttpClient) { }
 
   getMedicamentos(nombre:string):Observable<any>{
-    return this._http.get(Global.urlMedicamento+'/'+nombre,{observe:'response'});
+    return this._http.get(Global.urlMedicamt+'/'+nombre,{observe:'response'});
   }
 }

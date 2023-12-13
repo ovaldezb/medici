@@ -24,7 +24,9 @@ import { AdministracionComponent } from './components/administracion/administrac
 import { PacienteComponent } from './components/paciente/paciente.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HammerModule } from '@angular/platform-browser';
-import { IgxCalendarModule } from 'igniteui-angular';
+import { IgxButtonModule, IgxCalendarModule, IgxDialogModule } from 'igniteui-angular';
+import { DisponibilidadComponent } from './components/disponibilidad/disponibilidad.component';
+import { CitasComponent } from './components/citas/citas.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { IgxCalendarModule } from 'igniteui-angular';
     EnrollComponent,
     ConsultaEnfermedadComponent,
     AdministracionComponent,
-    PacienteComponent
+    PacienteComponent,
+    DisponibilidadComponent,
+    CitasComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,10 @@ import { IgxCalendarModule } from 'igniteui-angular';
     FontAwesomeModule,
     BrowserAnimationsModule,
     HammerModule,
-    IgxCalendarModule
+    IgxCalendarModule,
+    IgxButtonModule,
+    IgxDialogModule
+
   ],
   providers: [appRoutingProvider, {
     provide: HTTP_INTERCEPTORS,

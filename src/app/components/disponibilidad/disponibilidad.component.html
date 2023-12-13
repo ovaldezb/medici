@@ -1,0 +1,83 @@
+<div class="container">
+  <form #dispForm="ngForm">
+  <div class="row">
+    <div class="col-md-auto">
+      <label class="label">Médico</label>
+    </div>
+    <div class="col">
+      <select class="form-select mb-3 border-success" aria-label="Default select example" [(ngModel)]="idMedico" name="idMedico" (change)="cambiaMedico($event)">
+        <option *ngFor="let medico of medicos" [ngValue]="medico._id">{{ medico.nombre }} {{ medico.apellidoP }} - {{ medico.especialidad }}</option>
+      </select>
+    </div>
+    <div class="col" style="text-align: center;">
+      <div *ngIf="isSavingDispo" class="spinner-border" role="status">
+        <span class="visually">B&B</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <igx-calendar selection="range" (selected)="seleccionaRangoFechas($event)" (viewDateChanged)="cambiaCalendario($event)"></igx-calendar>
+      <button igxButton="raised" (click)="submitDisponibilidadDia()" [disabled]="dispForm.invalid || range.length===0">Agregar Disponibilidad</button>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <label for="" class="form-label">Horario Inicial:</label>
+          <input type="time" class="form-control border-success" name="horaInicio" #horaInicio="ngModel" [(ngModel)]="disponibilidad.horaInicio" required>
+        </div>
+        <div class="col">
+          <label for="" class="form-label">Horario Final:</label>
+          <input type="time" class="form-control border-success" name="horaFin" #horaFin="ngModel" [(ngModel)]="disponibilidad.horaFin" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table table-bordered">
+            <colgroup>
+              <col width="40%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="text-align: center;">Fecha</th>
+                <th style="text-align: center;">H. Inicio</th>
+                <th style="text-align: center;">H. Fin</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+          </table>
+          <div style="border: solid green 1px; height: 250px;overflow: auto;margin-top: -15px;">
+            <table class="table table-striped table-bordered">
+              <colgroup>
+                <col width="40%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+              </colgroup>
+              <tbody>
+                <tr *ngFor="let dispo of listaDisponibilidad; let i=index">
+                  <td style="text-align: center;">{{dispo.dia | date:'mediumDate'}}</td>
+                  <td style="text-align: center;">{{dispo.horaInicio}}</td>
+                  <td style="text-align: center;">{{dispo.horaFin}}</td>
+                  <td style="text-align: center;">
+                    <a href="http://" (click)="eliminaDispo(i)" title="eliminar horario disponible"><fa-icon [icon]="faTrashCan"></fa-icon></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;">
+          <button class="btn btn-primary" type="submit" (click)="enviarDisponibilidad()" [disabled]="listaDisponibilidad.length===0">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
