@@ -292,7 +292,7 @@ export class CitasComponent implements OnInit{
     if(this.isMedicoDisponible()){
       Swal.fire({
         icon:'warning',
-        title:'El Médico no cuenta con horario disponible para éste día y éste horario',
+        title:'El horario de la cita está fuera del horario de servicio del médico',
         text:'Revise el calendario del Médico'
       });
       return;
