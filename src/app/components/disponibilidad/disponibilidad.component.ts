@@ -61,6 +61,7 @@ export class DisponibilidadComponent implements OnInit{
           const fecha:Date = new Date(Date.parse(''+dispo.dia));
           this.listaDisponibilidad.push(new Disponibilidad(dispo._id,dispo.medico,fecha,dispo.horaInicio,dispo.horaFin))
         })
+        this.sortListaHorarios();
       }else{
         this.listaDisponibilidad = [];
       }
@@ -94,14 +95,16 @@ export class DisponibilidadComponent implements OnInit{
       this.disponibilidad.medico = this.medico;
       this.listaDisponibilidad.push(new Disponibilidad(this.disponibilidad._id,this.disponibilidad.medico,this.disponibilidad.dia,this.disponibilidad.horaInicio,this.disponibilidad.horaFin));
     })
-    
+    this.sortListaHorarios();
+    this.range=[];
+  }
+
+  sortListaHorarios():void{
     this.listaDisponibilidad.sort((a,b)=>  {
       if(a.dia.getTime() < b.dia.getTime()) return -1;
       if(a.dia.getTime() > b.dia.getTime()) return 1;
       return 0;
     })
-    console.log(this.listaDisponibilidad);
-    this.range=[];
   }
 
   enviarDisponibilidad():void{
@@ -111,7 +114,7 @@ export class DisponibilidadComponent implements OnInit{
       this.dispoService.deleteDisponibilidadById(disp._id)
       .subscribe(res=>{
         if(res.status === Global.OK){
-          console.log(res.body);
+          //console.log(res.body);
         }
       })
     });

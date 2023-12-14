@@ -229,7 +229,6 @@ export class CitasComponent implements OnInit{
 
   isValidSpot():boolean{
     if(this.citas === undefined) return true;
-    //lo primero es validar que el Dr tenga horas disponibles para este dia
     return this.citas.map(cita=>{
       return {
         fechaCitaIni:new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita),
@@ -240,11 +239,36 @@ export class CitasComponent implements OnInit{
         let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
         let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000)
         if((fechaCitaActualIni >= citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
-         (fechaCitaActualFin >= citaMod.fechaCitaIni && fechaCitaActualFin < citaMod.fechaCitaFin))
+         (fechaCitaActualFin > citaMod.fechaCitaIni && fechaCitaActualFin <= citaMod.fechaCitaFin))
         {
           return false;
         }
         return true;
+    });
+  }
+
+  isMedicoDisponible():boolean{
+    return this.listaDispoMedico.map(horarioDisp=>{
+      return {
+        horaDispIni:new Date(new Date(horarioDisp.dia).toISOString().split('T')[0]+' '+horarioDisp.horaInicio),
+        horaDispFin:new Date(new Date(horarioDisp.dia).toISOString().split('T')[0]+' '+horarioDisp.horaFin),
+      }
+    })
+    .every(horarioDisp => {
+      let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
+      let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000);
+      console.log('FechaCitaActualIni',fechaCitaActualIni);
+      console.log('FechaCitaActualFin',fechaCitaActualFin);
+      console.log('horarioDisp.horaDispIni',horarioDisp.horaDispIni);
+      console.log('horarioDisp.horaDispFin',horarioDisp.horaDispFin);
+      console.log('1',fechaCitaActualFin > horarioDisp.horaDispIni);
+      console.log('2',fechaCitaActualFin <= horarioDisp.horaDispFin)
+      if((fechaCitaActualIni >= horarioDisp.horaDispIni && fechaCitaActualIni < horarioDisp.horaDispFin) && 
+      (fechaCitaActualFin > horarioDisp.horaDispIni && fechaCitaActualFin <= horarioDisp.horaDispFin))
+     {
+       return false;
+     }
+     return true;
     });
   }
 
@@ -265,14 +289,14 @@ export class CitasComponent implements OnInit{
       });
       return;
     }
-    /*if(this.isMedicoDisponible()){
+    if(this.isMedicoDisponible()){
       Swal.fire({
         icon:'warning',
-        title:'Horario no disponible',
-        text:'Revise el calendario, el horario de ésta cita se empalma con una ya existente'
+        title:'El Médico no cuenta con horario disponible para éste día y éste horario',
+        text:'Revise el calendario del Médico'
       });
       return;
-    }*/
+    }
     if(!this.isValidSpot()){
       Swal.fire({
         icon:'warning',
