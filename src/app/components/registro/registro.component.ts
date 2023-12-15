@@ -58,7 +58,7 @@ export class RegistroComponent  implements OnInit{
     {_id:4, descripcion:'Neurocirugía'},
     {_id:5, descripcion:'Ginecología y Obstetricia'},
     {_id:6, descripcion:'Pediatría'},
-    {_id:7, descripcion:'Variatría'},
+    {_id:7, descripcion:'Bariatría'},
     {_id:8, descripcion:'Medicina Interna'},
     {_id:9, descripcion:'Odontología'},
     {_id:10, descripcion:'Psicología'},
