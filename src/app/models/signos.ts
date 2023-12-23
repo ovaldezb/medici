@@ -16,6 +16,7 @@ export class Signos{
     public spo2:number,
     public glucotest:number,
     public descripcion:string,
+    public escalaDolor: number,
     public imc:number
   ){}
 }

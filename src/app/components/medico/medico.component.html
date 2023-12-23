@@ -34,11 +34,11 @@
                     (click)="atenderPaciente(i)" >
                 <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
                 <td style="width: 20%">{{cita.horaCita}}</td>
-                <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.estatura+'m' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionSis : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
+                <td style="width: 15%">{{cita.signos != undefined ? cita.signos[0].temperatura+'ºC' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].estatura+'m' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].peso+'kg' : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].presionSis : ''}}</td>
+                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].presionDias : ''}}</td>
               </tr>
             </tbody>
           </table>
@@ -103,18 +103,18 @@
                 <th style="text-align: center;">Glucotest</th>
               </tr>
               <tr>
-                <td style="text-align: center;">{{cita.signos.temperatura}}</td>
-                <td style="text-align: center;">{{cita.signos.estatura}}</td>
-                <td style="text-align: center;">{{cita.signos.peso}}</td>
-                <td style="text-align: center;">{{cita.signos.peso/(cita.signos.estatura*cita.signos.estatura/10000) | number:'1.0-2'}}</td>
-                <td style="text-align: center;">{{cita.signos.presionSis}} - {{cita.signos.presionDias}}</td>
-                <td style="text-align: center;">{{cita.signos.frecuenciaRespiratoria}}</td>
-                <td style="text-align: center;">{{cita.signos.frecuenciaCardiaca}}</td>
-                <td style="text-align: center;">{{cita.signos.spo2}}</td>
-                <td style="text-align: center;">{{cita.signos.glucotest}}</td>
+                <td style="text-align: center;">{{cita.signos[0].temperatura}}</td>
+                <td style="text-align: center;">{{cita.signos[0].estatura}}</td>
+                <td style="text-align: center;">{{cita.signos[0].peso}}</td>
+                <td style="text-align: center;">{{cita.signos[0].peso/(cita.signos[0].estatura*cita.signos[0].estatura/10000) | number:'1.0-2'}}</td>
+                <td style="text-align: center;">{{cita.signos[0].presionSis}} - {{cita.signos[0].presionDias}}</td>
+                <td style="text-align: center;">{{cita.signos[0].frecuenciaRespiratoria}}</td>
+                <td style="text-align: center;">{{cita.signos[0].frecuenciaCardiaca}}</td>
+                <td style="text-align: center;">{{cita.signos[0].spo2}}</td>
+                <td style="text-align: center;">{{cita.signos[0].glucotest}}</td>
               </tr>
               <tr>
-                <td colspan="9">{{cita.signos.descripcion}}</td>
+                <td colspan="9">{{cita.signos[0].descripcion}}</td>
               </tr>
             </tbody>
           </table>

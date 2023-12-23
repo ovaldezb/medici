@@ -20,7 +20,7 @@ const appRoutes: Routes = [
   { path: 'recepcion', component: RecepcionComponent, canActivate:[RouteGuardService] },
   { path: 'medico', component: MedicoComponent, canActivate:[RouteGuardService] },
   { path: 'farmacia', component: FarmaciaComponent, canActivate:[RouteGuardService] },
-  { path: 'enfermeria', component: EnfermeriaComponent, canActivate:[RouteGuardService]},
+  { path: 'enfermeria', component: EnfermeriaComponent}, //, canActivate:[RouteGuardService]
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent},
   { path: 'admon', component: AdministracionComponent, canActivate:[RouteGuardService]}, 

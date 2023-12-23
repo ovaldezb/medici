@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="container text-center">
   <div class="row">
-    <div class="col-7">
+    <div class="col-8">
       <div class="card ">
         <h4 class="title">Enfermeria -  Toma de Signos</h4>
         <span class="icon-text">
@@ -13,40 +13,57 @@
         <table class="table table-bordered" style="margin: auto;">
           <thead>
             <tr>
-              <th style="width: 25%; text-align: center">Paciente</th>
-              <th style="width: 10%; text-align: center">Cita</th>
-              <th style="width: 15%; text-align: center">Temp</th>
-              <th style="width: 10%; text-align: center">Talla</th>
-              <th style="width: 10%; text-align: center">Peso</th>
-              <th style="width: 10%; text-align: center">Sis</th>
-              <th style="width: 10%; text-align: center">Dias</th>
-              <th style="width: 10%; text-align: center">IMC</th>
+              <th style="width: 21%; text-align: center">Paciente</th>
+              <th style="width: 7%; text-align: center">Temp</th>
+              <th style="width: 8%; text-align: center">Talla</th>
+              <th style="width: 8%; text-align: center">Peso</th>
+              <th style="width: 8%; text-align: center">Sis</th>
+              <th style="width: 8%; text-align: center">Dias</th>
+              <th style="width: 8%; text-align: center">F.C.</th>
+              <th style="width: 8%; text-align: center">F.R.</th>
+              <th style="width: 8%; text-align: center">SPO2</th>
+              <th style="width: 8%; text-align: center">Gluco</th>
+              <th style="width: 8%; text-align: center">IMC</th>
             </tr>
           </thead>
         </table>
         <div style="text-align: center; width: 100%">
           <table class="table table-bordered table-hoverable is-fullwidth" style="margin: auto">
             <tbody>
-              <tr *ngFor="let cita of citas; let i = index"  
-                    [class.selected]="i == HighlightRow" 
-                    (dblclick)="tomarSignos(i)" 
-                    [class.sinSignos]="cita.isSignosTomados===false" 
-                    [class.conSignos]="cita.isSignosTomados===true">
-                <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
-                <td style="width: 10%">{{cita.horaCita}}</td>
-                <td style="width: 15%">{{cita.signos != undefined ? cita.signos.temperatura+'ºC' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.estatura+'m' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.peso+'kg' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionSis : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos.presionDias : ''}}</td>
-                <td style="width: 10%;">{{cita.signos != undefined ? (cita.signos.peso/(cita.signos.estatura*cita.signos.estatura/10000) | number:'1.0-2'): ''}}</td>
-              </tr>
+              <ng-container *ngFor="let cita of citas; let i = index"  [class.selected]="i == HighlightRow" 
+              (dblclick)="tomarSignos(i)" [class.sinSignos]="cita.isSignosTomados===false" [class.conSignos]="cita.isSignosTomados===true">
+                <tr>
+                  <td style="width: 21%" [attr.rowspan]="cita.signos.length===0 ? 1 : cita.signos.length">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}&nbsp;  <a href="http://" (click)="nuevaTomaPaciente(i)"> <fa-icon [icon]="faPlus"></fa-icon> </a></td>
+                  <td style="width: 7%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].temperatura+'ºC' : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].estatura+'m' : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].peso+'kg' : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].presionSis : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].presionDias : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].frecuenciaCardiaca : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].frecuenciaRespiratoria : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].spo2 : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].glucotest : ''}}</td>
+                  <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? (cita.signos[0].peso/(cita.signos[0].estatura*cita.signos[0].estatura/10000) | number:'1.0-2'): ''}}</td>
+                </tr>
+                <tr *ngFor="let signo of cita.signos | slice:1">
+                  <td style="width: 7%;font-size: small;">{{signo.temperatura+'ºC'}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.estatura+'m'}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.peso+'kg'}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.presionSis }}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.presionDias}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.frecuenciaCardiaca}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.frecuenciaRespiratoria}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.spo2}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.glucotest}}</td>
+                  <td style="width: 8%;font-size: small;">{{ (signo.peso/(signo.estatura*signo.estatura/10000) | number:'1.0-2')}}</td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="col-5">
+    <div class="col-4">
       <div class="card">
         <div style="border: 1px solid rgba(229, 243, 218, 0.753);">
           <div class="row">
@@ -121,7 +138,7 @@
             </div>
             <div class="col">
               <div class="mb-3">
-                <label for="" class="form-label">F. Respiratoria</label>
+                <label for="" class="form-label">F. Resp</label>
                 <input type="number" class="form-control" name="fecrespira" #frecuenciaRespiratoria="ngModel" [(ngModel)]="signos.frecuenciaRespiratoria" (focus)="selectAllContent($event)">
               </div>
             </div>
@@ -138,16 +155,16 @@
           </div>
           <div class="row">
             <label for="">Escala de Dolor</label>
-            <div class="col" (click)="select(1)"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(3, 110, 3); cursor: pointer;" ></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceRollingEyes" size="lg" style="color: green;cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(121, 190, 29);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(140, 169, 36);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(180, 180, 38);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(151, 137, 32);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(151, 93, 32);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSmile" size="lg" style="color: rgb(174, 37, 37);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSadTear" size="lg" style="color: rgb(209, 51, 51);cursor: pointer;"></fa-icon></div>
-            <div class="col"><fa-icon [icon]="faFaceSadCry" size="lg" style="color: rgb(151, 32, 32);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(0)" [style.background-color]="background[0]"><fa-icon [icon]="faFaceLaugh" size="sm" style="color: rgb(3, 110, 3); cursor: pointer;" ></fa-icon></div>
+            <div class="col" (click)="select(1)" [style.background-color]="background[1]"><fa-icon [icon]="faFaceSmile" size="sm" style="color: green;cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(2)" [style.background-color]="background[2]"><fa-icon [icon]="faFaceRollingEyes" size="sm" style="color: rgb(121, 190, 29);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(3)" [style.background-color]="background[3]"><fa-icon [icon]="faFaceMeh" size="sm" style="color: rgb(140, 169, 36);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(4)" [style.background-color]="background[4]"><fa-icon [icon]="faFaceGrimace" size="sm" style="color: rgb(180, 180, 38);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(5)" [style.background-color]="background[5]"><fa-icon [icon]="faFaceFrown" size="sm" style="color: rgb(151, 137, 32);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(6)" [style.background-color]="background[6]"><fa-icon [icon]="faFaceAngry" size="sm" style="color: rgb(151, 93, 32);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(7)" [style.background-color]="background[7]"><fa-icon [icon]="faFaceTired" size="sm" style="color: rgb(174, 37, 37);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(8)" [style.background-color]="background[8]"><fa-icon [icon]="faFaceSadTear" size="sm" style="color: rgb(209, 51, 51);cursor: pointer;"></fa-icon></div>
+            <div class="col" (click)="select(9)" [style.background-color]="background[9]"><fa-icon [icon]="faFaceSadCry" size="sm" style="color: rgb(151, 32, 32);cursor: pointer;"></fa-icon></div>
           </div>
           <div class="row">
             <div class="col">

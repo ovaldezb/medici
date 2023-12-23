@@ -28,8 +28,8 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public faUserDoctor = faUserDoctor;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public paciente: Paciente = new Paciente('','','','',new Date(),'','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0));
+  public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, []);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -55,7 +55,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public isMedicamentoOpen:boolean=false;
   public HighlightMedicamento:number=-1;
   public isSearchingMedicamento:boolean=false;
-  public receta:Receta= new Receta('',new Cita('',new Paciente('','','','',new Date(),'','','',''),{} as IUser,new Date(),'','',0,false,{} as Signos), [],new Date());
+  public receta:Receta= new Receta('',new Cita('',new Paciente('','','','',new Date(),'','','','',''),{} as IUser,new Date(),'','',0,false,[]), [],new Date());
 
 
   constructor(private medicoService:MedicosService, 

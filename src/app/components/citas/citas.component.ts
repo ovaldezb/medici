@@ -42,8 +42,8 @@ export class CitasComponent implements OnInit{
   public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];
-  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, new Signos('1',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0));
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, []);
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -460,8 +460,8 @@ export class CitasComponent implements OnInit{
 
   limpiar():void{
     this.btnAccion = Global.AGENDAR;
-    this.paciente = new Paciente('','','','',new Date(),'','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,new Signos('',new Paciente('','','','',new Date(),'','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0));
+    this.paciente = new Paciente('','','','',new Date(),'','','','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[]);
     this.fechaCita = new Date().toISOString().split('T')[0];
     this.dia = '';
     this.mes = '01';

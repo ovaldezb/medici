@@ -70,7 +70,7 @@ export class RegistroComponent  implements OnInit{
   constructor(private router:Router, 
     private cognitoService:CognitoService,
     private usuariosService: UsuariosService,
-    private perfilService:PerfilService,
+    //private perfilService:PerfilService,
     private sucursaleService:SucursalService){
     this.isConfirm = false
   }
