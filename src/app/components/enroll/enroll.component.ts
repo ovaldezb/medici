@@ -223,6 +223,9 @@ export class EnrollComponent {
   }
 
   limpiarCarnet():void{
-
+    this.folio = '';
+    this.listaPacientes = [];
+    this.listaPacientesCarnet = [];
+    this.carnet = new Carnet('','',new Date(),20,[],[]);
   }
 }

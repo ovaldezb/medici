@@ -32,28 +32,41 @@
           <fa-icon *ngIf="HighlightRow===-1 || listaPacientesCarnet.length===0" [icon]="faUserXmark"></fa-icon>
         </div>
       </div>
-      <hr>
-      <div style="height: 250px;border: 2px solid black;">
-        <table class="table">
-          <thead class="table-dark"> 
-            <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Fecha de Nacimiento</th>
-            </tr>
-          </thead>
+      
+      <table class="table table-bordered">
+        <colgroup>
+          <col width="10%">
+          <col width="30%">
+          <col width="30%">
+          <col width="30%">
+        </colgroup>
+        <thead class="table-dark"> 
+          <tr>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Nombre</th>
+            <th style="text-align: center;">Apellido</th>
+            <th style="text-align: center;">Fecha de Nacimiento</th>
+          </tr>
+        </thead>
+      </table>
+      <div style="height: 200px;border: 2px solid black;overflow: auto;margin-top: -17px;">
+        <table class="table table-bordered">
+          <colgroup>
+            <col width="10%">
+            <col width="30%">
+            <col width="30%">
+            <col width="30%">
+          </colgroup>
           <tbody>
             <tr *ngFor="let paciente of listaPacientesCarnet; let i = index" (click)="selectRow(i)" [class.selected]= "i == HighlightRow">
-              <td>{{i+1}}</td>
-              <td>{{paciente.nombre}}</td>
-              <td>{{paciente.apellidoP}}</td>
-              <td>{{paciente.fechaNacimiento | date:'dd-MMM-YYYY'}}</td>
+              <td style="text-align: center;">{{i+1}}</td>
+              <td style="text-align: center;">{{paciente.nombre}}</td>
+              <td style="text-align: center;">{{paciente.apellidoP}}</td>
+              <td style="text-align: center;">{{paciente.fechaNacimiento | date:'dd-MMM-YYYY'}}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <hr>
       <table *ngIf="carnet.citas.length >0" class="table table-dark table-bordered">
         <colgroup>
           <col width="10%"/>
@@ -70,7 +83,7 @@
           </tr>
         </thead>
       </table>
-      <div *ngIf="carnet.citas.length >0" style="height: 250px;border: 2px solid black;margin-top: -17px;">
+      <div *ngIf="carnet.citas.length >0" style="height: 200px;border: 2px solid black;margin-top: -17px;overflow: auto;">
         <table class="table table-bordered">
           <colgroup>
             <col width="10%"/>
@@ -79,9 +92,6 @@
             <col width="35%" />
           </colgroup>
           <tbody>
-            <tr>
-              <td colspan="4">Registro de Citas por Carnet</td>
-            </tr>
             <tr *ngFor="let cita of carnet.citas; let i = index">
               <td style="text-align: center;">{{i+1}}</td>
               <td style="text-align: center;">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>

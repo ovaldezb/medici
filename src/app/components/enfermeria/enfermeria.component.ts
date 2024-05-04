@@ -35,14 +35,15 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,[{} as Signos]);
-  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,[{} as Signos], false);
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','');
   public medico:IUser = {} as IUser;
-  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
   public escala:number = 0;
+  public isWorking:boolean=false;
   public background:string[]=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
   
   constructor(
@@ -51,6 +52,7 @@ export class EnfermeriaComponent implements OnInit{
     private pacienteService: PacienteService){}
 
   ngOnInit(): void {
+    this.isWorking = true;
     this.dia = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate()+'';
     this.mes = (this.fechaActual.getMonth() + 1) < 10 ? '0'+(this.fechaActual.getMonth() + 1)  : (this.fechaActual.getMonth() + 1)+'';
     this.year = this.fechaActual.getFullYear()+'';
@@ -60,9 +62,9 @@ export class EnfermeriaComponent implements OnInit{
   getCitas():any{
     this.citasService.getCitasByFecha(this.year+'-'+this.mes+'-'+this.dia)
     .subscribe(res=>{
+      this.isWorking = false;
       if(res.status === Global.OK && res.body.citas.length > 0){
         this.citas = res.body.citas;
-        console.log(this.citas);
       }
     });
   }
@@ -81,18 +83,19 @@ export class EnfermeriaComponent implements OnInit{
   guardaSignos():void{
     if(this.btnAccion === Global.GUARDAR){
       Swal.fire({
-        title:'Desea guardar estos Signos?',
-        html:'<table>'+
-                '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td></tr>'+
-                '<tr><td style="text-align:right;">Talla:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td></tr>'+
-                '<tr><td style="text-align:right;">Peso:</td><td style="text-align:left;">&nbsp;'+this.signos.peso+'Kg</td></tr>'+
-                '<tr><td style="text-align:right;">Sistólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionSis+'</td></tr>'+
-                '<tr><td style="text-align:right;">Diastólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionDias+'</td></tr>'+  
+        title:'Se van a guardar estos Signos?',
+        html:'<table class="table table-bordered">'+
+                '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td><td>&nbsp;</td><td>F. Cardiaca</td><td>'+this.signos.frecuenciaCardiaca+'</td></tr>'+
+                '<tr><td style="text-align:right;">Talla:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td><td>&nbsp;</td><td>F. Respiratoria</td><td>'+this.signos.frecuenciaRespiratoria+'</td></tr>'+
+                '<tr><td style="text-align:right;">Peso:</td><td style="text-align:left;">&nbsp;'+this.signos.peso+'Kg</td><td>&nbsp;</td><td>SPO2</td><td>'+this.signos.spo2+'</td></tr>'+
+                '<tr><td style="text-align:right;">Sistólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionSis+'</td><td>&nbsp;</td><td>Glucotest</td><td>'+this.signos.glucotest+'</td></tr>'+
+                '<tr><td style="text-align:right;">Diastólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionDias+'</td><td>&nbsp;</td><td>Escala de Dolor</td><td>'+this.signos.escalaDolor+'</td></tr>'+  
               '</table>',
         showCancelButton:true,
         confirmButtonText:'OK'
       }).then(resultado=>{
         if(resultado.isConfirmed){
+          this.isWorking = true;
           this.signos.paciente = this.paciente;
           this.signosService.addSignos(this.signos).subscribe(res=>{
             if(res.status===Global.OK){
@@ -139,6 +142,7 @@ export class EnfermeriaComponent implements OnInit{
     console.log(arraySignoValido);
     this.cita.signos = arraySignoValido;
       this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
+        this.isWorking = false;
         if(res.status===Global.OK){
           this.clear();
           Swal.fire({
@@ -162,10 +166,11 @@ export class EnfermeriaComponent implements OnInit{
 
   clear():void{
     this.HighlightRow = -1;
+    this.escala = 0
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
     this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,'');
-    this.paciente = new Paciente('','','','',new Date(),'','','','','');
+    this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
     this.btnAccion = Global.GUARDAR;
   }
 
@@ -179,8 +184,8 @@ export class EnfermeriaComponent implements OnInit{
       this.signos = this.cita.signos[0];
       this.btnAccion = Global.ACTUALIZAR;
     }else{
-      this.cita.signos.push(new Signos('',new Paciente('','','','',new Date(),'','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0));
-      this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+      this.cita.signos.push(new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0));
+      this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
       this.btnAccion = Global.GUARDAR
     }
   }
@@ -190,7 +195,7 @@ export class EnfermeriaComponent implements OnInit{
     this.medico = this.cita.medico;
     this.paciente = this.cita.paciente;
     this.signos.paciente = this.paciente;
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
     this.btnAccion = Global.GUARDAR
   }
 

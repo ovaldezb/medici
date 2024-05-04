@@ -2,7 +2,19 @@
 <div class="container">
     <div *ngIf="HighlightRow === -1">
       <div class="card text-center">
-        <h4 class="title">Consulta Médica</h4>
+        <div class="row">
+          <div class="col">
+            <h4 class="title">Consulta Médica</h4>
+          </div>
+        </div>
+        <div *ngIf="isWorking" class="row">
+          <div class="col">
+            <div *ngIf="isWorking" class="spinner-border" role="status">
+              <span class="visually">B&B</span>
+            </div>
+          </div>
+        </div>
+        
         <div class="row">
           <div class="col">
             <span class="border">
@@ -13,16 +25,22 @@
         <table class="table table-primary table-bordered" style="margin: auto;">
           <thead>
             <tr>
-              <th rowspan="2" style="width: 25%; text-align: center">Paciente</th>
-              <th rowspan="2" style="width: 20%; text-align: center">Hora Cita</th>
-              <th colspan="5" style="width: 55%; text-align: center">Signos</th>
+              <th rowspan="2" style="width: 20%; text-align: center">Paciente</th>
+              <th rowspan="2" style="width: 10%; text-align: center">Hora Cita</th>
+              <th colspan="11" style="width: 65%; text-align: center">Signos</th>
             </tr>
             <tr>
-              <th style="width: 15%; text-align: center;font-size: small; ">Temp</th>
-              <th style="width: 10%; text-align: center;font-size: small;">Talla</th>
-              <th style="width: 10%; text-align: center;font-size: small;">Peso</th>
-              <th style="width: 10%; text-align: center;font-size: small;">Sis</th>
-              <th style="width: 10%; text-align: center;font-size: small;">Dias</th>
+              <th style="width: 7%; text-align: center;font-size: small; ">Temp</th>
+              <th style="width: 7%; text-align: center;font-size: small;">Talla</th>
+              <th style="width: 7%; text-align: center;font-size: small;">Peso</th>
+              <th style="width: 7%; text-align: center;font-size: small;">Sis</th>
+              <th style="width: 7%; text-align: center;font-size: small;">Dias</th>
+              <th style="width: 6%; text-align: center;font-size: small;">F.C.</th>
+              <th style="width: 6%; text-align: center;font-size: small;">F.R.</th>
+              <th style="width: 6%; text-align: center;font-size: small;">SPO2</th>
+              <th style="width: 6%; text-align: center;font-size: small;">Gluco</th>
+              <th style="width: 5%; text-align: center;font-size: small;">Dolor</th>
+              <th style="width: 6%; text-align: center;font-size: small;">IMC</th>
             </tr>
           </thead>
         </table>
@@ -32,13 +50,19 @@
               <tr *ngFor="let cita of citas; let i = index"  
                     [class.selectedMedico]="i == HighlightRow" 
                     (click)="atenderPaciente(i)" >
-                <td style="width: 25%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
-                <td style="width: 20%">{{cita.horaCita}}</td>
-                <td style="width: 15%">{{cita.signos != undefined ? cita.signos[0].temperatura+'ºC' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].estatura+'m' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].peso+'kg' : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].presionSis : ''}}</td>
-                <td style="width: 10%">{{cita.signos != undefined ? cita.signos[0].presionDias : ''}}</td>
+                <td style="width: 20%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
+                <td style="width: 10%">{{cita.horaCita}}</td>
+                <td style="width: 7%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].temperatura+'ºC' : ''}}</td>
+                <td style="width: 7%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].estatura+'cm' : ''}}</td>
+                <td style="width: 7%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].peso+'kg' : ''}}</td>
+                <td style="width: 7%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].presionSis : ''}}</td>
+                <td style="width: 7%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].presionDias : ''}}</td>
+                <td style="width: 6%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].frecuenciaCardiaca : ''}}</td>
+                <td style="width: 6%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].frecuenciaRespiratoria : ''}}</td>
+                <td style="width: 6%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].spo2 : ''}}</td>
+                <td style="width: 6%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].glucotest : ''}}</td>
+                <td style="width: 5%">{{cita.signos != undefined ? cita.signos[cita.signos.length-1].escalaDolor : ''}}</td>
+                <td style="width: 6%">{{cita.signos != undefined ?  (cita.signos[cita.signos.length-1].peso/(cita.signos[cita.signos.length-1].estatura*cita.signos[cita.signos.length-1].estatura/10000) | number:'1.0-2') : ''}}</td>
               </tr>
             </tbody>
           </table>
@@ -86,11 +110,23 @@
       </tbody>
     </table>
     
-    <div  *ngIf="HighlightRow != -1" style="border: 1px solid blue;height: 500px;">
+    <div  *ngIf="HighlightRow != -1" style="border: 1px solid blue;height: 460px;">
       <div class="card" >
-         <h3>Paciente:  {{paciente.nombre}} {{paciente.apellidoP}}</h3>
-          <table class="table table-primary table-striped-columns">
-            <tbody>
+         <h4 style="text-align: center;">{{paciente.nombre}} {{paciente.apellidoP}}</h4>
+          <table class="table table-primary table-bordered">
+            <colgroup>
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+            </colgroup>
+            <thead>
               <tr>
                 <th style="text-align: center;">Temperatura</th>
                 <th style="text-align: center;">Talla</th>
@@ -101,24 +137,40 @@
                 <th style="text-align: center;">F. Cardiaca</th>
                 <th style="text-align: center;">SPO2</th>
                 <th style="text-align: center;">Glucotest</th>
+                <th style="text-align: center;">E. Dolor</th>
               </tr>
-              <tr>
-                <td style="text-align: center;">{{cita.signos[0].temperatura}}</td>
-                <td style="text-align: center;">{{cita.signos[0].estatura}}</td>
-                <td style="text-align: center;">{{cita.signos[0].peso}}</td>
-                <td style="text-align: center;">{{cita.signos[0].peso/(cita.signos[0].estatura*cita.signos[0].estatura/10000) | number:'1.0-2'}}</td>
-                <td style="text-align: center;">{{cita.signos[0].presionSis}} - {{cita.signos[0].presionDias}}</td>
-                <td style="text-align: center;">{{cita.signos[0].frecuenciaRespiratoria}}</td>
-                <td style="text-align: center;">{{cita.signos[0].frecuenciaCardiaca}}</td>
-                <td style="text-align: center;">{{cita.signos[0].spo2}}</td>
-                <td style="text-align: center;">{{cita.signos[0].glucotest}}</td>
-              </tr>
-              <tr>
-                <td colspan="9">{{cita.signos[0].descripcion}}</td>
+            </thead>
+          </table>
+          <div style="height: 50px; overflow: auto; margin-top: -15px;">
+          <table class="table table-hover table-bordered">
+            <colgroup>
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
+            </colgroup>
+            <tbody>
+              <tr *ngFor="let signo of listaSignos">
+                <td style="text-align: center;">{{signo.temperatura}}</td>
+                <td style="text-align: center;">{{signo.estatura}}</td>
+                <td style="text-align: center;">{{signo.peso}}</td>
+                <td style="text-align: center;">{{signo.peso/(signo.estatura*signo.estatura/10000) | number:'1.0-2'}}</td>
+                <td style="text-align: center;">{{signo.presionSis}} - {{cita.signos[0].presionDias}}</td>
+                <td style="text-align: center;">{{signo.frecuenciaRespiratoria}}</td>
+                <td style="text-align: center;">{{signo.frecuenciaCardiaca}}</td>
+                <td style="text-align: center;">{{signo.spo2}}</td>
+                <td style="text-align: center;">{{signo.glucotest}}</td>
+                <td style="text-align: center;">{{signo.escalaDolor}}</td>
               </tr>
             </tbody>
           </table>
-
+          </div>  
           <hr>          
           <div class="row">
             <div class="col">
@@ -140,9 +192,16 @@
               </table>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <textarea name="" class="form-control" cols="30" rows="6"></textarea>
+            </div>
+          </div>
           <!--app-pesografica *ngIf="HighlightRow != -1"></!--app-pesografica-->
       </div>
+      <div style="text-align: right;">
         <button class="btn btn-primary" (click)="finalizaConsulta()">Finalizar</button>
+      </div>
     </div>
   
     <div *ngIf="isMedicamentoOpen" class="modal fade show" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block;padding-left: 0px;">

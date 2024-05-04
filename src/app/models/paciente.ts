@@ -8,6 +8,8 @@ export class Paciente{
     public sexo: string,
     public telefono: string,
     public correo: string,
+    public ocupacion: string,
+    public raza: string,
     public carnet:string,
     public codigoPostal:string
   ){}

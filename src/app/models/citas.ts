@@ -12,6 +12,7 @@ export class Cita{
     public horaCitaFin:String,
     public duracion:number,
     public isSignosTomados: boolean,
-    public signos:Signos[]
+    public signos:Signos[],
+    public atendido:boolean
   ){}
 }

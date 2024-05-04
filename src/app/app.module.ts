@@ -27,6 +27,7 @@ import { HammerModule } from '@angular/platform-browser';
 import { IgxButtonModule, IgxCalendarModule, IgxDialogModule } from 'igniteui-angular';
 import { DisponibilidadComponent } from './components/disponibilidad/disponibilidad.component';
 import { CitasComponent } from './components/citas/citas.component';
+import { HistoriaClinicaComponent } from './components/historia-clinica/historia-clinica.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CitasComponent } from './components/citas/citas.component';
     AdministracionComponent,
     PacienteComponent,
     DisponibilidadComponent,
-    CitasComponent
+    CitasComponent,
+    HistoriaClinicaComponent
   ],
   imports: [
     BrowserModule,

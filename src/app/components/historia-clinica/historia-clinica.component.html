@@ -1,0 +1,137 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header text-center">
+      Historial Clínico
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <p style="text-align: center;">Datos Generales</p>
+          <div class="row mb-3">
+            <div class="col">
+              <input type="text" name="carnet" #carnet="ngModel" [(ngModel)]="paciente.carnet" class="form-control border-success" placeholder="Carnet">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" class="form-control border-success" placeholder="Nombre">
+            </div>
+            <div class="col">
+              <input type="text" name="apellidoP" #apellidoP="ngModel" [(ngModel)]="paciente.apellidoP" class="form-control border-success" placeholder="Apellido Paterno">
+            </div>
+            <div class="col">
+              <input type="text" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM" class="form-control border-success" placeholder="Apellido Materno">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <input type="date" class="form-control border-success" name="dob" #dob="ngModel" [(ngModel)]="paciente.fechaNacimiento">
+            </div>
+            <div class="col">
+              Sexo: <input type="radio" name="sexo" class="form-check-input border-success" [checked]="paciente.sexo==='M'">M 
+              <input type="radio" name="sexo" class="form-check-input border-success" [checked]="paciente.sexo==='F'">F 
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              Estado Civil:
+            </div>
+            <div class="col">
+              <select name="edoCivil" class="form-select border-success" name="edoCivil" [(ngModel)]="antecendente.edoCivil" (change)="cambioEdoCivil($event)">
+                <option *ngFor="let edoCivil of estadoCivil" [ngValue]="edoCivil.value">{{edoCivil.viewValue}}</option>
+              </select>
+            </div>
+            <div class="col">
+              Genero
+            </div>
+            <div class="col">
+              <select name="genero" class="form-select border-success" name="genero" [(ngModel)]="antecendente.genero" (change)="cambioGenero($event)">
+                <option *ngFor="let gen of genero" [ngValue]="gen.value">{{gen.viewValue}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <input type="text" name="" id="" class="form-control border-success" placeholder="Ocupación">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <p style="text-align: center;">Antecedentes Familiares Hereditarios</p>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="">¿Su <strong>padre</strong> padece alguna enfermedad de importancia que requiera supervisión medica constante? </label>
+            </div>
+            <div class="col">
+              <input type="radio" name="pg1" [checked]="antecendente.pg1" (change)="cambiaPg1(true)">Si 
+              <input type="radio" name="pg1" [checked]="!antecendente.pg1" (change)="cambiaPg1(false)">No
+            </div>
+            <div class="col">
+              <select *ngIf="antecendente.pg1" name="padecimiento" class="form-select border-sucess" [(ngModel)]="antecendente.pg1Padecimiento" (change)="cambioPadecimiento($event)">
+                <option *ngFor="let pad of padecimiento" [ngValue]="pad.value">{{pad.viewValue}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="">¿Su <strong>madre</strong> padece alguna enfermedad de importancia que requiera supervisión medica constante? </label>
+            </div>
+            <div class="col">
+              <input type="radio" name="pg2" [checked]="antecendente.pg2" (change)="cambiaPg2(true)">Si 
+              <input type="radio" name="pg2" [checked]="!antecendente.pg2" (change)="cambiaPg2(false)">No
+            </div>
+            <div class="col">
+              <select *ngIf="antecendente.pg2" name="padecimiento" class="form-select border-sucess" [(ngModel)]="antecendente.pg2Padecimiento" (change)="cambioPadecimiento2($event)">
+                <option *ngFor="let pad of padecimiento" [ngValue]="pad.value">{{pad.viewValue}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="">¿Tiene parentesco con algún familiar que padezca alguna enfermedad de importancia que requiera supervisión médica constante?</label>
+            </div>
+            <div class="col">
+              <input type="radio" name="pg3" [checked]="antecendente.pg3" (change)="cambiaPg3(true)">Si 
+              <input type="radio" name="pg3" [checked]="!antecendente.pg3" (change)="cambiaPg3(false)">No
+            </div>
+            <div class="col">
+              <select *ngIf="antecendente.pg3" name="padecimiento" class="form-select border-sucess" [(ngModel)]="antecendente.pg3Padecimiento" (change)="cambioPadecimiento3($event)">
+                <option *ngFor="let pad of padecimiento" [ngValue]="pad.value">{{pad.viewValue}}</option>
+              </select>
+            </div>
+            <div class="col">
+              <select *ngIf="antecendente.pg3" name="parentesco" class="form-select border-sucess" [(ngModel)]="antecendente.pg3Parentesco" (change)="cambioParentesco3($event)">
+                <option *ngFor="let paren of parentesco" [ngValue]="paren.value">{{paren.viewValue}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header text-center">
+      Historial Clínico Extendido 
+      <select name="seccion" class="form-select" [(ngModel)]="seccion" (change)="cambiaSeccion(true)">
+        <option *ngFor="let sec of secciones" [ngValue]="sec.value">{{sec.viewValue}}</option>
+      </select>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let pregunta of preguntas; let i = index;" class="row">
+        <div class="col">
+          {{pregunta.pregunta}}
+        </div>
+        <div class="col" style="text-align: center;">
+          <input type="radio" name="{{pregunta.noPregunta}}" id="{{pregunta.noPregunta}}" class="form-radio" [checked]="listaChecked.get(pregunta.noPregunta)">Si
+          <input type="radio" name="{{pregunta.noPregunta}}" id="{{pregunta.noPregunta}}" class="form-radio" [checked]="!listaChecked.get(pregunta.noPregunta)">No
+        </div>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-info" (click)="enviarHistorial()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,13 +3,26 @@
   <div class="row">
     <div class="col-8">
       <div class="card ">
-        <h4 class="title">Enfermeria -  Toma de Signos</h4>
-        <span class="icon-text">
-          <span class="icon">
-            <fa-icon [icon]="faUserNurse"></fa-icon>
-          </span>
-          <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
-        </span>
+        <div class="row">
+          <div class="col">
+            <h4 class="title">Enfermeria -  Toma de Signos</h4>
+            <div *ngIf="isWorking" class="spinner-border" role="status">
+              <span class="visually">B&B</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="icon-text">
+              <span class="icon">
+                <fa-icon [icon]="faUserNurse"></fa-icon>
+              </span>
+              <span class="label">{{fechaActual | date:'dd-MMM-YYYY'}}</span>
+            </span>
+          </div>
+        </div>
+        
+        
         <table class="table table-bordered" style="margin: auto;">
           <thead>
             <tr>
@@ -95,7 +108,7 @@
         </div>
       </div>
       <div class="card" style="border: 1px solid rgba(229, 243, 218, 0.753);">
-        <h4 class="title text-center">Signos:</h4>
+        <h4 class="title text-center">Signos Vitales:</h4>
         <form #userForm="ngForm">
           <div class="row">
             <div class="col">
@@ -168,7 +181,7 @@
           </div>
           <div class="row">
             <div class="col">
-              <label for="">Descripción</label>
+              <label for="">Motivo de Consulta</label>
               <textarea name="descripcion" class="form-control" #descripcion="ngModel" [(ngModel)]="signos.descripcion" cols="30" rows="10"></textarea>
             </div>
           </div>

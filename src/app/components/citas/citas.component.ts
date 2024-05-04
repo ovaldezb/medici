@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft, faL } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
@@ -39,11 +39,12 @@ export class CitasComponent implements OnInit{
   public faArrowLeft = faArrowLeft;
   public faPencil = faPencil;
   public faTrashCan = faTrashCan;
+  public faSpinner = faSpinner;
   public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];
-  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, []);
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false);
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -58,6 +59,8 @@ export class CitasComponent implements OnInit{
   public fechaCita:string = new Date().toLocaleDateString('en-CA');//.split('T')[0];
   public isLoadingCarnet : boolean = false;
   public listaDispoMedico:Disponibilidad[]=[];
+  public isLoadingMedicos:boolean = false;
+  public isLoadingCitas:boolean = false;
   meses: Mes[] = [
     {value: '01', viewValue: 'Enero'},
     {value: '02', viewValue: 'Febrero'},
@@ -83,8 +86,10 @@ export class CitasComponent implements OnInit{
               private disponibilidadService: DisponibilidadService){}
 
   ngOnInit(): void {
+    this.isLoadingMedicos = true;
     this.medicoService.getAllMedicos().subscribe(res=>{
       if(res.status===Global.OK){
+        this.isLoadingMedicos = false;
         this.medicos = res.body.medicos;
         this.idMedico = this.medicos[0]._id;
         this.medico = this.medicos[0];
@@ -98,10 +103,12 @@ export class CitasComponent implements OnInit{
   getHorariosMedico():void{
     let mesActual = (this.fechaActual.getMonth()+1) < 10 ? '0'+(this.fechaActual.getMonth()+1):(this.fechaActual.getMonth()+1)
     let fechaActualTemporal = new Date(this.fechaActual.getTime());
-    let diasSig = new Date(fechaActualTemporal.setDate(fechaActualTemporal.getDate()+1));
-    console.log(diasSig);
-    let mesSig = (diasSig.getMonth()+1) <10 ? '0'+(diasSig.getMonth()+1) : (diasSig.getMonth()+1);
-    this.disponibilidadService.getDisponibilidad(this.fechaActual.getFullYear()+'-'+mesActual+'-'+this.fechaActual.getDate(),diasSig.getFullYear()+'-'+mesSig+'-'+diasSig.getDate(),this.idMedico)
+    let fechaSig = new Date(fechaActualTemporal.setDate(fechaActualTemporal.getDate()+1));
+    //console.log(diasSig);
+    let mesSig = (fechaSig.getMonth()+1) <10 ? '0'+(fechaSig.getMonth()+1) : (fechaSig.getMonth()+1);
+    let diaActual = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate();
+    let diaSiguiente = fechaSig.getDate() < 10 ? '0'+fechaSig.getDate() : fechaSig.getDate();
+    this.disponibilidadService.getDisponibilidad(this.fechaActual.getFullYear()+'-'+mesActual+'-'+diaActual,fechaSig.getFullYear()+'-'+mesSig+'-'+diaSiguiente,this.idMedico)
     .subscribe(res=>{
       this.listaDispoMedico = [];
       if(res.status === Global.OK){
@@ -229,7 +236,9 @@ export class CitasComponent implements OnInit{
 
   isValidSpot():boolean{
     if(this.citas === undefined) return true;
-    return this.citas.map(cita=>{
+    console.log(this.citas);
+    return this.citas
+      .map(cita=>{
       return {
         fechaCitaIni:new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita),
         fechaCitaFin:new Date(new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita).getTime() + this.cita.duracion*60000)
@@ -257,12 +266,6 @@ export class CitasComponent implements OnInit{
     .every(horarioDisp => {
       let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
       let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000);
-      console.log('FechaCitaActualIni',fechaCitaActualIni);
-      console.log('FechaCitaActualFin',fechaCitaActualFin);
-      console.log('horarioDisp.horaDispIni',horarioDisp.horaDispIni);
-      console.log('horarioDisp.horaDispFin',horarioDisp.horaDispFin);
-      console.log('1',fechaCitaActualFin > horarioDisp.horaDispIni);
-      console.log('2',fechaCitaActualFin <= horarioDisp.horaDispFin)
       if((fechaCitaActualIni >= horarioDisp.horaDispIni && fechaCitaActualIni < horarioDisp.horaDispFin) && 
       (fechaCitaActualFin > horarioDisp.horaDispIni && fechaCitaActualFin <= horarioDisp.horaDispFin))
      {
@@ -351,7 +354,7 @@ export class CitasComponent implements OnInit{
           this.citasService.addCita(this.cita).subscribe(res=>{
             if(res.status===Global.OK){
               if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
-                this.modificaCarnetCitas(this.paciente.carnet,Global.MENOSUNO);
+                //this.modificaCarnetCitas(this.paciente.carnet,Global.MENOSUNO); //este debería estar en la parte del médico
                 this.carnet.citas.push(res.body.cita._id);
                 this.carnetService.updateCarnet(this.carnet._id,this.carnet)
                 .subscribe(res1=>{
@@ -388,6 +391,7 @@ export class CitasComponent implements OnInit{
               text: 'La cita se actualizó correctamente',
               timer: 1500
             });
+            this.getCitas();
             this.limpiar();
           }
         });
@@ -396,8 +400,9 @@ export class CitasComponent implements OnInit{
   }
 
   getCitas():any{
-    
+    this.isLoadingCitas = true;
     this.citasService.getCitasByFechaAndMedico(this.fechaCita,this.idMedico).subscribe(res=>{
+      this.isLoadingCitas = false;
       if(res.body.citas != undefined){
         this.citas = res.body.citas;
       }
@@ -406,6 +411,7 @@ export class CitasComponent implements OnInit{
 
   editarCita(index:number):any{
     this.cita = this.citas[index];
+    this.citas.splice(index,1);
     this.paciente = this.cita.paciente;
     this.calculaFechaNacimiento();
     this.btnAccion = Global.ACTUALIZAR;
@@ -459,10 +465,20 @@ export class CitasComponent implements OnInit{
   }
 
   limpiar():void{
+    const currentDateLocal = new Date().toLocaleDateString('es-MX').split('/');
+    const currentDate = new Date();
+    currentDate.setDate(parseInt(currentDateLocal[0])-1)
+    currentDate.setMonth(parseInt(currentDateLocal[1])-1);
+    currentDate.setFullYear(parseInt(currentDateLocal[2]));
+    this.fechaCita =  currentDate.toISOString().split('T')[0];
+    this.fechaActual = new Date(this.fechaCita+' 00:00:00');
+    if(this.btnAccion === Global.ACTUALIZAR){
+      this.getCitas();
+    }
     this.btnAccion = Global.AGENDAR;
-    this.paciente = new Paciente('','','','',new Date(),'','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[]);
-    this.fechaCita = new Date().toISOString().split('T')[0];
+    this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[], false);
+    
     this.dia = '';
     this.mes = '01';
     this.anio = '';

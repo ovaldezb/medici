@@ -14,13 +14,14 @@ import { EnrollComponent } from "./components/enroll/enroll.component";
 import { ConsultaEnfermedadComponent } from "./components/consulta-enfermedad/consulta-enfermedad.component";
 import { AdministracionComponent } from "./components/administracion/administracion.component";
 import { DisponibilidadComponent } from "./components/disponibilidad/disponibilidad.component";
+import { HistoriaClinicaComponent } from "./components/historia-clinica/historia-clinica.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'recepcion', component: RecepcionComponent, canActivate:[RouteGuardService] },
   { path: 'medico', component: MedicoComponent, canActivate:[RouteGuardService] },
   { path: 'farmacia', component: FarmaciaComponent, canActivate:[RouteGuardService] },
-  { path: 'enfermeria', component: EnfermeriaComponent}, //, canActivate:[RouteGuardService]
+  { path: 'enfermeria', component: EnfermeriaComponent, canActivate:[RouteGuardService]}, //
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent},
   { path: 'admon', component: AdministracionComponent, canActivate:[RouteGuardService]}, 
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
   { path: 'sucursal', component:SucursalesComponent, canActivate:[RouteGuardService] },
   { path: 'carnet', component: EnrollComponent },
   { path: 'consulta', component: ConsultaEnfermedadComponent, canActivate:[RouteGuardService] },
-  { path: 'dispnibilidad', component: DisponibilidadComponent}
+  { path: 'dispnibilidad', component: DisponibilidadComponent},
+  { path: 'historial', component: HistoriaClinicaComponent}
 ];
 
 

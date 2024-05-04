@@ -4,7 +4,7 @@ import { Global } from 'src/app/service/Global';
 import { PerfilService } from 'src/app/service/perfil.service';
 import Swal from 'sweetalert2';
 import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
-import { text } from '@fortawesome/fontawesome-svg-core';
+//import { text } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'app-perfiles',
