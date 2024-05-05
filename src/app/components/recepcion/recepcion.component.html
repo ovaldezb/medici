@@ -8,6 +8,11 @@
     <a *ngIf="tabActivo==='dispo'" class="nav-link active" aria-current="page" aria-disabled="true">Horarios</a>
     <a *ngIf="tabActivo!='dispo'" class="nav-link " aria-current="page"  (click)="clickUsuario('dispo')" style="cursor: pointer;">Horarios</a>
   </li>
+  <li class="nav-item">
+    <a *ngIf="tabActivo==='paciente'" class="nav-link active" aria-current="page" aria-disabled="true">Pacientes</a>
+    <a *ngIf="tabActivo!='paciente'" class="nav-link " aria-current="page"  (click)="clickUsuario('paciente')" style="cursor: pointer;">Pacientes</a>
+  </li>
 </ul>
 <app-citas *ngIf="tabActivo==='citas'"></app-citas>
 <app-disponibilidad *ngIf="tabActivo==='dispo'"></app-disponibilidad>
+<app-paciente *ngIf="tabActivo==='paciente'"></app-paciente>

@@ -31,7 +31,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public fechaActual = new Date();
   public citas:Cita[] = [];
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false);
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[]);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -212,14 +212,28 @@ export class MedicoComponent implements OnInit, OnDestroy{
 
   finalizaConsulta():void{
     if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
-      this.modificaCarnetCitas(this.paciente.carnet,Global.MENOSUNO);
+      this.carnetService.getCarnetByFolio(this.paciente.carnet)
+          .subscribe(res =>{
+            if(res.body.carnet.length > 0){
+              let carnet = res.body.carnet[0];
+              carnet.citas.push(this.cita._id);
+              this.carnetService.updateCarnet(carnet._id,carnet)
+                .subscribe(res1=>{  
+                  this.modificaCarnetCitas(this.paciente.carnet,Global.MENOSUNO);
+                 });
+            }  
+          });
     }
-    this.receta.paciente = this.cita.paciente;
-    this.recetaService.saveReceta(this.receta)
+    this.cita.isAtendido = true;
+    this.citasService.updateCita(this.cita._id,this.cita)
     .subscribe(res=>{
-      console.log(res);
-      this.receta = new Receta('', new Paciente('','','','',new Date(),'','','','','','',''), [],new Date());
+      console.log(res.body);
     });
+    //this.receta.paciente = this.cita.paciente;
+    //this.recetaService.saveReceta(this.receta)
+    //.subscribe(res=>{
+    //  this.receta = new Receta('', new Paciente('','','','',new Date(),'','','','','','',''), [],new Date());
+    //});
     this.HighlightRow = -1;
     this.intervalEtapa1 = 0;
     this.intervalEtapa2 = 0;

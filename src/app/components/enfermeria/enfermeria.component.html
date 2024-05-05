@@ -99,10 +99,13 @@
               <h5 class="title ">Paciente:</h5>
             </div>
             <div class="col">
-              <p class="label ">{{paciente.nombre}} {{paciente.apellidoP}}</p>
+              <p class="label ">{{paciente.nombre}} </p>
             </div>
             <div class="col">
-              <p class="label text-center" *ngIf="HighlightRow!=-1">{{paciente.fechaNacimiento | date: 'dd-MMM-YYY'}}</p>
+              <p class="label text-center">{{paciente.apellidoP}}</p>
+            </div>
+            <div class="col">
+              <p class="label text-center">{{paciente.apellidoM}}</p>
             </div>
           </div>
         </div>

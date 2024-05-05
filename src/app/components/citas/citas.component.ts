@@ -44,7 +44,7 @@ export class CitasComponent implements OnInit{
   public idMedico:string = '';
   public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false);
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[]);
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -353,14 +353,14 @@ export class CitasComponent implements OnInit{
           this.cita.medico = this.medico; 
           this.citasService.addCita(this.cita).subscribe(res=>{
             if(res.status===Global.OK){
-              if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
-                //this.modificaCarnetCitas(this.paciente.carnet,Global.MENOSUNO); //este debería estar en la parte del médico
+              /**Esto me lo llevo al módulo de médico, al finalizar la consulta agrego la cita al carnet */
+              /*if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
                 this.carnet.citas.push(res.body.cita._id);
                 this.carnetService.updateCarnet(this.carnet._id,this.carnet)
                 .subscribe(res1=>{
                   //console.log(res1);
                 });
-              }
+              }*/
               this.citaExitosa();
             }
           });
@@ -427,9 +427,10 @@ export class CitasComponent implements OnInit{
       if(resultado.isConfirmed){
         this.citasService.deleteCita(this.citas[index]._id).subscribe(res=>{
           if(res.status === Global.OK){
-            if(this.citas[index].paciente.carnet != null && this.citas[index].paciente.carnet != undefined){
+            /** No se ha decrementado ningna cita, hasta este momento, por lo que no es necesario aumentar una cita disponible mas */
+            /*if(this.citas[index].paciente.carnet != null && this.citas[index].paciente.carnet != undefined){
               this.modificaCarnetCitas(this.citas[index].paciente.carnet,Global.UNO);
-            }
+            }*/
             Swal.fire({
               icon:'success',
               text: 'La cita se eliminó exitosamente',
@@ -477,7 +478,7 @@ export class CitasComponent implements OnInit{
     }
     this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[], false);
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[], false,[]);
     
     this.dia = '';
     this.mes = '01';

@@ -1,6 +1,7 @@
 import { IUser } from "./user";
 import { Paciente } from "./paciente";
 import { Signos } from './signos';
+import { MedicamentoReceta } from "./medicamentoReceta";
 
 export class Cita{
   constructor(
@@ -13,6 +14,7 @@ export class Cita{
     public duracion:number,
     public isSignosTomados: boolean,
     public signos:Signos[],
-    public atendido:boolean
+    public isAtendido:boolean,
+    public medicamentoReceta:MedicamentoReceta[],
   ){}
 }

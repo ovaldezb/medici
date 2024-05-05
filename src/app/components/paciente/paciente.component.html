@@ -67,7 +67,8 @@
         </div>
       </div>
       <form #manejaPacienteForm="ngForm">
-        <div class="row" style="border: 2px red solid;">
+      <div class="container">
+        <div class="row" style="border: 2px rgb(87, 129, 233) solid;">
           <div class="col">
             <div class="row mb-3" style="margin-top: 15px;">
               <div class="col">
@@ -82,26 +83,35 @@
             </div>
             <div class="row mb-3">
               <label class="label">Fecha de Nacimiento</label>
-              <div class="col">
+              <div class="col-2">
                 <input type="text" name="dia" class="form-control border-success" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" required>
               </div>
-              <div class="col">
+              <div class="col-2">
                 <select name="mes" class="form-select border-success" name="mes" [(ngModel)]="mes">
                   <option *ngFor="let mes of meses" value="{{mes.value}}">
                     {{mes.viewValue}}
                   </option>
                 </select>
               </div>
-              <div class="col">
+              <div class="col-2">
                 <input type="text" name="anio" class="form-control border-success" [(ngModel)]="anio" placeholder="Año" required>
               </div>
+              <div class="col-6">
+                <input type="email" name="email" class="form-control border-success" #correo="ngModel" [(ngModel)]="paciente.correo" placeholder="Correo Electrónico">
+              </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-4">
+            <div class="row mb-4">
+              <div class="col">
                 <input type="tel" name="telefono" class="form-control border-success" #telefono="ngModel" [(ngModel)]="paciente.telefono" placeholder="Teléfono">
               </div>
-              <div class="col-4">
-                <input type="email" name="email" class="form-control border-success" #correo="ngModel" [(ngModel)]="paciente.correo" placeholder="Correo Electrónico">
+              <div class="col">
+                <input type="tel" name="localidad" class="form-control border-success" #localidad="ngModel" [(ngModel)]="paciente.codigoPostal" placeholder="Localidad">
+              </div>
+              <div class="col">
+                <input type="tel" name="ocupacion" class="form-control border-success" #ocupacion="ngModel" [(ngModel)]="paciente.ocupacion" placeholder="Ocupación">
+              </div>
+              <div class="col">
+                <input type="text" name="raza" class="form-control border-success" [(ngModel)]="paciente.raza" placeholder="Raza">
               </div>
             </div>
             <div class="row mb-3">
@@ -124,6 +134,7 @@
             </div>
           </div>
         </div>
+      </div>
       </form>
     </div>
   </div>
