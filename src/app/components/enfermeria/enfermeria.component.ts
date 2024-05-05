@@ -44,6 +44,7 @@ export class EnfermeriaComponent implements OnInit{
   private year:string = '';
   public escala:number = 0;
   public isWorking:boolean=false;
+  private intervaloRecargaPacientes:any = 0;
   public background:string[]=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
   
   constructor(
@@ -57,6 +58,9 @@ export class EnfermeriaComponent implements OnInit{
     this.mes = (this.fechaActual.getMonth() + 1) < 10 ? '0'+(this.fechaActual.getMonth() + 1)  : (this.fechaActual.getMonth() + 1)+'';
     this.year = this.fechaActual.getFullYear()+'';
     this.getCitas();
+    this.intervaloRecargaPacientes = setInterval(()=>{
+      this.getCitas();
+    }, Global.REFRESH_CITA);
   }
 
   getCitas():any{

@@ -58,7 +58,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public HighlightMedicamento:number=-1;
   public isSearchingMedicamento:boolean=false;
   public isWorking:boolean=false;
-  public receta:Receta= new Receta('', new Paciente('','','','',new Date(),'','','','','','',''), [],new Date());
+  public receta:Receta= new Receta([]);
   public listaSignos:Signos[] = [];
 
   constructor(private medicoService:MedicosService, 
@@ -77,11 +77,11 @@ export class MedicoComponent implements OnInit, OnDestroy{
     .then(user=>{
       this.medicoService.getMedicoByEmail(user.attributes.email)
       .subscribe(res=>{
-        this.isWorking = false;
         if(res.body.medico!=undefined && res.body.medico.length > 0){
           this.medico = res.body.medico[0];
           this.idMedico = this.medico._id;
           this.getCitas();
+          this.isWorking = false;
         }
       });
     })
@@ -225,8 +225,10 @@ export class MedicoComponent implements OnInit, OnDestroy{
           });
     }
     this.cita.isAtendido = true;
+    this.cita.medicamentoReceta = this.receta.medicamentoReceta;
     this.citasService.updateCita(this.cita._id,this.cita)
     .subscribe(res=>{
+      this.receta = new Receta([]);
       console.log(res.body);
     });
     //this.receta.paciente = this.cita.paciente;

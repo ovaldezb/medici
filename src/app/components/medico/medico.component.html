@@ -45,24 +45,24 @@
           </thead>
         </table>
         <div style="width: 100%; border: 2px solid rgb(100, 100, 152);overflow: auto;height: 400px;">
-          <table class="table table-hover table-bordered" style="margin: auto;">
+          <table class="table table-hover" style="margin: auto;">
             <tbody>
               <tr *ngFor="let cita of citas; let i = index"  
                     [class.selectedMedico]="i == HighlightRow" 
                     (click)="atenderPaciente(i)" >
-                <td style="width: 20%">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
-                <td style="width: 10%">{{cita.horaCita}}</td>
-                <td style="width: 7%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].temperatura+'ºC' : ''}}</td>
-                <td style="width: 7%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].estatura+'cm' : ''}}</td>
-                <td style="width: 7%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].peso+'kg' : ''}}</td>
-                <td style="width: 7%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].presionSis : ''}}</td>
-                <td style="width: 7%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].presionDias : ''}}</td>
-                <td style="width: 6%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].frecuenciaCardiaca : ''}}</td>
-                <td style="width: 6%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].frecuenciaRespiratoria : ''}}</td>
-                <td style="width: 6%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].spo2 : ''}}</td>
-                <td style="width: 6%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].glucotest : ''}}</td>
-                <td style="width: 5%">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].escalaDolor : ''}}</td>
-                <td style="width: 6%">{{cita.signos.length != 0 ?  (cita.signos[cita.signos.length-1].peso/(cita.signos[cita.signos.length-1].estatura*cita.signos[cita.signos.length-1].estatura/10000) | number:'1.0-2') : ''}}</td>
+                <td style="width: 20%;" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}</td>
+                <td style="width: 10%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.horaCita}}</td>
+                <td style="width: 7%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].temperatura+'ºC' : ''}}</td>
+                <td style="width: 7%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].estatura+'cm' : ''}}</td>
+                <td style="width: 7%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].peso+'kg' : ''}}</td>
+                <td style="width: 7%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].presionSis : ''}}</td>
+                <td style="width: 7%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].presionDias : ''}}</td>
+                <td style="width: 6%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].frecuenciaCardiaca : ''}}</td>
+                <td style="width: 6%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].frecuenciaRespiratoria : ''}}</td>
+                <td style="width: 6%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].spo2 : ''}}</td>
+                <td style="width: 6%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].glucotest : ''}}</td>
+                <td style="width: 5%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ? cita.signos[cita.signos.length-1].escalaDolor : ''}}</td>
+                <td style="width: 6%" [style]="cita.isAtendido?'background-color:darkgrey':'background-color: aquamarine;'">{{cita.signos.length != 0 ?  (cita.signos[cita.signos.length-1].peso/(cita.signos[cita.signos.length-1].estatura*cita.signos[cita.signos.length-1].estatura/10000) | number:'1.0-2') : ''}}</td>
               </tr>
             </tbody>
           </table>

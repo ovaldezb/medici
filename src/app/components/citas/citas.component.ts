@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft, faSpinner, faFlagCheckered } from '@fortawesome/free-solid-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Paciente } from 'src/app/models/paciente';
 import { Signos } from 'src/app/models/signos';
@@ -40,6 +40,7 @@ export class CitasComponent implements OnInit{
   public faPencil = faPencil;
   public faTrashCan = faTrashCan;
   public faSpinner = faSpinner;
+  public faFlagCheckered = faFlagCheckered;
   public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];

@@ -192,14 +192,8 @@
             <button 
               class="btn btn-primary" 
               name="submit" 
-              [disabled]="cita._id==='' || 
-                          userForm.invalid || 
-                          signos.estatura === 0 || 
-                          signos.peso===0 || 
-                          signos.temperatura===0 || 
-                          signos.presionSis === 0 || signos.presionDias===0"
-              (click)="guardaSignos()"
-              >{{btnAccion}}</button>
+              [disabled]="cita._id==='' || userForm.invalid || signos.estatura === 0 || signos.peso===0 || signos.temperatura===0 || signos.presionSis === 0 || signos.presionDias===0"
+              (click)="guardaSignos()">{{btnAccion}}</button>
           </div>
         </form>
       </div>
