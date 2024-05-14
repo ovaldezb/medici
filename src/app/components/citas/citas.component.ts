@@ -2,7 +2,6 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { faCalendarPlus, faCircleXmark, faPencil, faTrashCan, faArrowRight, faArrowLeft, faSpinner, faFlagCheckered } from '@fortawesome/free-solid-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Paciente } from 'src/app/models/paciente';
-import { Signos } from 'src/app/models/signos';
 import { Global } from 'src/app/service/Global';
 import { MedicosService } from 'src/app/service/medicos.service';
 import { PacienteService } from 'src/app/service/paciente.service';
@@ -55,14 +54,16 @@ export class CitasComponent implements OnInit{
   public listaPacientesCarnet:Paciente[] = [];
   public btnAccion:string = Global.AGENDAR;
   public dia:string='';
-  public mes:string='01';
+  public mes:string='00';
   public anio:string='';
   public fechaCita:string = new Date().toLocaleDateString('en-CA');//.split('T')[0];
   public isLoadingCarnet : boolean = false;
   public listaDispoMedico:Disponibilidad[]=[];
   public isLoadingMedicos:boolean = false;
   public isLoadingCitas:boolean = false;
+  public contorno:string[] = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
   meses: Mes[] = [
+    {value: '00', viewValue: 'Mes'},
     {value: '01', viewValue: 'Enero'},
     {value: '02', viewValue: 'Febrero'},
     {value: '03', viewValue: 'Marzo'},
@@ -76,10 +77,7 @@ export class CitasComponent implements OnInit{
     {value: '11', viewValue: 'Noviembre'},
     {value: '12', viewValue: 'Diciembre'}
   ];
-  tiempoDuracion: Duracion[] = [
-    { value:15, viewValue:'15 min' },
-    { value:20, viewValue:'20 min' }
-  ];
+  
   constructor(private medicoService: MedicosService, 
               private pacienteService: PacienteService,
               private citasService: CitasService,
@@ -482,9 +480,10 @@ export class CitasComponent implements OnInit{
     this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[], false,[]);
     
     this.dia = '';
-    this.mes = '01';
+    this.mes = '00';
     this.anio = '';
     this.carnet = new Carnet('','',new Date(),0,[],[]);
+    this.contorno = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
   }
 
   citaExitosa():void{
@@ -537,6 +536,22 @@ export class CitasComponent implements OnInit{
 
   selectRow(index:number):void{
     this.higlightIndex = index;
+  }
+
+  validaCampo(valor:any,index:number):any{
+    if(index===4){
+      if(valor != '00'){
+        this.contorno[index] = Global.FIELD_OK
+      }else{
+        this.contorno[index] = Global.FIELD_REQUIRED;
+      }
+      return;
+    }
+    if(valor!=''){
+      this.contorno[index] = Global.FIELD_OK;
+    }else{
+      this.contorno[index] = Global.FIELD_REQUIRED;
+    }
   }
 
 }

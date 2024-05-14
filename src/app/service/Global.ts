@@ -47,4 +47,6 @@ export var Global ={
   DURACION_E2:5,
   DURACION_E3:5,
   DURACION_E4:5,
+  FIELD_OK:"form-control border-success",
+  FIELD_REQUIRED:"form-control border-danger"
 }

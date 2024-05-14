@@ -32,10 +32,7 @@
                 </div>
                 <div class="col" style="text-align: center;">
                   <label for="" class="form-label">Hora Cita</label>
-                  <input  type="time" class="form-control border-success" name="horaCita" #horaCita="ngModel" [(ngModel)]="cita.horaCita" required />
-                  <small *ngIf="!horaCita.valid && horaCita.touched"
-                    style="background-color: red; font-size: large">Selecciona una hora!
-                  </small>
+                  <input  type="time" [className]="contorno[0]" name="horaCita" #horaCita="ngModel" [(ngModel)]="cita.horaCita" (blur)="validaCampo(cita.horaCita,0)" required />
                 </div>
                 <div class="col" style="text-align: center;">
                   <label class="form-label">Folio</label>
@@ -49,14 +46,14 @@
               <div class="row">
                 <div class="col">
                   <div class="mb-3">
-                    <input
-                      type="text"
-                      class="form-control border-success"
+                    <input type="text"
+                      [className]="contorno[1]"
                       name="nombre"
                       #nombre="ngModel"
                       [(ngModel)]="paciente.nombre"
                       placeholder="Nombre"
                       (keyup)="buscaPacienteMatch($event, 'nombre')"
+                      (blur)="validaCampo(paciente.nombre,1)"
                       required/>
                     <div
                       *ngIf="listaPacientesNombre.length != 0"
@@ -77,10 +74,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr
-                            *ngFor="
-                              let paciente of listaPacientesNombre;
-                              let i = index"
+                          <tr *ngFor="let paciente of listaPacientesNombre;let i = index"
                             (click)="selectedRow(i)"
                             style="cursor: pointer">
                             <td colspan="2">
@@ -95,7 +89,7 @@
                 </div>
               
                 <div class="col">
-                    <input type="text" class="form-control border-success" name="apellidoP" #apellidoP="ngModel" [(ngModel)]="paciente.apellidoP" (keyup)="buscaPacienteMatch($event, 'apellido')" placeholder="Apellido Paterno" required/>
+                    <input type="text" [className]="contorno[2]" name="apellidoP" #apellidoP="ngModel" [(ngModel)]="paciente.apellidoP" (keyup)="buscaPacienteMatch($event, 'apellido')" (blur)="validaCampo(paciente.apellidoP,2)" placeholder="Apellido Paterno" required/>
                     <div *ngIf="listaPacientesApellido.length != 0" style="width: 100%;height: 150px;overflow: auto;margin-top: 0px;border: 2px solid black;">
                       <table class="table is-hoverable is-fullwidth">
                         <thead>
@@ -121,18 +115,15 @@
                         </tbody>
                       </table>
                     </div>
-                  
                 </div>
                 <div class="col">
-                  <input type="text" class="form-control border-success" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM"  placeholder="Apellido Materno" required/>
+                  <input type="text" [className]="contorno[3]" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM"  (blur)="validaCampo(paciente.apellidoM,3)" placeholder="Apellido Materno" required/>
                 </div>
               </div>
                 <div class="row">
                   <div class="col">
                     <div class="mb-3">
-                      <input
-                        type="text"
-                        class="form-control border-success"
+                      <input type="text" class="form-control border-success"
                         name="telefono"
                         #telefono="ngModel"
                         [(ngModel)]="paciente.telefono"
@@ -141,8 +132,7 @@
                         required />
                       <div
                         *ngIf="listaPacientesTelefono.length != 0"
-                        style="
-                          width: 100%;
+                        style="width: 100%;
                           height: 150px;
                           overflow: auto;
                           margin-top: 0px;
@@ -190,18 +180,12 @@
                   </div>
                   <div class="col-2">
                     <label for="" class="radio">M
-                      <input
-                        type="radio"
-                        class="form-check-input border-success"
-                        name="sexo"
-                        value="M"
-                        [(ngModel)]="paciente.sexo"
-                      />
+                      <input type="radio" class="form-check-input border-success" name="sexo" value="M" [(ngModel)]="paciente.sexo" />
                     </label>
                   </div>
                   <div class="col-1">
                     <label class="radio">F
-                      <input type="radio"  class="form-check-input border-success" name="sexo" value="F" [(ngModel)]="paciente.sexo"/>
+                      <input type="radio"  class="form-check-input border-success" name="sexo" value="F" [(ngModel)]="paciente.sexo" required/>
                     </label>
                   </div>
                   <div class="col-7" style="text-align: center;">
@@ -216,24 +200,24 @@
                   <input type="text" class="form-control border-success" name="raza" #raza="ngModel" [(ngModel)]="paciente.raza" placeholder="Raza">
                 </div>
                 <div class="col-2">
-                  <input type="text" name="dia" class="form-control border-success" #dd="ngModel" [(ngModel)]="dia" placeholder="Día"  required/>
+                  <input type="text" name="dia" [className]="contorno[4]" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" (blur)="validaCampo(dia,4)" required/>
                 </div>
                 <div class="col-3">
-                  <select class="form-select border-success" name="mes" [(ngModel)]="mes">
+                  <select [className]="contorno[5]" name="mes" [(ngModel)]="mes" (change)="validaCampo(mes,5)">
                     <option *ngFor="let mes of meses" value="{{ mes.value }}">
                       {{ mes.viewValue }}
                     </option>
                   </select>
                 </div>
                 <div class="col-2">
-                  <input type="text" name="anio" class="form-control border-success" #yy="ngModel" [(ngModel)]="anio" placeholder="Año" required/>
+                  <input type="text" name="anio" [className]="contorno[6]" #yy="ngModel" [(ngModel)]="anio" placeholder="Año" (blur)="validaCampo(anio,6)" required/>
                 </div>
               </div>
             </div>
               <div class="row" style="text-align: right">
                 <div class="col-8"></div>
                 <div class="col-2">
-                <button class="btn btn-primary" style="margin: auto" (click)="addUpdate()" [disabled]="userForm.invalid">{{ btnAccion }}</button>
+                <button class="btn btn-primary" style="margin: auto" (click)="addUpdate()" [disabled]="userForm.invalid || mes==''">{{ btnAccion }}</button>
               </div>
               <div class="col-2">
                 <button class="btn btn-dark" style="margin: auto" (click)="limpiar()">

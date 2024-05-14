@@ -45,6 +45,8 @@ export class EnfermeriaComponent implements OnInit{
   public escala:number = 0;
   public isWorking:boolean=false;
   private intervaloRecargaPacientes:any = 0;
+  public isTomandoSignos : boolean = false;
+  public contorno:string[] = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
   public background:string[]=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
   
   constructor(
@@ -87,7 +89,7 @@ export class EnfermeriaComponent implements OnInit{
   guardaSignos():void{
     if(this.btnAccion === Global.GUARDAR){
       Swal.fire({
-        title:'Se van a guardar estos Signos?',
+        title:'Son correctos estos signos?',
         html:'<table class="table table-bordered">'+
                 '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td><td>&nbsp;</td><td>F. Cardiaca</td><td>'+this.signos.frecuenciaCardiaca+'</td></tr>'+
                 '<tr><td style="text-align:right;">Talla:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td><td>&nbsp;</td><td>F. Respiratoria</td><td>'+this.signos.frecuenciaRespiratoria+'</td></tr>'+
@@ -101,6 +103,7 @@ export class EnfermeriaComponent implements OnInit{
         if(resultado.isConfirmed){
           this.isWorking = true;
           this.signos.paciente = this.paciente;
+          this.isTomandoSignos = false;
           this.signosService.addSignos(this.signos).subscribe(res=>{
             if(res.status===Global.OK){
               this.cita.signos.push(res.body.signos); // Aqui se actualizan los signos en la cita, hay que cambiarlo a un arreglo
@@ -160,15 +163,8 @@ export class EnfermeriaComponent implements OnInit{
     
   }
 
-  /*updatePaciente():void{
-    this.pacienteService.updatePaciente(this.paciente._id,this.paciente).subscribe(res=>{
-      if(res.status!=Global.OK){
-        console.log('no se pudo actualizar ');
-      }
-    });
-  }*/
-
   clear():void{
+    this.isTomandoSignos = false;
     this.HighlightRow = -1;
     this.escala = 0
     this.getCitas();
@@ -176,6 +172,8 @@ export class EnfermeriaComponent implements OnInit{
     this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,'');
     this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
     this.btnAccion = Global.GUARDAR;
+    this.contorno = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
+    this.background=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
   }
 
   tomarSignos(index:number):void{
@@ -195,12 +193,27 @@ export class EnfermeriaComponent implements OnInit{
   }
 
   nuevaTomaPaciente(index:number):void{
+    this.isTomandoSignos = true;
     this.cita = this.citas[index];
     this.medico = this.cita.medico;
     this.paciente = this.cita.paciente;
     this.signos.paciente = this.paciente;
     this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
     this.btnAccion = Global.GUARDAR
+  }
+
+  validaInput(value:any,index:number):void{
+    if(index===9){
+      if(value != ''){
+        this.contorno[9] = Global.FIELD_OK;
+        return;
+      }
+    }
+    if(value!='' && value > 0){
+      this.contorno[index] = Global.FIELD_OK
+    }else if(value <= 0){
+      this.contorno[index] = Global.FIELD_REQUIRED
+    }
   }
 
 }
