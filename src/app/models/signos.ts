@@ -17,6 +17,7 @@ export class Signos{
     public glucotest:number,
     public descripcion:string,
     public escalaDolor: number,
+    public alergias: string,
     public imc:number
   ){}
 }

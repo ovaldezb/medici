@@ -40,12 +40,11 @@
             </tr>
           </thead>
         </table>
-        <div style="text-align: center; width: 100%">
-          <table class="table table-bordered table-hoverable is-fullwidth" style="margin: auto">
+        <div style="text-align: center; width: 100%; height: 600px; border: 2px solid rgb(216, 238, 241);">
+          <table class="table table-bordered table-hover" style="margin: auto">
             <tbody>
-              <ng-container *ngFor="let cita of citas; let i = index"  [class.selected]="i == HighlightRow" 
-              (dblclick)="tomarSignos(i)" [class.sinSignos]="cita.isSignosTomados===false" [class.conSignos]="cita.isSignosTomados===true">
-                <tr>
+              <ng-container *ngFor="let cita of citas; let i = index" >
+                <tr (dblclick)="updateSignos(i,0)">
                   <td style="width: 21%" [attr.rowspan]="cita.signos.length===0 ? 1 : cita.signos.length">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}}&nbsp;  <div (click)="nuevaTomaPaciente(i)" style="color: blue;cursor: pointer;"> <fa-icon [icon]="faPlus"></fa-icon> </div></td>
                   <td style="width: 7%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].temperatura+'ºC' : ''}}</td>
                   <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].estatura+'m' : ''}}</td>
@@ -58,9 +57,9 @@
                   <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? cita.signos[0].glucotest : ''}}</td>
                   <td style="width: 8%;font-size: small;">{{cita.signos[0] != undefined ? (cita.signos[0].peso/(cita.signos[0].estatura*cita.signos[0].estatura/10000) | number:'1.0-2'): ''}}</td>
                 </tr>
-                <tr *ngFor="let signo of cita.signos | slice:1">
+                <tr *ngFor="let signo of cita.signos | slice:1; let j = index;" (dblclick)="updateSignos(i,j+1)">
                   <td style="width: 7%;font-size: small;">{{signo.temperatura+'ºC'}}</td>
-                  <td style="width: 8%;font-size: small;">{{signo.estatura+'m'}}</td>
+                  <td style="width: 8%;font-size: small;">{{signo.estatura+'cm'}}</td>
                   <td style="width: 8%;font-size: small;">{{signo.peso+'kg'}}</td>
                   <td style="width: 8%;font-size: small;">{{signo.presionSis }}</td>
                   <td style="width: 8%;font-size: small;">{{signo.presionDias}}</td>
@@ -116,55 +115,57 @@
           <div class="row">
             <div class="col">
                 <div class="mb-3">
-                  <label for="" class="form-label">Temperatura</label>
+                  <label for="" class="form-label">Temperatura (ºC)</label>
                   <input type="number" [className]="contorno[0]" name="temperatura" #temperatura="ngModel" [(ngModel)]="signos.temperatura" placeholder="Temperatura" (focus)="selectAllContent($event)" (blur)="validaInput(signos.temperatura,0)" required>
                 </div>
             </div>
             <div class="col">
               <div class="mb-3">
-                  <label for="" class="form-label">Talla</label>
+                  <label for="" class="form-label">Talla (cm)</label>
                   <input type="number" [className]="contorno[1]" name="estatura" #estatura="ngModel" [(ngModel)]="signos.estatura" placeholder="Estatura" (focus)="selectAllContent($event)" (blur)="validaInput(signos.estatura,1)" required>
               </div>
             </div>
             <div class="col">
               
-                <label for="" class="form-label">Peso</label>
+                <label for="" class="form-label">Peso (Kg)</label>
                 <input type="number" [className]="contorno[2]" name="peso" #peso="ngModel" [(ngModel)]="signos.peso" placeholder="Peso" (focus)="selectAllContent($event)" (blur)="validaInput(signos.peso,2)" required>
               
             </div>
             <div class="col">
-              <label for="" class="form-label">SPO2</label>
-              <input type="number" [className]="contorno[7]" name="spo2" #spo2="ngModel" [(ngModel)]="signos.spo2" (focus)="selectAllContent($event)" (blur)="validaInput(signos.spo2, 7)" required>
+              <label for="" class="form-label">SPO2 (%)</label>
+              <input type="number" [className]="contorno[5]" name="spo2" #spo2="ngModel" [(ngModel)]="signos.spo2" (focus)="selectAllContent($event)" (blur)="validaInput(signos.spo2, 5)" required>
             </div>
             <div class="col">
               <label for="" class="form-label">Glucotest</label>
-              <input type="number" [className]="contorno[8]" name="glucotest" #glucotest="ngModel" [(ngModel)]="signos.glucotest" (focus)="selectAllContent($event)" (blur)="validaInput(signos.glucotest,8)" required>
+              <input type="number" class="form-control border-success" name="glucotest" #glucotest="ngModel" [(ngModel)]="signos.glucotest" (focus)="selectAllContent($event)" (blur)="validaInput(signos.glucotest,6)" required>
             </div>
           </div>
           <div class="row">
             <div class="col">
               <div class="mb-3">
                 <label for="" class="form-label">P. Sistólica</label>
-                <input type="number" [className]="contorno[3]" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionSis" placeholder="Presión Sistólica" (focus)="selectAllContent($event)" (blur)="validaInput(signos.presionSis,3)" required>
+                <input type="number" class="form-control border-success" name="presionCis" #presionCis="ngModel" [(ngModel)]="signos.presionSis" placeholder="Presión Sistólica" (focus)="selectAllContent($event)" (blur)="validaInput(signos.presionSis,3)" required>
               </div>
             </div>
             <div class="col">
               <div class="mb-3">
                 <label for="" class="form-label">P. Diastólica</label>
-                <input type="number" [className]="contorno[4]" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" (focus)="selectAllContent($event)" (blur)="validaInput(signos.presionDias,4)" required>
+                <input type="number" class="form-control border-success" name="presionDias" #presionDias="ngModel" [(ngModel)]="signos.presionDias" placeholder="Presión Diastólica" (focus)="selectAllContent($event)" (blur)="validaInput(signos.presionDias,4)" required>
               </div>
             </div>
             <div class="col">
               <div class="mb-3">
                 <label for="" class="form-label">F. Cardiaca</label>
-                <input type="number" [className]="contorno[5]" name="feccard" #frecuenciaCardiaca="ngModel" [(ngModel)]="signos.frecuenciaCardiaca" (focus)="selectAllContent($event)" (blur)="validaInput(signos.frecuenciaCardiaca,5)" required>
+                <input type="number" [className]="contorno[3]" name="feccard" #frecuenciaCardiaca="ngModel" [(ngModel)]="signos.frecuenciaCardiaca" (focus)="selectAllContent($event)" (blur)="validaInput(signos.frecuenciaCardiaca,3)" required>
               </div>
             </div>
             <div class="col">
-              <div class="mb-3">
-                <label for="" class="form-label">F. Resp</label>
-                <input type="number" [className]="contorno[6]" name="fecrespira" #frecuenciaRespiratoria="ngModel" [(ngModel)]="signos.frecuenciaRespiratoria" (focus)="selectAllContent($event)" (blur)="validaInput(signos.frecuenciaRespiratoria,6)" required>
-              </div>
+              <label for="" class="form-label">F. Resp</label>
+              <input type="number" [className]="contorno[4]" name="fecrespira" #frecuenciaRespiratoria="ngModel" [(ngModel)]="signos.frecuenciaRespiratoria" (focus)="selectAllContent($event)" (blur)="validaInput(signos.frecuenciaRespiratoria,4)" required>
+            </div>
+            <div class="col">
+              <label for="" class="form-label">Alergias</label>
+              <input type="text" class="form-control border-success" name="alergias" #alergias="ngModel" [(ngModel)]="signos.alergias" (focus)="selectAllContent($event)" >
             </div>
           </div>   
          
@@ -184,7 +185,7 @@
           <div class="row">
             <div class="col">
               <label for="">Motivo de Consulta</label>
-              <textarea name="descripcion" [className]="contorno[9]" #descripcion="ngModel" [(ngModel)]="signos.descripcion" cols="30" rows="10" (blur)="validaInput(signos.descripcion,9)" required></textarea>
+              <textarea name="descripcion" [className]="contorno[6]" #descripcion="ngModel" [(ngModel)]="signos.descripcion" cols="30" rows="10" (blur)="validaInput(signos.descripcion,9)" required></textarea>
             </div>
           </div>
           <div class="field" style="text-align: right;">
@@ -194,13 +195,10 @@
               [disabled]="cita._id==='' || userForm.invalid 
                                         || signos.estatura === 0 
                                         || signos.peso===0 
-                                        || signos.temperatura===0 
-                                        || signos.presionSis === 0 
-                                        || signos.presionDias===0 
+                                        || signos.temperatura===0                                        
                                         || signos.frecuenciaCardiaca ==0
                                         || signos.frecuenciaRespiratoria == 0
-                                        || signos.spo2 == 0
-                                        || signos.glucotest == 0"
+                                        || signos.spo2 == 0"
               (click)="guardaSignos()">{{btnAccion}}</button>
               <button type="button" class="btn btn-secondary" (click)="clear()">Limpiar</button>
           </div>

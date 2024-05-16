@@ -38,7 +38,7 @@ export class EnfermeriaComponent implements OnInit{
   public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,[{} as Signos], false,[]);
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','');
   public medico:IUser = {} as IUser;
-  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -46,13 +46,13 @@ export class EnfermeriaComponent implements OnInit{
   public isWorking:boolean=false;
   private intervaloRecargaPacientes:any = 0;
   public isTomandoSignos : boolean = false;
-  public contorno:string[] = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
+  public contorno:string[] = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
   public background:string[]=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
   
   constructor(
     private citasService:CitasService, 
-    private signosService:SignosService, 
-    private pacienteService: PacienteService){}
+    private signosService:SignosService){} 
+    //private pacienteService: PacienteService
 
   ngOnInit(): void {
     this.isWorking = true;
@@ -114,13 +114,13 @@ export class EnfermeriaComponent implements OnInit{
       });
     }else{
       Swal.fire({
-        title:'Desea actualizar estos Signos?',
-        html:'<table>'+
-                '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td></tr>'+
-                '<tr><td style="text-align:right;">Estatura:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td></tr>'+
-                '<tr><td style="text-align:right;">Peso:</td><td style="text-align:left;">&nbsp;'+this.signos.peso+'Kg</td></tr>'+
-                '<tr><td style="text-align:right;">Sistólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionSis+'</td></tr>'+
-                '<tr><td style="text-align:right;">Diastólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionDias+'</td></tr>'+  
+        title:'Se van a actualizar los signos, verifique que sean correctos',
+        html:'<table class="table table-bordered">'+
+                '<tr><td style="text-align:right;">Temperatura:</td><td style="text-align:left;">&nbsp;'+this.signos.temperatura+'ºC</td><td>&nbsp;</td><td>F. Cardiaca</td><td>'+this.signos.frecuenciaCardiaca+'</td></tr>'+
+                '<tr><td style="text-align:right;">Talla:</td><td style="text-align:left;">&nbsp;'+this.signos.estatura+'m</td><td>&nbsp;</td><td>F. Respiratoria</td><td>'+this.signos.frecuenciaRespiratoria+'</td></tr>'+
+                '<tr><td style="text-align:right;">Peso:</td><td style="text-align:left;">&nbsp;'+this.signos.peso+'Kg</td><td>&nbsp;</td><td>SPO2</td><td>'+this.signos.spo2+'</td></tr>'+
+                '<tr><td style="text-align:right;">Sistólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionSis+'</td><td>&nbsp;</td><td>Glucotest</td><td>'+this.signos.glucotest+'</td></tr>'+
+                '<tr><td style="text-align:right;">Diastólica:</td><td style="text-align:left;">&nbsp;'+this.signos.presionDias+'</td><td>&nbsp;</td><td>Escala de Dolor</td><td>'+this.signos.escalaDolor+'</td></tr>'+  
               '</table>',
         showCancelButton:true,
         confirmButtonText:'OK'
@@ -146,7 +146,6 @@ export class EnfermeriaComponent implements OnInit{
   updateCita():void{
     this.cita.isSignosTomados = true;
     let arraySignoValido = this.cita.signos.filter(signo => signo._id!='');
-    console.log(arraySignoValido);
     this.cita.signos = arraySignoValido;
       this.citasService.updateCita(this.cita._id,this.cita).subscribe(res=>{
         this.isWorking = false;
@@ -168,27 +167,28 @@ export class EnfermeriaComponent implements OnInit{
     this.HighlightRow = -1;
     this.escala = 0
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
     this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,'');
     this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
     this.btnAccion = Global.GUARDAR;
-    this.contorno = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
+    this.contorno = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
     this.background=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
   }
 
-  tomarSignos(index:number):void{
-    this.HighlightRow = index;
-    this.cita = this.citas[index];
+  updateSignos(index1:number, index2:number):void{
+    console.log(index1, index2);
+    console.log(this.citas[index1].signos[index2]);
+    //this.HighlightRow = index;
+    this.cita = this.citas[index1];
     this.medico = this.cita.medico;
     this.paciente = this.cita.paciente;
     this.signos.paciente = this.paciente;
-    if(this.cita.signos.length !=0){
-      this.signos = this.cita.signos[0];
+    if(this.citas[index1].signos[index2] != undefined){
+      this.contorno = [Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK];
+      this.signos = this.citas[index1].signos[index2];
       this.btnAccion = Global.ACTUALIZAR;
-    }else{
-      this.cita.signos.push(new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0));
-      this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
-      this.btnAccion = Global.GUARDAR
+      if(this.signos.escalaDolor != undefined && this.signos.escalaDolor !=0) this.background[this.signos.escalaDolor] = 'aqua'
+      this.isTomandoSignos = true;
     }
   }
 
@@ -198,7 +198,11 @@ export class EnfermeriaComponent implements OnInit{
     this.medico = this.cita.medico;
     this.paciente = this.cita.paciente;
     this.signos.paciente = this.paciente;
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,0);
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
+    if(this.cita.signos.length > 0){
+      this.signos = this.cita.signos[this.cita.signos.length-1];
+      this.contorno = [Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK];
+    }
     this.btnAccion = Global.GUARDAR
   }
 
