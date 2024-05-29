@@ -40,7 +40,7 @@
             </tr>
           </thead>
         </table>
-        <div style="text-align: center; width: 100%; height: 600px; border: 2px solid rgb(216, 238, 241);">
+        <div style="text-align: center; width: 100%; height: 450px; border: 2px solid rgb(216, 238, 241);overflow: auto;">
           <table class="table table-bordered table-hover" style="margin: auto">
             <tbody>
               <ng-container *ngFor="let cita of citas; let i = index" >
@@ -185,7 +185,7 @@
           <div class="row">
             <div class="col">
               <label for="">Motivo de Consulta</label>
-              <textarea name="descripcion" [className]="contorno[6]" #descripcion="ngModel" [(ngModel)]="signos.descripcion" cols="30" rows="10" (blur)="validaInput(signos.descripcion,9)" required></textarea>
+              <textarea name="motivoConsulta" [className]="contorno[6]" #motivoConsulta="ngModel" [(ngModel)]="signos.motivoConsulta" cols="30" rows="10" (blur)="validaInput(signos.motivoConsulta,9)" required></textarea>
             </div>
           </div>
           <div class="field" style="text-align: right;">

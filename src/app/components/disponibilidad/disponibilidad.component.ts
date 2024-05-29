@@ -119,7 +119,7 @@ export class DisponibilidadComponent implements OnInit{
       })
     });
     this.listaDisponibBorrar = [];
-    console.log(this.listaDisponibilidad);
+    //console.log(this.listaDisponibilidad);
     this.listaDisponibilidad.filter(disp=> disp._id==='')
     .forEach(dispo=>{
       this.dispoService.addDisponibilidad(dispo)

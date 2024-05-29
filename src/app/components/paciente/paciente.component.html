@@ -68,63 +68,74 @@
       </div>
       <form #manejaPacienteForm="ngForm">
       <div class="container">
-        <div class="row" style="border: 2px rgb(87, 129, 233) solid;">
+        <div class="row">
           <div class="col">
-            <div class="row mb-3" style="margin-top: 15px;">
-              <div class="col">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <fa-icon [icon]="faUser"></fa-icon>
+              </span>
                 <input type="text" class="form-control border-success" name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" id="" placeholder="Nombre" required>
-              </div>
-              <div class="col">
                 <input type="text" class="form-control border-success" name="apellidoP" #apellidoP="ngModel" [(ngModel)]="paciente.apellidoP" placeholder="Apellido Paterno" required>
-              </div>
-              <div class="col">
-                <input type="text" class="form-control border-success" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM" placeholder="Apellido Materno" required>
-              </div>
+                <input type="text" class="form-control border-success" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM" placeholder="Apellido Materno" required> 
             </div>
-            <div class="row mb-3">
-              <label class="label">Fecha de Nacimiento</label>
-              <div class="col-2">
-                <input type="text" name="dia" class="form-control border-success" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" required>
-              </div>
-              <div class="col-2">
-                <select name="mes" class="form-select border-success" name="mes" [(ngModel)]="mes">
-                  <option *ngFor="let mes of meses" value="{{mes.value}}">
-                    {{mes.viewValue}}
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                Fecha de Nacimiento
+              </span>
+              <input type="date" name="dob" class="form-control" [(ngModel)]="paciente.fechaNacimiento" >  
+              <span class="input-group-text" id="basic-addon1">
+                <fa-icon [icon]="faEnvelope"></fa-icon>
+              </span>
+                <input type="email" name="email" class="form-control border-success" #correo="ngModel" [(ngModel)]="paciente.correo" placeholder="Correo Electrónico">
+            </div>
+            <div class="input-group mb-4">
+              <span class="input-group-text">
+                <fa-icon [icon]="faPhone"></fa-icon>
+              </span>
+              <input type="tel" name="telefono" class="form-control border-success" #telefono="ngModel" [(ngModel)]="paciente.telefono" placeholder="Teléfono">
+              <span class="input-group-text">
+                <fa-icon [icon]="faLocationDot"></fa-icon>
+              </span>
+              <input type="tel" name="localidad" class="form-control border-success" #localidad="ngModel" [(ngModel)]="paciente.codigoPostal" placeholder="Localidad">
+              <span class="input-group-text">
+                Ocupación<fa-icon [icon]="faPersonCircleQuestion"></fa-icon>
+              </span>  
+              <select class="form-select border-success" name="ocupacion" [(ngModel)]="paciente.ocupacion">
+                <option *ngFor="let ocupacion of ocupaciones" value="{{ocupacion.value}}">
+                  {{ocupacion.viewValue}}
+                </option>
+              </select>
+            </div>
+          
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                Raza
+              </span>
+              <select class="form-select border-success" name="raza" [(ngModel)]="paciente.raza">
+                <option *ngFor="let raza of razas" value="{{ raza.value }}">
+                  {{ raza.viewValue }}
+                </option>
+              </select>  
+              <span class="input-group-text">
+                <fa-icon [icon]="faGraduationCap"></fa-icon>
+              </span>
+                <select class="form-select border-success" name="escolaridad" [(ngModel)]="paciente.escolaridad">
+                  <option *ngFor="let escolaridad of escolaridades" value="{{ escolaridad.value }}">
+                    {{ escolaridad.viewValue }}
                   </option>
                 </select>
-              </div>
-              <div class="col-2">
-                <input type="text" name="anio" class="form-control border-success" [(ngModel)]="anio" placeholder="Año" required>
-              </div>
-              <div class="col-6">
-                <input type="email" name="email" class="form-control border-success" #correo="ngModel" [(ngModel)]="paciente.correo" placeholder="Correo Electrónico">
-              </div>
             </div>
-            <div class="row mb-4">
-              <div class="col">
-                <input type="tel" name="telefono" class="form-control border-success" #telefono="ngModel" [(ngModel)]="paciente.telefono" placeholder="Teléfono">
-              </div>
-              <div class="col">
-                <input type="tel" name="localidad" class="form-control border-success" #localidad="ngModel" [(ngModel)]="paciente.codigoPostal" placeholder="Localidad">
-              </div>
-              <div class="col">
-                <input type="tel" name="ocupacion" class="form-control border-success" #ocupacion="ngModel" [(ngModel)]="paciente.ocupacion" placeholder="Ocupación">
-              </div>
-              <div class="col">
-                <input type="text" name="raza" class="form-control border-success" [(ngModel)]="paciente.raza" placeholder="Raza">
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <label class="form-label">Sexo</label>
-              </div>
-              <div class="col">
-                <label class="radio">M</label>
-                <input type="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo" class="form-check-input border-success">
-              </div>
-              <div class="col">
-                <label class="radio">F</label>
-                <input type="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo" class="form-check-input border-success">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <fa-icon [icon]="faVenusMars"></fa-icon>
+              </span>
+              <div class="row">
+                <div class="col-4">
+                  M<input type="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo" class="form-check-input border-success" [checked]="paciente.sexo=='M'">
+                </div>
+                <div class="col-4">
+                  F<input type="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo" class="form-check-input border-success" [checked]="paciente.sexo=='F'">
+                </div>
               </div>
             </div>
             <div class="control" style="text-align: right;">

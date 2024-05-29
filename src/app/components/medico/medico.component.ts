@@ -1,6 +1,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { faUserDoctor } from '@fortawesome/free-solid-svg-icons';
+import { faUserDoctor, faPrint} from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Medicamento } from 'src/app/models/medicamento';
 import { Paciente } from 'src/app/models/paciente';
@@ -16,22 +17,24 @@ import { Receta } from 'src/app/models/receta';
 import { MedicamentoReceta } from 'src/app/models/medicamentoReceta';
 import { CarnetService } from 'src/app/service/carnet.service';
 import { Signos } from 'src/app/models/signos';
-import { RecetaService } from 'src/app/service/receta.service';
+import { PrintService } from 'src/app/service/print.service';
 
 @Component({
   selector: 'app-medico',
   templateUrl: './medico.component.html',
   styleUrls: ['./medico.component.css'],
-  providers:[MedicosService, CitasService, FarmaciaService,CarnetService]
+  providers:[MedicosService, CitasService, FarmaciaService,CarnetService, PrintService ]
 })
 export class MedicoComponent implements OnInit, OnDestroy{
   
   public faPills = faPills;
   public faUserDoctor = faUserDoctor;
+  public faWhatsapp = faWhatsapp;
+  public faPrint = faPrint;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[]);
+  public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[],'','','');
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -66,7 +69,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
               private cognitoService:CognitoService, 
               private farmaciaService:FarmaciaService,
               private carnetService:CarnetService,
-              private recetaService:RecetaService){}
+              private printService:PrintService){}
   
   ngOnInit(): void {
     this.isWorking = true;
@@ -200,7 +203,22 @@ export class MedicoComponent implements OnInit, OnDestroy{
     this.cita = this.citas[index];
     this.listaSignos = this.cita.signos.reverse();
     this.paciente = this.cita.paciente;
-    this.counterE1();
+    this.receta.medicamentoReceta = this.cita.medicamentoReceta;
+    if(!this.cita.isAtendido){
+      this.counterE1();
+    }
+  }
+
+  regresar():void{
+    this.HighlightRow = -1;
+  }
+
+  imprimeReceta():void{
+    this.citasService.updateCita(this.cita._id,this.cita)
+      .subscribe(res=>{
+        this.printService.printDocument(this.cita._id,this.cita)
+      });
+    
   }
 
   modificaCarnetCitas(folio:string, amount:number):void{
@@ -229,14 +247,15 @@ export class MedicoComponent implements OnInit, OnDestroy{
     this.citasService.updateCita(this.cita._id,this.cita)
     .subscribe(res=>{
       this.receta = new Receta([]);
-      console.log(res.body);
+      Swal.fire({
+        text:'La cita se ha completado',
+        timer: Global.TIMER_OFF
+      });
+      this.citas[this.HighlightRow].isAtendido = true;
+      this.getCitas();
+      this.HighlightRow = -1;
     });
-    //this.receta.paciente = this.cita.paciente;
-    //this.recetaService.saveReceta(this.receta)
-    //.subscribe(res=>{
-    //  this.receta = new Receta('', new Paciente('','','','',new Date(),'','','','','','',''), [],new Date());
-    //});
-    this.HighlightRow = -1;
+    
     this.intervalEtapa1 = 0;
     this.intervalEtapa2 = 0;
     this.intervalEtapa3 = 0;
@@ -245,7 +264,8 @@ export class MedicoComponent implements OnInit, OnDestroy{
     clearInterval(this.intervalEtapa2);
     clearInterval(this.intervalEtapa3);
     clearInterval(this.intervalEtapa4);
-    
   }
+
+  
 
 }

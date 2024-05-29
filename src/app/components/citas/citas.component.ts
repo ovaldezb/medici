@@ -23,6 +23,11 @@ export interface Duracion{
   viewValue: string
 }
 
+export interface Raza{
+  value: String,
+  viewValue: String
+}
+
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.component.html',
@@ -43,8 +48,8 @@ export class CitasComponent implements OnInit{
   public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];
-  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[]);
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[],'','','');
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -76,6 +81,15 @@ export class CitasComponent implements OnInit{
     {value: '10', viewValue: 'Octubre'},
     {value: '11', viewValue: 'Noviembre'},
     {value: '12', viewValue: 'Diciembre'}
+  ];
+
+  razas: Raza[] = [
+    {value: "B", viewValue:"Blanco"},
+    {value: "N", viewValue:"Negro"},
+    {value: "A", viewValue:"Asiático"},
+    {value: "I", viewValue:"Indígena"},
+    {value: "H", viewValue:"Hispano/Latino"},
+    {value: "O", viewValue:"Otro"},
   ];
   
   constructor(private medicoService: MedicosService, 
@@ -476,8 +490,8 @@ export class CitasComponent implements OnInit{
       this.getCitas();
     }
     this.btnAccion = Global.AGENDAR;
-    this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[], false,[]);
+    this.paciente = new Paciente('','','','',new Date(),'','','','','','','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15, false,[], false,[],'','','');
     
     this.dia = '';
     this.mes = '00';

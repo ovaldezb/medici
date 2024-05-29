@@ -15,6 +15,8 @@ import { ConsultaEnfermedadComponent } from "./components/consulta-enfermedad/co
 import { AdministracionComponent } from "./components/administracion/administracion.component";
 import { DisponibilidadComponent } from "./components/disponibilidad/disponibilidad.component";
 import { HistoriaClinicaComponent } from "./components/historia-clinica/historia-clinica.component";
+import { RecetaComponent } from "./components/receta/receta.component";
+import { PrintLayoutComponent } from "./components/print-layout/print-layout.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -28,10 +30,11 @@ const appRoutes: Routes = [
   { path: 'perfiles', component: PerfilesComponent, canActivate:[RouteGuardService] },
   { path: 'reset', component: ResetpwdComponent},
   { path: 'sucursal', component:SucursalesComponent, canActivate:[RouteGuardService] },
-  { path: 'carnet', component: EnrollComponent },
+  { path: 'carnet', component: EnrollComponent,canActivate:[RouteGuardService] },
   { path: 'consulta', component: ConsultaEnfermedadComponent, canActivate:[RouteGuardService] },
-  { path: 'dispnibilidad', component: DisponibilidadComponent},
-  { path: 'historial', component: HistoriaClinicaComponent}
+  { path: 'dispnibilidad', component: DisponibilidadComponent, canActivate:[RouteGuardService]},
+  { path: 'historial', component: HistoriaClinicaComponent},
+  { path: 'print/:idCita', outlet:'print',component: PrintLayoutComponent }
 ];
 
 

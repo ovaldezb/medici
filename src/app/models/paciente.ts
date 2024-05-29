@@ -9,6 +9,7 @@ export class Paciente{
     public telefono: string,
     public correo: string,
     public ocupacion: string,
+    public escolaridad:string,
     public raza: string,
     public carnet:string,
     public codigoPostal:string

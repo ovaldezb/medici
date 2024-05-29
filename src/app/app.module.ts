@@ -28,6 +28,8 @@ import { IgxButtonModule, IgxCalendarModule, IgxDialogModule } from 'igniteui-an
 import { DisponibilidadComponent } from './components/disponibilidad/disponibilidad.component';
 import { CitasComponent } from './components/citas/citas.component';
 import { HistoriaClinicaComponent } from './components/historia-clinica/historia-clinica.component';
+import { RecetaComponent } from './components/receta/receta.component';
+import { PrintLayoutComponent } from './components/print-layout/print-layout.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { HistoriaClinicaComponent } from './components/historia-clinica/historia
     PacienteComponent,
     DisponibilidadComponent,
     CitasComponent,
-    HistoriaClinicaComponent
+    HistoriaClinicaComponent,
+    RecetaComponent,
+    PrintLayoutComponent
   ],
   imports: [
     BrowserModule,

@@ -16,5 +16,8 @@ export class Cita{
     public signos:Signos[],
     public isAtendido:boolean,
     public medicamentoReceta:MedicamentoReceta[],
+    public exploracionFisica: String,
+    public diagnostico: String,
+    public tratamiento: String
   ){}
 }

@@ -197,7 +197,11 @@
                 <div class="row">
                 <div class="col-2">Raza:</div>
                 <div class="col-3">
-                  <input type="text" class="form-control border-success" name="raza" #raza="ngModel" [(ngModel)]="paciente.raza" placeholder="Raza">
+                  <select class="form-control border-success" name="raza" [(ngModel)]="paciente.raza">
+                    <option *ngFor="let raza of razas" value="{{ raza.value }}">
+                      {{ raza.viewValue }}
+                    </option>
+                  </select>
                 </div>
                 <div class="col-2">
                   <input type="text" name="dia" [className]="contorno[4]" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" (blur)="validaCampo(dia,4)" required/>

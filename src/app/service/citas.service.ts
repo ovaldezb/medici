@@ -30,4 +30,8 @@ export class CitasService{
   deleteCita(idCita:String):Observable<any>{
     return this._http.delete(Global.urlCita+'/'+idCita,{observe:'response'});
   }
+
+  getCitaById(idCita:string):Observable<any>{
+    return this._http.patch(Global.urlCita+'/'+idCita,null,{observe:'response'})
+  }
 }

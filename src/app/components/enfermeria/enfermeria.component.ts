@@ -35,10 +35,10 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,[{} as Signos], false,[]);
-  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false,[{} as Signos], false,[],'','','');
+  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
   public medico:IUser = {} as IUser;
-  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
+  public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -167,9 +167,9 @@ export class EnfermeriaComponent implements OnInit{
     this.HighlightRow = -1;
     this.escala = 0
     this.getCitas();
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
     this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,'');
-    this.paciente = new Paciente('','','','',new Date(),'','','','','','','');
+    this.paciente = new Paciente('','','','',new Date(),'','','','','','','','');
     this.btnAccion = Global.GUARDAR;
     this.contorno = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
     this.background=new Array('LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray','LightGray');
@@ -198,7 +198,7 @@ export class EnfermeriaComponent implements OnInit{
     this.medico = this.cita.medico;
     this.paciente = this.cita.paciente;
     this.signos.paciente = this.paciente;
-    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
+    this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
     if(this.cita.signos.length > 0){
       this.signos = this.cita.signos[this.cita.signos.length-1];
       this.contorno = [Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK,Global.FIELD_OK];

@@ -16,6 +16,7 @@ export class LoginComponent {
   public faKey = faKey;
   public user: IUser;
   public perfiles:Array<String>=new Array();
+  public version:string = Global.VERSION;
 
   constructor(private router: Router, private congnitoService: CognitoService){
     this.user = { } as IUser;
