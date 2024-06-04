@@ -30,6 +30,8 @@ import { CitasComponent } from './components/citas/citas.component';
 import { HistoriaClinicaComponent } from './components/historia-clinica/historia-clinica.component';
 import { RecetaComponent } from './components/receta/receta.component';
 import { PrintLayoutComponent } from './components/print-layout/print-layout.component';
+import { AntecedentesFamiliaresComponent } from './components/antecedentes-familiares/antecedentes-familiares.component';
+import { EnfermeriaMenuComponent } from './components/enfermeria-menu/enfermeria-menu.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { PrintLayoutComponent } from './components/print-layout/print-layout.com
     CitasComponent,
     HistoriaClinicaComponent,
     RecetaComponent,
-    PrintLayoutComponent
+    PrintLayoutComponent,
+    AntecedentesFamiliaresComponent,
+    EnfermeriaMenuComponent
   ],
   imports: [
     BrowserModule,

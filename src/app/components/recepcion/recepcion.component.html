@@ -1,15 +1,15 @@
 <app-header></app-header>
 <ul class="nav nav-tabs justify-content-center">
   <li class="nav-item">
-    <a *ngIf="tabActivo==='citas'" class="nav-link active" aria-current="page" aria-disabled="true">Citas</a>
+    <a *ngIf="tabActivo==='citas'" class="nav-link active" aria-current="page" aria-disabled="true" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Citas</a>
     <a *ngIf="tabActivo!='citas'" class="nav-link " aria-current="page"  (click)="clickUsuario('citas')" style="cursor: pointer;">Citas</a>
   </li>
   <li class="nav-item">
-    <a *ngIf="tabActivo==='dispo'" class="nav-link active" aria-current="page" aria-disabled="true">Horarios</a>
+    <a *ngIf="tabActivo==='dispo'" class="nav-link active" aria-current="page" aria-disabled="true" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Horarios</a>
     <a *ngIf="tabActivo!='dispo'" class="nav-link " aria-current="page"  (click)="clickUsuario('dispo')" style="cursor: pointer;">Horarios</a>
   </li>
   <li class="nav-item">
-    <a *ngIf="tabActivo==='paciente'" class="nav-link active" aria-current="page" aria-disabled="true">Pacientes</a>
+    <a *ngIf="tabActivo==='paciente'" class="nav-link active" aria-current="page" aria-disabled="true" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Pacientes</a>
     <a *ngIf="tabActivo!='paciente'" class="nav-link " aria-current="page"  (click)="clickUsuario('paciente')" style="cursor: pointer;">Pacientes</a>
   </li>
 </ul>

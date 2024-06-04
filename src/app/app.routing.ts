@@ -17,13 +17,14 @@ import { DisponibilidadComponent } from "./components/disponibilidad/disponibili
 import { HistoriaClinicaComponent } from "./components/historia-clinica/historia-clinica.component";
 import { RecetaComponent } from "./components/receta/receta.component";
 import { PrintLayoutComponent } from "./components/print-layout/print-layout.component";
+import { EnfermeriaMenuComponent } from "./components/enfermeria-menu/enfermeria-menu.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'recepcion', component: RecepcionComponent, canActivate:[RouteGuardService] },
   { path: 'medico', component: MedicoComponent, canActivate:[RouteGuardService] },
   { path: 'farmacia', component: FarmaciaComponent, canActivate:[RouteGuardService] },
-  { path: 'enfermeria', component: EnfermeriaComponent, canActivate:[RouteGuardService]}, //
+  { path: 'enfermeria', component: EnfermeriaMenuComponent, canActivate:[RouteGuardService]}, //
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent},
   { path: 'admon', component: AdministracionComponent, canActivate:[RouteGuardService]}, 

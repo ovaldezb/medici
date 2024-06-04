@@ -82,7 +82,15 @@
               <span class="input-group-text">
                 Fecha de Nacimiento
               </span>
-              <input type="date" name="dob" class="form-control" [(ngModel)]="paciente.fechaNacimiento" >  
+              <input type="date" name="dob" class="form-control" [(ngModel)]="paciente.fechaNacimiento" >
+                
+              <span class="input-group-text">
+                Sexo:<fa-icon [icon]="faVenusMars"></fa-icon>
+              </span>
+              M&nbsp;<input type="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo"  [checked]="paciente.sexo=='M'">
+              &nbsp;
+              F&nbsp;<input type="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo"  [checked]="paciente.sexo=='F'">
+              &nbsp;
               <span class="input-group-text" id="basic-addon1">
                 <fa-icon [icon]="faEnvelope"></fa-icon>
               </span>
@@ -124,19 +132,6 @@
                     {{ escolaridad.viewValue }}
                   </option>
                 </select>
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text">
-                <fa-icon [icon]="faVenusMars"></fa-icon>
-              </span>
-              <div class="row">
-                <div class="col-4">
-                  M<input type="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo" class="form-check-input border-success" [checked]="paciente.sexo=='M'">
-                </div>
-                <div class="col-4">
-                  F<input type="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo" class="form-check-input border-success" [checked]="paciente.sexo=='F'">
-                </div>
-              </div>
             </div>
             <div class="control" style="text-align: right;">
               <button type="button" class="btn btn-primary" (click)="altaUpdatePaciente()" [disabled]="manejaPacienteForm.invalid">{{btnAccion}}</button>

@@ -18,8 +18,13 @@ export interface Mes {
   viewValue: string;
 }
 
-export interface Duracion{
-  value: number,
+export interface Ocupacion{
+  value: string,
+  viewValue: string
+}
+
+export interface Escolaridad{
+  value: string,
   viewValue: string
 }
 
@@ -92,6 +97,30 @@ export class CitasComponent implements OnInit{
     {value: "O", viewValue:"Otro"},
   ];
   
+  ocupaciones: Ocupacion[] = [
+    {value:"VA",viewValue:"Vendedor Ambulante"},
+    {value:"TD",viewValue:"Trabajador Doméstico/Empleado Hogar"},
+    {value:"CO",viewValue:"Comerciante"},
+    {value:"EA",viewValue:"Empleado de Oficina/Administrativo"},
+    {value:"TC",viewValue:"Trabajador de la Construcción"},
+    {value:"PR",viewValue:"Profesor/Maestro"},
+    {value:"ME",viewValue:"Médico/Enfermera"},
+    {value:"AA",viewValue:"Abogado/Asesor Legal"},
+    {value:"IN",viewValue:"Ingeniero/Cualquier especialidad"},
+    {value:"AT",viewValue:"Agricultor/Trabajador del Campo"},
+    {value:"CF",viewValue:"Contador/Financiero"},
+    {value:"PO",viewValue:"Policía/Oficial de Seguridad"},
+    {value:"OO",viewValue:"Otro"},
+  ];
+
+  escolaridades:Escolaridad[] = [
+    {value:"Pri",viewValue:"Primaria"},
+    {value:"Sec",viewValue:"Secundaria"},
+    {value:"Pre",viewValue:"Preparatoria"},
+    {value:"Lic",viewValue:"Licenciatura"},
+    {value:"Pos",viewValue:"Posgrado"},
+    {value:"Otr",viewValue:"Otro"}
+  ];
   constructor(private medicoService: MedicosService, 
               private pacienteService: PacienteService,
               private citasService: CitasService,

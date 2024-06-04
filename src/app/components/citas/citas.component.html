@@ -13,8 +13,8 @@
         <div class="col">
           <div class="card">
             <form #userForm="ngForm">
-              <div class="mb-3">
-                <label class="label">Médico</label>
+              <div class="mb-3" style="text-align: center;">
+                <label class="label" style="font-family: 'Courier New', Courier, monospace;font-weight: 200;">Médico</label>
                 <select class="form-select mb-3 border-success"
                   aria-label="Default select example"
                   [(ngModel)]="idMedico"
@@ -26,16 +26,16 @@
                 </select>
               </div>
               <div class="row">
-                <div class="col">
-                  <label for="" class="form-label" style="text-align: center;">Fecha Cita</label>
+                <div class="col" style="text-align: center;">
+                  <label for="" class="form-label" style="font-family: 'Courier New', Courier, monospace;">Fecha Cita</label>
                   <input type="date" class="form-control border-success" name="fechaCita" #fechacita="ngModel" [(ngModel)]="fechaCita" (change)="cambiaFecha()"/>
                 </div>
                 <div class="col" style="text-align: center;">
-                  <label for="" class="form-label">Hora Cita</label>
+                  <label for="" class="form-label" style="font-family: 'Courier New', Courier, monospace;">Hora Cita</label>
                   <input  type="time" [className]="contorno[0]" name="horaCita" #horaCita="ngModel" [(ngModel)]="cita.horaCita" (blur)="validaCampo(cita.horaCita,0)" required />
                 </div>
                 <div class="col" style="text-align: center;">
-                  <label class="form-label">Folio</label>
+                  <label class="form-label" style="font-family: 'Courier New', Courier, monospace;">Folio</label>
                   <input type="text" name="folio"  #folio="ngModel" [(ngModel)]="paciente.carnet" class="form-control border-success" (keyup)="buscaFolio($event)" placeholder="Folio">
                   <div *ngIf="isLoadingCarnet" class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -46,15 +46,9 @@
               <div class="row">
                 <div class="col">
                   <div class="mb-3">
-                    <input type="text"
-                      [className]="contorno[1]"
-                      name="nombre"
-                      #nombre="ngModel"
-                      [(ngModel)]="paciente.nombre"
-                      placeholder="Nombre"
-                      (keyup)="buscaPacienteMatch($event, 'nombre')"
-                      (blur)="validaCampo(paciente.nombre,1)"
-                      required/>
+                    <input type="text" [className]="contorno[1]"
+                      name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" placeholder="Nombre" (keyup)="buscaPacienteMatch($event, 'nombre')"
+                      (blur)="validaCampo(paciente.nombre,1)"  required/>
                     <div
                       *ngIf="listaPacientesNombre.length != 0"
                       style="width: 100%;height: 150px;overflow: auto;margin-top: 0px;border: 2px solid black;">
@@ -169,65 +163,73 @@
                     </div>
                   </div>
                   <div class="col">
-                    <div class="mb-3">
-                      <input type="text" class="form-control border-success" name="ocupacion" #ocupacion="ngModel" [(ngModel)]="paciente.ocupacion" placeholder="Ocupación" >
-                    </div>
+                    <label for="" style="font-family: 'Courier New', Courier, monospace;">Sexo:</label>&nbsp;
+                    <label for="" class="radio" style="font-family: 'Courier New', Courier, monospace;font-weight: bold;">M
+                      <input type="radio" class="form-check-input border-success" name="sexo" value="M" [(ngModel)]="paciente.sexo" [checked]="paciente.sexo=='M'" />
+                    </label>
+                    &nbsp;
+                    <label class="radio" style="font-family: 'Courier New', Courier, monospace;font-weight: bold;">F
+                      <input type="radio"  class="form-check-input border-success" name="sexo" value="F" [(ngModel)]="paciente.sexo" [checked]="paciente.sexo=='F'"/>
+                    </label>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                   <div class="col-2">
-                    <label class="form-label">Sexo</label>
+                    <label class="form-label" style="font-family: 'Courier New', Courier, monospace;">Escolaridad:</label>
                   </div>
-                  <div class="col-2">
-                    <label for="" class="radio">M
-                      <input type="radio" class="form-check-input border-success" name="sexo" value="M" [(ngModel)]="paciente.sexo" />
-                    </label>
-                  </div>
-                  <div class="col-1">
-                    <label class="radio">F
-                      <input type="radio"  class="form-check-input border-success" name="sexo" value="F" [(ngModel)]="paciente.sexo" required/>
-                    </label>
+                  <div class="col-3">
+                    <select class="form-select border-success" name="raza" [(ngModel)]="paciente.escolaridad">
+                      <option *ngFor="let escolaridad of escolaridades" value="{{ escolaridad.value }}">
+                        {{ escolaridad.viewValue }}
+                      </option>
+                    </select>
+                    
                   </div>
                   <div class="col-7" style="text-align: center;">
-                    <label for="">Fecha de Nacimiento</label>
+                    <label for="" style="font-family: 'Courier New', Courier, monospace;">Fecha de Nacimiento</label>
                   </div>
                 </div>
-              
-              <div class="mb-3">
-                <div class="row">
-                <div class="col-2">Raza:</div>
-                <div class="col-3">
-                  <select class="form-control border-success" name="raza" [(ngModel)]="paciente.raza">
-                    <option *ngFor="let raza of razas" value="{{ raza.value }}">
-                      {{ raza.viewValue }}
+                <div class="row mb-3">
+                  <div class="col-2" >
+                    <label for="" style="font-family: 'Courier New', Courier, monospace;">Raza:</label>
+                  </div>
+                  <div class="col-3">
+                    <select class="form-select border-success" name="raza" [(ngModel)]="paciente.raza">
+                      <option *ngFor="let raza of razas" value="{{ raza.value }}">
+                        {{ raza.viewValue }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <input type="text" name="dia" [className]="contorno[4]" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" (blur)="validaCampo(dia,4)" required/>
+                  </div>
+                  <div class="col-3">
+                    <select [className]="contorno[5]" name="mes" [(ngModel)]="mes" (change)="validaCampo(mes,5)">
+                      <option *ngFor="let mes of meses" value="{{ mes.value }}">
+                        {{ mes.viewValue }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <input type="text" name="anio" [className]="contorno[6]" #yy="ngModel" [(ngModel)]="anio" placeholder="Año" (blur)="validaCampo(anio,6)" required/>
+                  </div>
+                </div>
+            
+              <div class="row" >
+                <div class="col-2"><label for="" style="font-family: 'Courier New', Courier, monospace;">Ocupación:</label></div>
+                <div class="col-6">
+                  <select class="form-select border-success" name="ocupacion" [(ngModel)]="paciente.ocupacion">
+                    <option *ngFor="let ocupacion of ocupaciones" value="{{ocupacion.value}}">
+                      {{ocupacion.viewValue}}
                     </option>
-                  </select>
+                  </select> 
                 </div>
                 <div class="col-2">
-                  <input type="text" name="dia" [className]="contorno[4]" #dd="ngModel" [(ngModel)]="dia" placeholder="Día" (blur)="validaCampo(dia,4)" required/>
-                </div>
-                <div class="col-3">
-                  <select [className]="contorno[5]" name="mes" [(ngModel)]="mes" (change)="validaCampo(mes,5)">
-                    <option *ngFor="let mes of meses" value="{{ mes.value }}">
-                      {{ mes.viewValue }}
-                    </option>
-                  </select>
+                  <button class="btn btn-primary" style="margin:auto;text-align:right" (click)="addUpdate()" [disabled]="userForm.invalid || mes==''">{{ btnAccion }}</button>
                 </div>
                 <div class="col-2">
-                  <input type="text" name="anio" [className]="contorno[6]" #yy="ngModel" [(ngModel)]="anio" placeholder="Año" (blur)="validaCampo(anio,6)" required/>
+                  <button class="btn btn-dark" style="margin: auto" (click)="limpiar()">Limpiar</button>
                 </div>
-              </div>
-            </div>
-              <div class="row" style="text-align: right">
-                <div class="col-8"></div>
-                <div class="col-2">
-                <button class="btn btn-primary" style="margin: auto" (click)="addUpdate()" [disabled]="userForm.invalid || mes==''">{{ btnAccion }}</button>
-              </div>
-              <div class="col-2">
-                <button class="btn btn-dark" style="margin: auto" (click)="limpiar()">
-                  Limpiar
-                </button>
-              </div>
               </div>
             </form>
           </div>
