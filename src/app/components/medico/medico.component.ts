@@ -34,7 +34,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public fechaActual = new Date();
   public citas:Cita[] = [];
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'','',15,false, [],false,[],'','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),15,false, [],false,[],'','','');
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -243,6 +243,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
           });
     }
     this.cita.isAtendido = true;
+    this.cita.horaCitaFin = new Date();
     this.cita.medicamentoReceta = this.receta.medicamentoReceta;
     this.citasService.updateCita(this.cita._id,this.cita)
     .subscribe(res=>{

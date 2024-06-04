@@ -10,7 +10,7 @@ export class Cita{
     public medico: IUser,
     public fechaCita: Date,
     public horaCita: String,
-    public horaCitaFin:String,
+    public horaCitaFin:Date,
     public duracion:number,
     public isSignosTomados: boolean,
     public signos:Signos[],
