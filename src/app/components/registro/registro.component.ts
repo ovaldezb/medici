@@ -52,17 +52,17 @@ export class RegistroComponent  implements OnInit{
     {_id:'4', nombre:'ENFERMERA'},
   ];
   especialidades: Especialidad[] = [
-    {_id:1, descripcion:'Médico General'},
-    {_id:2, descripcion:'Cirugia General'},
-    {_id:3, descripcion:'Neurología'},
-    {_id:4, descripcion:'Neurocirugía'},
-    {_id:5, descripcion:'Ginecología y Obstetricia'},
-    {_id:6, descripcion:'Pediatría'},
-    {_id:7, descripcion:'Bariatría'},
-    {_id:8, descripcion:'Medicina Interna'},
-    {_id:9, descripcion:'Odontología'},
-    {_id:10, descripcion:'Psicología'},
-    {_id:111, descripcion:'Nutrición'}
+    {_id:'1', descripcion:'Médico General'},
+    {_id:'2', descripcion:'Cirugia General'},
+    {_id:'3', descripcion:'Neurología'},
+    {_id:'4', descripcion:'Neurocirugía'},
+    {_id:'5', descripcion:'Ginecología y Obstetricia'},
+    {_id:'6', descripcion:'Pediatría'},
+    {_id:'7', descripcion:'Bariatría'},
+    {_id:'8', descripcion:'Medicina Interna'},
+    {_id:'9', descripcion:'Odontología'},
+    {_id:'10', descripcion:'Psicología'},
+    {_id:'11', descripcion:'Nutrición'}
   ]
 
 

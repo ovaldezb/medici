@@ -1,6 +1,6 @@
 export class Especialidad{
   constructor(
-    public _id:number,
+    public _id:String,
     public descripcion:String
   ){}
 }
