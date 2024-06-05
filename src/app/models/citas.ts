@@ -11,13 +11,15 @@ export class Cita{
     public fechaCita: Date,
     public horaCita: String,
     public horaCitaFin:Date,
-    public duracion:number,
+    public horaConsultaInicio: Date,
     public isSignosTomados: boolean,
     public signos:Signos[],
     public isAtendido:boolean,
     public medicamentoReceta:MedicamentoReceta[],
     public exploracionFisica: String,
     public diagnostico: String,
-    public tratamiento: String
+    public tratamiento: String,
+    public horaTomaSignos: Date,
+    public horaCreaCita: Date
   ){}
 }

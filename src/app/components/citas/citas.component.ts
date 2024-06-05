@@ -54,7 +54,7 @@ export class CitasComponent implements OnInit{
   public idMedico:string = '';
   public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),15,false, [],false,[],'','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date());
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -146,7 +146,6 @@ export class CitasComponent implements OnInit{
     let mesActual = (this.fechaActual.getMonth()+1) < 10 ? '0'+(this.fechaActual.getMonth()+1):(this.fechaActual.getMonth()+1)
     let fechaActualTemporal = new Date(this.fechaActual.getTime());
     let fechaSig = new Date(fechaActualTemporal.setDate(fechaActualTemporal.getDate()+1));
-    //console.log(diasSig);
     let mesSig = (fechaSig.getMonth()+1) <10 ? '0'+(fechaSig.getMonth()+1) : (fechaSig.getMonth()+1);
     let diaActual = this.fechaActual.getDate() < 10 ? '0'+this.fechaActual.getDate() : this.fechaActual.getDate();
     let diaSiguiente = fechaSig.getDate() < 10 ? '0'+fechaSig.getDate() : fechaSig.getDate();
@@ -278,12 +277,11 @@ export class CitasComponent implements OnInit{
 
   isValidSpot():boolean{
     if(this.citas === undefined) return true;
-    console.log(this.citas);
     return this.citas
       .map(cita=>{
       return {
         fechaCitaIni:new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita),
-        fechaCitaFin:new Date(new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita).getTime() + this.cita.duracion*60000)
+        fechaCitaFin:new Date(new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita).getTime() + this.duracion*60000)
       }
       })
       .every(citaMod =>{
@@ -366,9 +364,9 @@ export class CitasComponent implements OnInit{
     }).then(resultado=>{
       if(resultado.isConfirmed){
         let fechaCitaArray = this.fechaCita.split('-');
-        this.cita.duracion = this.duracion;
         this.cita.fechaCita = new Date(Number(fechaCitaArray[0]),(Number(fechaCitaArray[1])-1),Number(fechaCitaArray[2]));
         this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+        this.cita.horaCreaCita = new Date();
         if(this.paciente._id===''){ //es nuevo
           this.pacienteService.addPaciente(this.paciente)
           .subscribe(res=>{
@@ -395,14 +393,6 @@ export class CitasComponent implements OnInit{
           this.cita.medico = this.medico; 
           this.citasService.addCita(this.cita).subscribe(res=>{
             if(res.status===Global.OK){
-              /**Esto me lo llevo al módulo de médico, al finalizar la consulta agrego la cita al carnet */
-              /*if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
-                this.carnet.citas.push(res.body.cita._id);
-                this.carnetService.updateCarnet(this.carnet._id,this.carnet)
-                .subscribe(res1=>{
-                  //console.log(res1);
-                });
-              }*/
               this.citaExitosa();
             }
           });
@@ -520,7 +510,7 @@ export class CitasComponent implements OnInit{
     }
     this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),15, false,[], false,[],'','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),new Date(), false,[], false,[],'','','',new Date(),new Date());
     
     this.dia = '';
     this.mes = '00';
