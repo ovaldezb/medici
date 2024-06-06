@@ -13,43 +13,24 @@
             <span class="input-group-text" id="basic-addon1">
               <fa-icon [icon]="faEnvelope"></fa-icon>
             </span>
-            <input type="text"
-              name="email"
-              class="form-control"
-              placeholder="Correo Electrónico"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              [(ngModel)]="usuario.email"
-              required />
+            <input type="text" name="email" class="form-control" placeholder="Correo Electrónico" aria-label="Username"  aria-describedby="basic-addon1"
+              [(ngModel)]="usuario.email" required />
             <span class="input-group-text">
               <fa-icon [icon]="statusEmail"></fa-icon>
             </span>
-            <input type="text"
-              name="repeatEmail"
-              class="form-control"
-              placeholder="Repetir Correo Electrónico"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              [(ngModel)]="usuario.repeatEmail" (keyup)="validarEmail()" required/>
+            <input type="text" name="repeatEmail"
+              class="form-control" placeholder="Repetir Correo Electrónico"
+              aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="usuario.repeatEmail" (keyup)="validarEmail()" required/>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
               <fa-icon [icon]="faLock"></fa-icon>
             </span>
-            <input 
-              type="password" 
-              name="password"
-              class="form-control" [(ngModel)]="usuario.password" placeholder="Contraseña"/>
+            <input type="password" name="password" class="form-control" [(ngModel)]="usuario.password" (keyup)="validarPwd()" placeholder="Contraseña"/>
             <span class="input-group-text">
-              <fa-icon [icon]="statusEmail"></fa-icon>
+              <fa-icon [icon]="statusPwd"></fa-icon>
             </span>
-            <input
-              type="password"
-              name="repeatPassword"
-              class="form-control"
-              [(ngModel)]="usuario.repeatPassword" 
-              (keyup)="validarPwd()" placeholder="Repetir Contraseña"
-              required/>
+            <input type="password" name="repeatPassword" class="form-control" [(ngModel)]="usuario.repeatPassword" (keyup)="validarPwd()" placeholder="Repetir Contraseña"  required/>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">
@@ -82,7 +63,7 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text"> Rol </span>
-            <select name="idPerfil" [(ngModel)]="idPerfil" class="form-select" (change)="perfilChange($event)">
+            <select name="idPerfil" [(ngModel)]="usuario.perfil" class="form-select" (change)="perfilChange($event)">
               <option *ngFor="let perf of perfiles" [ngValue]="perf._id">{{perf.nombre}}</option>
             </select>
           </div>
@@ -122,7 +103,7 @@
               <fa-icon [icon]="faUserDoctor"></fa-icon>
             </span>
             <select name="idEspecialidad" [(ngModel)]="usuario.especialidad" class="form-select" >
-              <option *ngFor="let espec of especialidades" [ngValue]="espec._id">{{espec.descripcion}}</option>
+              <option *ngFor="let espec of especialidades" value="{{espec._id}}">{{espec.descripcion}}</option>
             </select>
             <span class="input-group-text">
               <fa-icon [icon]="faScroll"></fa-icon>
@@ -133,7 +114,7 @@
             <span class="input-group-text">
               <fa-icon [icon]="faLocation"></fa-icon>
             </span>
-            <select name="idSucursal" [(ngModel)]="idSucursal" class="form-select" >
+            <select name="idSucursal" [(ngModel)]="usuario.sucursal" class="form-select" >
               <option *ngFor="let suc of sucursales" [ngValue]="suc._id">{{suc.identificador}} - {{suc.codigoPostal}}</option>
             </select>
           </div>
@@ -203,29 +184,19 @@
   <div *ngIf="isConfirm" class="row g-3">
     <div class="card-header text-center">
       <h1>Confirmar Identidad</h1>
+      <div *ngIf="isWorkingIdentidad" class="spinner-border" role="status">
+        <fa-icon [icon]="faSpinner"></fa-icon>
+      </div>
     </div>
     <div class="col-auto">
       <label for="staticEmail2" class="visually-hidden">Email</label>
-      <input
-        type="text"
-        readonly
-        class="form-control-plaintext"
-        id="staticEmail2"
-        value="{{ usuario.email }}"/>
+      <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="{{ usuario.email }}"/>
     </div>
     <div class="col-auto">
-      <input
-        type="text"
-        class="form-control"
-        name="codigo"
-        [(ngModel)]="usuario.code"
-        placeholder="Código de Verificación"/>
+      <input type="text" class="form-control" name="codigo" [(ngModel)]="usuario.code" placeholder="Código de Verificación"/>
     </div>
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-primary mb-3"
-        (click)="confirmSignUp()">
+      <button type="submit" class="btn btn-primary mb-3" (click)="confirmSignUp()">
         Confirmar Indentidad
       </button>
     </div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faUser, faEnvelopeCircleCheck, faLock, faLockOpen, faCalculator, faL } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEnvelopeCircleCheck, faLock, faLockOpen, faCalculator, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IUser } from 'src/app/models/user';
 import Swal from 'sweetalert2';
 import { CognitoService } from 'src/app/service/cognito.service';
@@ -20,6 +20,8 @@ export class ResetpwdComponent {
   public faLock = faLock;
   public faLockShow = faLockOpen;
   public faCalculator = faCalculator;
+  public faSpinner = faSpinner;
+  public isWorkingReset: boolean = false;
   
 
 
@@ -43,9 +45,11 @@ export class ResetpwdComponent {
   }
 
   forgotPasswordSubmit():void{
+    this.isWorkingReset = true;
     this.cognitoService.forgotPasswordSubmit(this.user.email,this.user.code,this.user.password)
     .then(res=>{
       if(res===Global.SUCCESS){
+        this.isWorkingReset = false;
         Swal.fire({
           icon:'success',
           title:'La contraseña se ha actualizado correctamente',
@@ -55,6 +59,9 @@ export class ResetpwdComponent {
         this.user = {} as IUser;
         this.router.navigateByUrl('/login');
       }
+    })
+    .catch(err=>{
+      console.log(err);
     });
   }
 

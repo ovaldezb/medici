@@ -30,6 +30,9 @@
         <div class="login-wrap p-4 p-md-5">
           <div class="icon d-flex align-items-center justify-content-center">
             <fa-icon [icon]="faUser"></fa-icon>
+            <div *ngIf="isWorkingReset" class="spinner-border" role="status">
+              <fa-icon [icon]="faSpinner"></fa-icon>
+            </div>
           </div>
           <h3 class="text-center mb-4">Ingresar Nueva Contraseña y Código de Validación</h3>
           <form class="login-form" #userFormReset="ngForm">

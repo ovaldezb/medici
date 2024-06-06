@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/models/user';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { Router } from '@angular/router';
-import { faLockOpen, faScroll, faCalendar, faLock, faUser, faEnvelope, faPerson, faVenusMars, faPhone, faUserDoctor, faPencil, faUserSlash, faLocation } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faLockOpen, faScroll, faCalendar, faLock, faUser, faEnvelope, faPerson, faVenusMars, faPhone, faUserDoctor, faPencil, faUserSlash, faLocation } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import { SucursalService } from 'src/app/service/sucursal.service';
@@ -36,33 +36,35 @@ export class RegistroComponent  implements OnInit{
   public statusPwd = faLockOpen;
   public statusEmail = faLockOpen;
   public faLocation = faLocation;
+  public faSpinner = faSpinner;
   public usuarios:IUser[] = [];
   public perfil:Perfil = {} as Perfil;
   public faUserDoctor = faUserDoctor;
   public faPencil = faPencil;
   public faUserSlash = faUserSlash;
-  public idPerfil: string = '';
-  public idSucursal: string = '';
+  //public idPerfil: string = '';
+  //public idSucursal: string = '';
   public btnAccion: string = Global.REGISTRAR;
   public sucursales:Sucursal[] = [];
+  public isWorkingIdentidad:boolean=false;
   perfiles: Perfil[] =[
-    {_id:'1', nombre:'ADMINISTRADOR'},
-    {_id:'2', nombre:'MEDICO'},
-    {_id:'3', nombre:'RECEPCION'},
-    {_id:'4', nombre:'ENFERMERA'},
+    {_id:'ADMINISTRADOR', nombre:'ADMINISTRADOR'},
+    {_id:'MEDICO', nombre:'MEDICO'},
+    {_id:'RECEPCION', nombre:'RECEPCION'},
+    {_id:'ENFERMERA', nombre:'ENFERMERA'},
   ];
   especialidades: Especialidad[] = [
-    {_id:'1', descripcion:'Médico General'},
-    {_id:'2', descripcion:'Cirugia General'},
-    {_id:'3', descripcion:'Neurología'},
-    {_id:'4', descripcion:'Neurocirugía'},
-    {_id:'5', descripcion:'Ginecología y Obstetricia'},
-    {_id:'6', descripcion:'Pediatría'},
-    {_id:'7', descripcion:'Bariatría'},
-    {_id:'8', descripcion:'Medicina Interna'},
-    {_id:'9', descripcion:'Odontología'},
-    {_id:'10', descripcion:'Psicología'},
-    {_id:'11', descripcion:'Nutrición'}
+    {_id:'Médico General', descripcion:'Médico General'},
+    {_id:'Cirugia General', descripcion:'Cirugia General'},
+    {_id:'Neurología', descripcion:'Neurología'},
+    {_id:'Neurocirugía', descripcion:'Neurocirugía'},
+    {_id:'Ginecología y Obstetricia', descripcion:'Ginecología y Obstetricia'},
+    {_id:'Pediatría', descripcion:'Pediatría'},
+    {_id:'Bariatría', descripcion:'Bariatría'},
+    {_id:'Medicina Interna', descripcion:'Medicina Interna'},
+    {_id:'Odontología', descripcion:'Odontología'},
+    {_id:'Psicología', descripcion:'Psicología'},
+    {_id:'Nutrición', descripcion:'Nutrición'}
   ]
 
 
@@ -70,26 +72,13 @@ export class RegistroComponent  implements OnInit{
   constructor(private router:Router, 
     private cognitoService:CognitoService,
     private usuariosService: UsuariosService,
-    //private perfilService:PerfilService,
     private sucursaleService:SucursalService){
     this.isConfirm = false
   }
   ngOnInit(): void {
-    //this.loadPerfiles();
     this.loadAllUsuarios();
     this.loadSucursales();
   }
-
-  /*loadPerfiles():void{
-    this.perfilService.getAllPerfiles()
-    .subscribe(res=>{
-      console.log(res);
-      if(res.status === Global.OK){
-        this.perfiles = res.body.perfiles;
-        this.perfil = this.perfiles[0];
-      }
-    });
-  }*/
 
   loadSucursales():void{
     this.sucursaleService.getAllSucursales()
@@ -122,9 +111,11 @@ export class RegistroComponent  implements OnInit{
   }
 
   confirmSignUp():void{
+    this.isWorkingIdentidad = true;
     this.cognitoService.confirmSignUp(this.usuario)
     .then(()=>{
       this.isConfirm = false;
+      this.isWorkingIdentidad = false;
       this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
       this.loadAllUsuarios();
     })
@@ -176,7 +167,6 @@ export class RegistroComponent  implements OnInit{
   editarUsuario(index:number):void{
     this.usuario = this.usuarios[index];
     this.usuario.dob = this.usuario.dob.replace('/','-').replace('/','-');
-    //this.idPerfil = '1';
     this.btnAccion = Global.ACTUALIZAR;
   }
 

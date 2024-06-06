@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit{
     if(this.cognitoService.isAuthenticated()){
       this.cognitoService.getUser()
       .then(user=>{
-        this.nombreUsuario = user.attributes.given_name+' '+user.attributes.family_name +' '+user.attributes.middle_name
+        this.nombreUsuario = user.attributes.given_name+' '+user.attributes.middle_name+' '+user.attributes.family_name;
         this.perfiles = user.signInUserSession.accessToken.payload['cognito:groups'];
         if(this.isAdmin()){
           this.faIcon2Display = faCrown;
