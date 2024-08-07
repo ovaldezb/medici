@@ -17,6 +17,10 @@
     <a *ngIf="tabActivo!='farmacia'" class="nav-link"  (click)="clickUsuario('farmacia')" style="cursor: pointer;">Farmacia</a>
   </li>
   <li>
+    <a *ngIf="tabActivo==='perfiles'" class="nav-link active"  aria-disabled="true">Perfiles</a>
+    <a *ngIf="tabActivo!='perfiles'" class="nav-link"  (click)="clickUsuario('perfiles')" style="cursor: pointer;">Perfiles</a>
+  </li>
+  <li>
     <a *ngIf="tabActivo==='historial'" class="nav-link active"  aria-disabled="true">Historial</a>
     <a *ngIf="tabActivo!='historial'" class="nav-link"  (click)="clickUsuario('historial')" style="cursor: pointer;">Historial</a>
   </li>
@@ -25,4 +29,5 @@
 <app-enroll *ngIf="tabActivo==='carnet'"></app-enroll>
 <app-paciente *ngIf="tabActivo==='paciente'"></app-paciente>
 <app-farmacia *ngIf="tabActivo==='farmacia'"></app-farmacia>
+<app-perfiles *ngIf="tabActivo==='perfiles'"></app-perfiles>
 <app-historia-clinica *ngIf="tabActivo==='historial'"></app-historia-clinica>

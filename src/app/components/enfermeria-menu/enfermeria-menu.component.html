@@ -4,7 +4,10 @@
     <a *ngIf="tabActivo==='enfermeria'" class="nav-link active" aria-current="page" aria-disabled="true">Signos</a>
     <a *ngIf="tabActivo!='enfermeria'" class="nav-link " aria-current="page"  (click)="clickUsuario('enfermeria')" style="cursor: pointer;">Signos</a>
   </li>
-  
+  <li class="nav-item">
+    <a *ngIf="tabActivo==='antfamiliares'" class="nav-link active" aria-current="page" aria-disabled="true">Antecedentes</a>
+    <a *ngIf="tabActivo!='antfamiliares'" class="nav-link " aria-current="page"  (click)="clickUsuario('antfamiliares')" style="cursor: pointer;">Antecedentes</a>
+  </li>
   
 </ul>
 <app-enfermeria *ngIf="tabActivo=='enfermeria'"></app-enfermeria>

@@ -9,9 +9,11 @@ export var Global ={
   urlPerfil:   'https://s43bbtyule.execute-api.us-east-1.amazonaws.com/dev/perfil',
   urlPreResAF: 'https://smyllmdu93.execute-api.us-east-1.amazonaws.com/dev/pregresaf',
   urlPregunta: 'https://hqapo3yili.execute-api.us-east-1.amazonaws.com/dev/preguntas',
+  urlProducto: 'https://vtzmpzap93.execute-api.us-east-1.amazonaws.com/dev/producto',
   urlSignos:   'https://u02vi9jos6.execute-api.us-east-1.amazonaws.com/dev/signos',
   urlSucursal: 'https://s0keqy0oqb.execute-api.us-east-1.amazonaws.com/dev/sucursal',
   urlUsuario:  'https://bzlnlb9ptd.execute-api.us-east-1.amazonaws.com/dev/usuario',
+  urlVentas:   'https://e7lvodtqha.execute-api.us-east-1.amazonaws.com/dev/ventas',
   AGREGAR:'Agregar',
   ACTUALIZAR:'Actualizar',
   ELIMINAR:'Eliminar',
@@ -51,4 +53,10 @@ export var Global ={
   FIELD_OK:"form-control border-success",
   FIELD_REQUIRED:"form-control border-danger",
   VERSION:'0.1.1',
+  EFECTIVO:'efectivo',
+  TARJETA:'tarjeta',
+  TRANSFERENCIA:'transferencia',
+  CHEQUE:'cheque',
+  EMPTY:0,
+  LONG_TICKET:6
 }

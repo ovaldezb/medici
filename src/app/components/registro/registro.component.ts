@@ -19,7 +19,7 @@ export interface Perfil{
   selector: 'app-registro',
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
-  providers:[UsuariosService,PerfilService, SucursalService]
+  providers:[UsuariosService,PerfilService, SucursalService, PerfilService]
 })
 export class RegistroComponent  implements OnInit{
   public usuario:IUser = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
@@ -42,17 +42,16 @@ export class RegistroComponent  implements OnInit{
   public faUserDoctor = faUserDoctor;
   public faPencil = faPencil;
   public faUserSlash = faUserSlash;
-  //public idPerfil: string = '';
-  //public idSucursal: string = '';
   public btnAccion: string = Global.REGISTRAR;
   public sucursales:Sucursal[] = [];
   public isWorkingIdentidad:boolean=false;
-  perfiles: Perfil[] =[
+  perfiles:Perfil[]=[];
+  /*perfiles: Perfil[] =[
     {_id:'ADMINISTRADOR', nombre:'ADMINISTRADOR'},
     {_id:'MEDICO', nombre:'MEDICO'},
     {_id:'RECEPCION', nombre:'RECEPCION'},
     {_id:'ENFERMERA', nombre:'ENFERMERA'},
-  ];
+  ];*/
   especialidades: Especialidad[] = [
     {_id:'Médico General', descripcion:'Médico General'},
     {_id:'Cirugia General', descripcion:'Cirugia General'},
@@ -72,10 +71,12 @@ export class RegistroComponent  implements OnInit{
   constructor(private router:Router, 
     private cognitoService:CognitoService,
     private usuariosService: UsuariosService,
-    private sucursaleService:SucursalService){
+    private sucursaleService:SucursalService,
+    private perfilesService: PerfilService){
     this.isConfirm = false
   }
   ngOnInit(): void {
+    this.loadPerfiles();
     this.loadAllUsuarios();
     this.loadSucursales();
   }
@@ -85,6 +86,15 @@ export class RegistroComponent  implements OnInit{
     .subscribe(res=>{
       if(res.status===Global.OK && res.body.sucursales.length > 0){
         this.sucursales = res.body.sucursales;
+      }
+    });
+  }
+
+  loadPerfiles():void{
+    this.perfilesService.getAllPerfiles()
+    .subscribe(res=>{
+      if(res.status===Global.OK){
+        this.perfiles = res.body.perfiles;
       }
     });
   }

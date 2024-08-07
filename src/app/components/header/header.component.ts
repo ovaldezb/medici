@@ -16,18 +16,12 @@ import { CognitoService } from 'src/app/service/cognito.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit{
-  //public faCalendarCheck = faCalendarCheck;
-  //public faUserNurse = faUserNurse;
-  //public faUser = faUser;
+  
   public faGears = faGears;
-  //public faUserDoctor = faUserDoctor;
   public faRightFromBracket = faRightFromBracket;
-  //public faAlignLeft = faAlignLeft;
-  //public faCrown = faCrown;
   public faIcon2Display = faUser;
   public status:boolean = false;
   public perfiles:Array<String>=new Array();
-
   
   constructor(private cognitoService:CognitoService){}
   
