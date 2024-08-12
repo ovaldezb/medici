@@ -29,7 +29,7 @@ export class PerfilesComponent implements OnInit {
   agregaActualizaPerfil():void{
     if(this.btnAccion === Global.AGREGAR){
       Swal.fire({
-        title:'Desea agregar este perfil?',
+        title:'Desea agregar este rol?',
         showCancelButton: true,
         confirmButtonText: 'Guardar'
       })
@@ -41,7 +41,7 @@ export class PerfilesComponent implements OnInit {
               Swal.fire({
                 icon:'success',
                 title:'Exito!',
-                text:'Se ha guardado el perfil exitosamente!'
+                text:'Se ha guardado el rol exitosamente!'
               });
               this.perfil = {} as Perfil;
               this.loadPerfiles();
@@ -51,7 +51,7 @@ export class PerfilesComponent implements OnInit {
       });
     }else{
       Swal.fire({
-        title:'Desea actualizar este perfil?',
+        title:'Desea actualizar este rol?',
         showCancelButton: true,
         confirmButtonText: 'Actualizar'
       })
@@ -97,8 +97,8 @@ export class PerfilesComponent implements OnInit {
   deletePerfil(index:number):void{
     Swal.fire({
       icon:'warning',
-      title:'Desea eliminar este perfil?',
-      text:'Eliminar un perfil puede ocasionar fallas en el sistema, sólo un Administrado debe hacerlo! '
+      title:'Desea eliminar este rol?',
+      text:'Eliminar un rol puede ocasionar fallas en el sistema, sólo un Administrado debe hacerlo! '
     })
     .then(response=>{
       if(response.isConfirmed){
@@ -106,7 +106,7 @@ export class PerfilesComponent implements OnInit {
         .subscribe(res=>{
           if(res.status===Global.OK){
             Swal.fire({
-              text:'El perfil se ha eliminado correctamente',
+              text:'El rol se ha eliminado correctamente',
               timer:1500
             });
             this.loadPerfiles();

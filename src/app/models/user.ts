@@ -1,3 +1,5 @@
+import { Sucursal } from "./sucursal";
+
 export class IUser {
   constructor(
     public _id:string,
@@ -19,6 +21,6 @@ export class IUser {
     public dob: string,
     public rfc: string,
     public isDisabled:boolean,
-    public sucursal:string
+    public sucursal:Sucursal
   ){}
 }

@@ -12,6 +12,7 @@ import { CarnetService } from 'src/app/service/carnet.service';
 import { Carnet } from 'src/app/models/carnet';
 import { DisponibilidadService } from 'src/app/service/disponibilidad.service';
 import { Disponibilidad } from 'src/app/models/disponibilidad';
+import { Sucursal } from 'src/app/models/sucursal';
 
 export interface Mes {
   value: string;
@@ -54,7 +55,7 @@ export class CitasComponent implements OnInit{
   public idMedico:string = '';
   public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date());
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'');
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -510,7 +511,7 @@ export class CitasComponent implements OnInit{
     }
     this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),new Date(), false,[], false,[],'','','',new Date(),new Date());
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(), false,[], false,[],'','','',new Date(),new Date(),'');
     
     this.dia = '';
     this.mes = '00';

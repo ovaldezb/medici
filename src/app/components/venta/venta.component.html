@@ -30,7 +30,10 @@
         <button class="btn btn-outline-primary" (click)="openModal('entrada')">Entradas <fa-icon [icon]="faFileCirclePlus"></fa-icon></button>
       </li>
       <li class="nav-item">
-        <button class="btn btn-outline-primary">Salidas <fa-icon [icon]="faFileCircleMinus"></fa-icon></button>
+        <button class="btn btn-outline-primary" (click)="openModal('salida')">Salidas <fa-icon [icon]="faFileCircleMinus"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary" (click)="asociarReceta()" [disabled]="venta.ventaProducto.length===0">Asoc. Rec. <fa-icon [icon]="faPrescriptionBottle"></fa-icon></button>
       </li>
       <li class="nav-item">
         <button class="btn btn-outline-primary" (click)="borraProducto()" [disabled]="HighLightRow===-1">Borrar <fa-icon [icon]="faTrashCan"></fa-icon></button>
@@ -165,27 +168,27 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('entrada')"></button>
       </div>
       <div class="modal-body">
-        <div class="row">
+        <div class="row mb-3 g-2">
           <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align ">Cantidad:</label>
-          <div class="col-sm-2">
-            <input type="number" id="entrada" class="form-control form-control-sm" name="entrada" [(ngModel)]="entrada"  (keyup)="buscaProdKeyUp($event)">
+          <div class="col-sm-3">
+            <input type="number" id="entrada" class="form-control form-control-sm" name="entrada" [(ngModel)]="entrada">
           </div>
-              <div class="row">
+              <div class="row mb-3 g-2">
                 <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align">Comentario:</label>
                 <div class="col-sm-8">
                   <input type="text" class="" id="comments" class="form-control form-control-sm" [(ngModel)]="comentarioEntrada">
                 </div>
               </div>
         </div>
-        <div class="row">
+        <div *ngIf="isVerEntradasOpen" class="row">
           <label for="">Entradas realizadas</label>
           <div class="col">
-              <table>
+              <table class="table table-striped">
                 <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                  <tr *ngFor="let entrada of listaEntradas">
+                    <td>{{entrada.fechaEntrada | date:'dd/MM/yyyy'}}</td>
+                    <td>{{entrada.comentario}}</td>
+                    <td>{{entrada.cantidad|currency}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -193,14 +196,58 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="limpiaBusqueda()" >Ver Entradas <fa-icon [icon]="faEye"></fa-icon></button>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="limpiaBusqueda()" >Cancelar <fa-icon [icon]="faBan"></fa-icon></button>
-        <button type="button" class="btn btn-outline-primary btn-sm" (click)="buscaProdDesc()">Guardar <fa-icon [icon]="faCircleCheck"></fa-icon> </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleEntradas()" >Ver Entradas <fa-icon [icon]="faEye"></fa-icon></button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="closeModal('entrada')" >Cancelar <fa-icon [icon]="faBan"></fa-icon></button>
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addEntradaEfectivo()">Guardar <fa-icon [icon]="faCircleCheck"></fa-icon> </button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Modal Salida Dinero-->
+<div *ngIf="isModalSalidaOpen" class="modal fade show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: block;" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Salida de Efetivo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('salida')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3 g-2">
+          <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align ">Cantidad:</label>
+          <div class="col-sm-3">
+            <input type="number" id="salida" class="form-control form-control-sm" name="salida" [(ngModel)]="salida">
+          </div>
+              <div class="row mb-3 g-2">
+                <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align">Comentario:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="" id="comments" class="form-control form-control-sm" [(ngModel)]="comentarioSalida">
+                </div>
+              </div>
+        </div>
+        <div *ngIf="isVerSalidasOpen" class="row">
+          <label for="">Salidas realizadas</label>
+          <div class="col">
+              <table class="table table-striped">
+                <tbody>
+                  <tr *ngFor="let entrada of listaSalidas">
+                    <td>{{entrada.fechaSalida | date:'dd/MM/yyyy'}}</td>
+                    <td>{{entrada.comentario}}</td>
+                    <td>{{entrada.cantidad|currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleSalidas()" >Ver Salidas <fa-icon [icon]="faEye"></fa-icon></button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="closeModal('salida')" >Cancelar <fa-icon [icon]="faBan"></fa-icon></button>
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addSalidaEfectivo()">Guardar <fa-icon [icon]="faCircleCheck"></fa-icon> </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal Cobrar-->
 <div *ngIf="isModalCobrarOpen" class="modal fade show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: block;" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">

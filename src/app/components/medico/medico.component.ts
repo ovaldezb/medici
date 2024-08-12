@@ -18,6 +18,7 @@ import { MedicamentoReceta } from 'src/app/models/medicamentoReceta';
 import { CarnetService } from 'src/app/service/carnet.service';
 import { Signos } from 'src/app/models/signos';
 import { PrintService } from 'src/app/service/print.service';
+import { Sucursal } from 'src/app/models/sucursal';
 
 @Component({
   selector: 'app-medico',
@@ -34,7 +35,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public fechaActual = new Date();
   public citas:Cita[] = [];
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date());
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'');
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -206,7 +207,6 @@ export class MedicoComponent implements OnInit, OnDestroy{
     this.receta.medicamentoReceta = this.cita.medicamentoReceta;
     if(!this.cita.isAtendido){
       this.counterE1();
-      console.log(this.cita.horaConsultaInicio);
       if(this.cita.horaConsultaInicio === null || this.cita.horaConsultaInicio === undefined){
         this.cita.horaConsultaInicio = new Date();
         this.citasService.updateCita(this.cita._id,this.cita)
@@ -232,7 +232,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   modificaCarnetCitas(folio:string, amount:number):void{
     this.carnetService.updateCitasCarnet(folio,amount)
     .subscribe(res=>{
-      //console.log('Se disminuyó el número de citas disponibles');
+      //Se disminuyó el número de citas disponibles
     });
   }
 

@@ -1,42 +1,67 @@
 <div class="container">
   <div class="card">
+    <div class="card-header text-center">
+      <h4>Administración de Roles</h4>
+    </div>
+    <div class="card-body">
     <div class="row">
       <div class="col card">
-        <form class="row g-3 needs-validation" novalidate>
-          <div class="col-md-4">
-            <input type="text" class="form-control" name="nombre" #nombre="ngModel" [(ngModel)]="perfil.nombre" placeholder="Nombre del Perfil"  required>
-            <div class="valid-feedback">
-              Looks good!
+        <form #rolForm="ngForm">
+          <div class="row mb-3 g-3">
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="nombre" #nombre="ngModel" [(ngModel)]="perfil.nombre" placeholder="Nombre del Rol"  required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary" type="submit" (click)="agregaActualizaPerfil()" [disabled]="rolForm.invalid">{{btnAccion}}</button>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-secondary" type="submit" (click)="limpiar()">Limpiar</button>
+            </div> 
+          </div>   
+          <div class="row mb-3 g-3">
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="valor" #valor="ngModel" [(ngModel)]="perfil.valor" placeholder="Descripción" required>
             </div>
           </div>
-          <div class="col">
-            <button class="btn btn-primary" type="submit" (click)="agregaActualizaPerfil()">{{btnAccion}}</button>
-            <button class="btn btn-secondary" type="submit" (click)="limpiar()">Limpiar</button>
-          </div>        
         </form>
       </div>
-      <div class="col card">
-        <table class="table">
+      <div class="col">
+        <table class="table table-bordered">
+          <colgroup>
+            <col width="30%">
+            <col width="40%">
+            <col width="30%">
+          </colgroup>
           <thead>
             <tr>
-              <th style="text-align: center;">Perfil</th>
+              <th style="text-align: center;">Rol</th>
+              <th style="text-align: center;">Descripción</th>
               <th style="text-align: center;">Acción</th>
             </tr>
           </thead>
         </table>
         <div style="height: 120px;overflow: auto;border: 1px solid red;margin-top: -15px;">
-        <table class="table">
+        <table class="table table-bordered">
+          <colgroup>
+            <col width="30%">
+            <col width="40%">
+            <col width="30%">
+          </colgroup>
           <tbody>
             <tr *ngFor="let perfil of perfiles; let i=index;" (click)="selectRow(i)"  [class.selected]="i == HighlightRow">
               <td>{{perfil.nombre}}</td>
+              <td>{{perfil.valor}}</td>
               <td style="text-align: center;">
                 <div class="row">
-                  <div class="col-2">
+                  <div class="col">
                     <button class="btn btn-outline-success" (click)="editRow(i)">
                       <fa-icon [icon]="faPencil"></fa-icon>
                     </button>
                   </div>
-                  <div class="col-2">
+                  <div class="col">
                     <button class="btn btn-outline-danger" (click)="deletePerfil(i)">
                       <fa-icon [icon]="faTrash"></fa-icon>
                     </button>
@@ -48,6 +73,7 @@
         </table>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div>

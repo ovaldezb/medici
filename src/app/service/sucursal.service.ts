@@ -15,6 +15,10 @@ export class SucursalService {
     return this._httpClient.post(Global.urlSucursal,sucursal,{observe: 'response'});
   }
 
+  getSucursalById(idSucursal:string):Observable<any>{
+    return this._httpClient.get(Global.urlSucursal+'/'+idSucursal,{observe:'response'});
+  }
+
   getAllSucursales():Observable<any>{
     return this._httpClient.get(Global.urlSucursal,{observe: 'response'});
   }

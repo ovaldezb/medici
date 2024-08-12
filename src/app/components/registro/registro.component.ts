@@ -10,11 +10,9 @@ import { Global } from 'src/app/service/Global';
 import { PerfilService } from 'src/app/service/perfil.service';
 import { Sucursal } from 'src/app/models/sucursal';
 import { Especialidad } from 'src/app/models/especialidad';
+import { Perfil } from 'src/app/models/perfil';
 
-export interface Perfil{
-  _id:string,
-  nombre:string
-}
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -22,7 +20,7 @@ export interface Perfil{
   providers:[UsuariosService,PerfilService, SucursalService, PerfilService]
 })
 export class RegistroComponent  implements OnInit{
-  public usuario:IUser = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
+  public usuario:IUser = new IUser('','','','','','','','','','','','M','','',false,'','','',false,new Sucursal('','','','','','',false));
   public isConfirm: boolean;
   public faCalendar = faCalendar;
   public faScroll = faScroll;
@@ -46,12 +44,7 @@ export class RegistroComponent  implements OnInit{
   public sucursales:Sucursal[] = [];
   public isWorkingIdentidad:boolean=false;
   perfiles:Perfil[]=[];
-  /*perfiles: Perfil[] =[
-    {_id:'ADMINISTRADOR', nombre:'ADMINISTRADOR'},
-    {_id:'MEDICO', nombre:'MEDICO'},
-    {_id:'RECEPCION', nombre:'RECEPCION'},
-    {_id:'ENFERMERA', nombre:'ENFERMERA'},
-  ];*/
+  
   especialidades: Especialidad[] = [
     {_id:'Médico General', descripcion:'Médico General'},
     {_id:'Cirugia General', descripcion:'Cirugia General'},
@@ -105,7 +98,7 @@ export class RegistroComponent  implements OnInit{
     this.usuario.dob = dob.replace(/-/g,'/');
     this.usuario.cedula = this.usuario.cedula === undefined ? '' : this.usuario.cedula;
     this.usuario.especialidad = this.usuario.especialidad=== undefined ? '': this.usuario.especialidad;
-    this.usuario.perfil = this.perfil.nombre;
+    this.usuario.perfil = this.perfil.valor;
     this.usuario.telefono = Global.COD_MX+this.usuario.telefono;
     this.cognitoService.signUp(this.usuario)
     .then(()=>{
@@ -126,7 +119,7 @@ export class RegistroComponent  implements OnInit{
     .then(()=>{
       this.isConfirm = false;
       this.isWorkingIdentidad = false;
-      this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
+      this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,new Sucursal('','','','','','',false));
       this.loadAllUsuarios();
     })
     .catch((err)=>{
@@ -212,6 +205,6 @@ export class RegistroComponent  implements OnInit{
   }
 
   limpiar():void{
-    this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,'');
+    this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,new Sucursal('','','','','','',false));
   }
 }

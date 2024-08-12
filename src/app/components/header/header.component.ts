@@ -6,7 +6,11 @@ import { faCalendarCheck,
   faUser, 
   faGears, 
   faUserDoctor, 
-  faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+  faRightFromBracket,
+  faCalendarDays,
+  faStethoscope,
+  faPeopleRoof,
+  faHouseMedical } from '@fortawesome/free-solid-svg-icons';
 import { IUser } from 'src/app/models/user';
 import { Global } from 'src/app/service/Global';
 import { CognitoService } from 'src/app/service/cognito.service';
@@ -19,6 +23,11 @@ export class HeaderComponent implements OnInit{
   
   public faGears = faGears;
   public faRightFromBracket = faRightFromBracket;
+  faHouseMedical = faHouseMedical;
+  faStethoscope = faStethoscope;
+  faPeopleRoof = faPeopleRoof;
+  faUserNurse = faUserNurse;
+  faCalendarDays = faCalendarDays;
   public faIcon2Display = faUser;
   public status:boolean = false;
   public perfiles:Array<String>=new Array();
@@ -31,7 +40,7 @@ export class HeaderComponent implements OnInit{
     if(this.cognitoService.isAuthenticated()){
       this.cognitoService.getUser()
       .then(user=>{
-        this.nombreUsuario = user.attributes.given_name+' '+user.attributes.middle_name+' '+user.attributes.family_name;
+        this.nombreUsuario = user.attributes.given_name+' '+user.attributes.family_name+' '+user.attributes.middle_name;
         this.perfiles = user.signInUserSession.accessToken.payload['cognito:groups'];
         if(this.isAdmin()){
           this.faIcon2Display = faCrown;
@@ -41,6 +50,8 @@ export class HeaderComponent implements OnInit{
           this.faIcon2Display = faUserNurse;
         }else if(this.isRecepcion()){
           this.faIcon2Display = faCalendarPlus;
+        }else if(this.isFarmacia()){
+          this.faIcon2Display = faHouseMedical;
         }
       })
       .catch(err=>{
@@ -67,5 +78,9 @@ export class HeaderComponent implements OnInit{
 
   isEnfermera():boolean{
     return this.perfiles.includes(Global.ENFERMERA);
+  }
+
+  isFarmacia():boolean{
+    return this.perfiles.includes(Global.FARMACIA);
   }
 }

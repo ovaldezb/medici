@@ -20,6 +20,7 @@ export class Cita{
     public diagnostico: String,
     public tratamiento: String,
     public horaTomaSignos: Date,
-    public horaCreaCita: Date
+    public horaCreaCita: Date,
+    public noReceta:String
   ){}
 }

@@ -13,6 +13,7 @@ import { faBasketShopping,
           faFileCirclePlus,
           faFileCircleMinus,
           faCircleCheck,
+          faPrescriptionBottle,
           faBan,
           faEye } from '@fortawesome/free-solid-svg-icons';
 import { EntradaEfectivo } from 'src/app/models/entradaEfectivo';
@@ -23,6 +24,7 @@ import { VentaProducto } from 'src/app/models/ventaproducto';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { Global } from 'src/app/service/Global';
 import { ProductoService } from 'src/app/service/producto.service';
+import { SucursalService } from 'src/app/service/sucursal.service';
 import { VentasService } from 'src/app/service/ventas.service';
 import Swal from 'sweetalert2';
 
@@ -35,7 +37,7 @@ export interface Banco {
   selector: 'app-venta',
   templateUrl: './venta.component.html',
   styleUrls: ['./venta.component.css'],
-  providers:[ProductoService,VentasService, CognitoService]
+  providers:[ProductoService,VentasService, CognitoService,SucursalService]
 })
 
 export class VentaComponent implements OnInit{
@@ -44,6 +46,7 @@ export class VentaComponent implements OnInit{
       private productoService:ProductoService, 
       private renderer:Renderer2,
       private ventasService:VentasService,
+      private sucursalService:SucursalService,
       private cognitoService:CognitoService){}
   ngOnInit(): void {
     this.getTicket();
@@ -51,12 +54,23 @@ export class VentaComponent implements OnInit{
     this.renderer.selectRootElement('#codigobarras').focus();
     this.cognitoService.getUser().then(user=>{
       this.cajero = user.attributes.given_name+' '+user.attributes.middle_name+' '+user.attributes.family_name;
+      this.idSucursal = user.attributes['custom:sucursal'];
+      this.sucursalService.getSucursalById(this.idSucursal)
+      .subscribe(res=>{
+        if(res.status===Global.OK){
+          this.sucursal = res.body.sucursal.identificador;
+        }
+      });
     })
   }
 
+  idSucursal:string='';
+  sucursal:string='';
   cajero:string='';
   entrada:number=0;
+  salida:number=0;
   comentarioEntrada:string='';
+  comentarioSalida:string='';
   numeroTicket:string='';
   salidaEfectivo:SalidaEfectivo=new SalidaEfectivo('',0,'','', new Date);
   entradaEfectivo:EntradaEfectivo=new EntradaEfectivo('',0,'','', new Date);
@@ -74,6 +88,7 @@ export class VentaComponent implements OnInit{
   faFileCirclePlus = faFileCirclePlus;
   faFileCircleMinus = faFileCircleMinus;
   faMagnifyingGlassDollar = faMagnifyingGlassDollar;
+  faPrescriptionBottle = faPrescriptionBottle;
   faCircleCheck = faCircleCheck;
   faBan = faBan;
   total:number = 0;
@@ -100,6 +115,10 @@ export class VentaComponent implements OnInit{
   noTransferencia:string='';
   banco:string='';
   formPagoId:string='';
+  isVerEntradasOpen:boolean=false;
+  isVerSalidasOpen:boolean=false;
+  listaSalidas:SalidaEfectivo[]=[];
+  listaEntradas:EntradaEfectivo[]=[];
   bancos:Banco[]=[
     {value:'Banamex',viewValue:'BANAMEX'},
     {value:'Santander',viewValue:'Banco Santander'},
@@ -237,6 +256,34 @@ export class VentaComponent implements OnInit{
     });
   }
 
+  addEntradaEfectivo():void{
+    this.entradaEfectivo = new EntradaEfectivo('',this.entrada,this.comentarioEntrada,this.sucursal,new Date());
+    this.ventasService.agregaEntradaSalidaEfectivo(this.entradaEfectivo,'entrada')
+    .subscribe(res=>{
+      if(res.status === Global.OK){
+        Swal.fire({
+          titleText:'Se agrego entrada de efectivo',
+          icon:'success',
+          timer:Global.TIMER_OFF
+        });
+      }
+    })
+  }
+
+  addSalidaEfectivo():void{
+    this.salidaEfectivo = new SalidaEfectivo('',this.salida,this.comentarioSalida,this.sucursal, new Date());
+    this.ventasService.agregaEntradaSalidaEfectivo(this.salidaEfectivo,'salida')
+    .subscribe(res=>{
+      if(res.status === Global.OK){
+        Swal.fire({
+          titleText:'Se agrego salida de efectivo',
+          icon:'success',
+          timer:Global.TIMER_OFF
+        });
+      }
+    });
+  }
+
   formaPago(formaPago:string):void{
     this.formPagoId=formaPago;
     switch(formaPago){
@@ -280,7 +327,7 @@ export class VentaComponent implements OnInit{
     this.venta.banco = this.banco;
     this.venta.noAprobacion = this.noAprobacion;
     this.venta.noTransferencia = this.noTransferencia;
-    this.ventasService.agregaVenta(this.venta)
+    this.ventasService.agregaVenta(this.venta,'add')
     .subscribe(res=>{
       this.isSpinnerCobrandoOpen = false;
       if(res.status===Global.OK){
@@ -324,6 +371,9 @@ export class VentaComponent implements OnInit{
       case 'entrada':
         this.isModalEntradaOpen = true;
         break;
+        case 'salida':
+          this.isModalSalidaOpen = true;
+          break;
       default:
         return;
     }
@@ -341,9 +391,22 @@ export class VentaComponent implements OnInit{
       case 'entrada':
         this.isModalEntradaOpen = false;
         break;
+      case 'salida':
+        this.isModalSalidaOpen = false;
+        break;
       default:
         return;
     }
+  }
+
+  toggleEntradas():void{
+    this.isVerEntradasOpen = !this.isVerEntradasOpen;
+    this.getListaEntradas();
+  }
+
+  toggleSalidas():void{
+    this.isVerSalidasOpen = !this.isVerSalidasOpen;
+    this.getListaSalidas();
   }
 
   getTicket():void{
@@ -362,6 +425,37 @@ export class VentaComponent implements OnInit{
   limpiaBusqueda():void {
     this.productosEncontrados = [];
     this.HighLightRowBusqueda = -1;
+  }
+
+  asociarReceta():void{
+    
+  }
+
+  getListaEntradas():void{
+    let today = new Date();
+    let dia = today.getDate()<10 ? '0'+today.getDate():today.getDate();
+    let mes = (today.getMonth()+1) < 10 ? '0'+(today.getMonth()+1) : (today.getMonth()+1);
+    let year = today.getFullYear();
+    this.ventasService.getListaEntradas(year+'-'+mes+'-'+dia,this.sucursal)
+    .subscribe(res=>{
+      if(res.status === Global.OK && res.body.entradas.length>0){
+        this.listaEntradas = res.body.entradas;
+      }
+    });
+  }
+
+  getListaSalidas():void{
+    let today = new Date();
+    let dia = today.getDate()<10 ? '0'+today.getDate():today.getDate();
+    let mes = (today.getMonth()+1) < 10 ? '0'+(today.getMonth()+1) : (today.getMonth()+1);
+    let year = today.getFullYear();
+    this.ventasService.getListaSalidas(year+'-'+mes+'-'+dia,this.sucursal)
+    .subscribe(res=>{
+      console.log(res);
+      if(res.status === Global.OK && res.body.entradas.length>0){
+        this.listaSalidas = res.body.salidas;
+      }
+    });
   }
 
   pad(n:string, width:number, z?:string):string {

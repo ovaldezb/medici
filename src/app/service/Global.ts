@@ -3,6 +3,7 @@ export var Global ={
   urlCita:     'https://gjxtfu9ve2.execute-api.us-east-1.amazonaws.com/dev/cita',
   urlDisponib: 'https://uxifak5tof.execute-api.us-east-1.amazonaws.com/dev/disponibilidad',
   urlEnfermed: 'https://ekapc7eimk.execute-api.us-east-1.amazonaws.com/dev/enfermedad',
+  urlFolio:    'https://ys72uwulue.execute-api.us-east-1.amazonaws.com/dev/folio',
   urlMedicamt: 'https://qrrlv0txqi.execute-api.us-east-1.amazonaws.com/dev/medicamento',
   urlMedico:   'https://s1ic99wjca.execute-api.us-east-1.amazonaws.com/dev/medico',
   urlPaciente: 'https://eg3c501ond.execute-api.us-east-1.amazonaws.com/dev/paciente',
@@ -27,6 +28,7 @@ export var Global ={
   ENFERMERA:'ENFERMERA',
   ADMINISTRADOR:'ADMINISTRADOR',
   REPECION:'RECEPCION',
+  FARMACIA:'FARMACIA',
   SUCCESS:'SUCCESS',
   ENTER:13,
   REFRESH_CITA: 60*1000, // cada minuto va ir a consultar si hay nuevas citas
@@ -58,5 +60,8 @@ export var Global ={
   TRANSFERENCIA:'transferencia',
   CHEQUE:'cheque',
   EMPTY:0,
-  LONG_TICKET:6
+  LONG_TICKET:6,
+  CARNET:'carnet',
+  RECETA:'receta',
+  TICKET:'ticket'
 }
