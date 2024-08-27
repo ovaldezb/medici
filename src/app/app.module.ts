@@ -32,6 +32,8 @@ import { RecetaComponent } from './components/receta/receta.component';
 import { PrintLayoutComponent } from './components/print-layout/print-layout.component';
 import { AntecedentesFamiliaresComponent } from './components/antecedentes-familiares/antecedentes-familiares.component';
 import { EnfermeriaMenuComponent } from './components/enfermeria-menu/enfermeria-menu.component';
+import { ProductoComponent } from './components/producto/producto.component';
+import { VentaComponent } from './components/venta/venta.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { EnfermeriaMenuComponent } from './components/enfermeria-menu/enfermeria
     RecetaComponent,
     PrintLayoutComponent,
     AntecedentesFamiliaresComponent,
-    EnfermeriaMenuComponent
+    EnfermeriaMenuComponent,
+    ProductoComponent,
+    VentaComponent
   ],
   imports: [
     BrowserModule,

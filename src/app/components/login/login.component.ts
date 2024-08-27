@@ -42,6 +42,9 @@ export class LoginComponent {
           case Global.REPECION:
             this.router.navigateByUrl('/recepcion');
             break;
+          case Global.FARMACIA:
+            this.router.navigateByUrl('/farmacia');
+            break;
         }
       })
     })

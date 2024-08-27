@@ -1,37 +1,10 @@
 import { Paciente } from "./paciente";
+import { TipoRespuestaAF } from "./tipoRespuestaAF";
 
-export class HeredoFamiliares{
+export class RespuestasAF{
   constructor(
     public _id: string,
     public paciente: Paciente,
-    public respuesta1: string[],
-    public respuesta2: string,
-    public respuesta3: string,
-    public respuesta4: string,
-    public respuesta5: string,
-    public respuesta6: string,
-    public respuesta7: string,
-    public respuesta8: string,
-    public respuesta9: string,
-    public respuesta10: string,
-    public respuesta11: string,
-    public respuesta12: string,
-    public respuesta13: string,
-    public respuesta14: string,
-    public respuesta15: string,
-    public respuesta16: string,
-    public respuesta17: string,
-    public respuesta18: string,
-    public respuesta19: string,
-    public respuesta20: string,
-    public respuesta21: string,
-    public respuesta22: string,
-    public respuesta23: string,
-    public respuesta24: string,
-    public respuesta25: string,
-    public respuesta26: string,
-    public respuesta27: string,
-    public respuesta28: string,
-    public respuesta29: string,
+    public respuestas: TipoRespuestaAF[],
   ){}
 }

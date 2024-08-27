@@ -1,0 +1,341 @@
+<div class="container">
+  <h3 style="text-align: right;">Ticket {{numeroTicket}}</h3>
+  <div class="row mb-2 g-2">
+    <label for="codigobarras" 
+          class="col-sm-2 col-form-label col-form-label-sm" 
+          style="text-align: right;">Código del Producto:</label>
+    <div class="col-sm-2">
+      <input type="text" name="codigobarras" id="codigobarras" [(ngModel)]="codigobarras" class="form-control form-control-sm" (keyup)="agregaProductoEnter($event)">
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-outline-primary btn-sm" (click)="agregaProducto()" [disabled]="codigobarras.length===0">Agregar <fa-icon [icon]="faBarcode"></fa-icon> </button>
+    </div>
+    <div *ngIf="isSpinnerAgregaProductoOpen" class="col-sm-2">
+      <div class="spinner-border text-primary spinner-border-sm" role="status">
+      </div>
+    </div>
+  </div>
+  <ul class="navbar">
+    <div class="container-fluid">
+      <li class="nav-item">
+        <button class="btn btn-outline-primary">Ins Varios <fa-icon [icon]="faBasketShopping"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary" (click)="openModal('busqueda')">Buscar <fa-icon [icon]="faMagnifyingGlass"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary">Verificador <fa-icon [icon]="faMagnifyingGlassDollar"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary" (click)="openModal('entrada')">Entradas <fa-icon [icon]="faFileCirclePlus"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary" (click)="openModal('salida')">Salidas <fa-icon [icon]="faFileCircleMinus"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary" (click)="asociarReceta()" [disabled]="venta.ventaProducto.length===0">Asoc. Rec. <fa-icon [icon]="faPrescriptionBottle"></fa-icon></button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-primary" (click)="borraProducto()" [disabled]="HighLightRow===-1">Borrar <fa-icon [icon]="faTrashCan"></fa-icon></button>
+      </li>
+    </div>
+  </ul>
+  <table class="table table-secondary table-bordered">
+    <colgroup>
+      <col width="20%">
+      <col width="25%">
+      <col width="10%">
+      <col width="10%">
+      <col width="15%">
+      <col width="10%">
+      <col width="10%">
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="venta-center">Código de Barras</th>
+        <th class="venta-center">Descripción del producto</th>
+        <th class="venta-center">Precio de Venta</th>
+        <th class="venta-center">Cant.</th>
+        <th class="venta-center">Importe</th>
+        <th class="venta-center">Existencia</th>
+        <th class="venta-center">Descuento</th>
+      </tr>
+    </thead>
+  </table>
+  <div style="margin-top: -15px;border: 1px solid rgb(45, 65, 243); height: 300px;overflow: auto;">
+    <table class="table table-bordered table-sm">
+      <colgroup>
+        <col width="20%">
+        <col width="25%">
+        <col width="10%">
+        <col width="10%">
+        <col width="15%">
+        <col width="10%">
+        <col width="10%">
+      </colgroup>
+      <tbody>
+        <tr *ngFor="let prodVen of this.venta.ventaProducto;let i = index" (click)="selectRow(i)" [class.selected]="i == HighLightRow">
+          <td class="venta-center">{{prodVen.producto.codigoBarras}}</td>
+          <td class="venta-center">{{prodVen.producto.descripcion}}</td>
+          <td class="venta-center">{{prodVen.producto.precioVenta | currency}}</td>
+          <td class="venta-center">
+            <input type="number" name="cantidad{{i}}" id="cantidad{{i}}" class="form-control form-control-sm" (change)="calculaTotal()" #cantidad="ngModel" [(ngModel)]="prodVen.cantidad">
+          </td>
+          <td class="venta-center">{{prodVen.cantidad * prodVen.producto.precioVenta | currency}}</td>
+          <td class="venta-center">{{prodVen.producto.existencia}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <button class="btn btn-outline-primary">Limpiar</button>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input type="text" class="form-control me-2" style="font-size: 30px;text-align: right;width: 250px;" disabled value="Total: {{total | currency}}">
+        <button class="btn btn-outline-primary" (click)="openModal('cobrar')" [disabled]="venta.ventaProducto.length===0">Cobrar <fa-icon [icon]="faCashRegister"></fa-icon></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Busqueda-->
+<div *ngIf="isModalBusquedaOpen" class="modal fade show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: block;" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"> Buscar por descripcion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('busqueda')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-2 g-2">
+          <label for="" class="col-sm-2 col-form-label col-form-label-sm" 
+                      style="text-align: right;">Descripción:</label>
+          <div class="col-sm-4">
+            <input type="text" id="descbusqueda" class="form-control form-control-sm" name="desc" [(ngModel)]="desc"  (keyup)="buscaProdKeyUp($event)">
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="buscaProdDesc()" [disabled]="desc.length<3">Buscar</button>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="limpiaBusqueda()" [disabled]="desc.length<3">Limpiar</button>
+          </div>
+          <div *ngIf="isSpinnerBuscaProdudctoOpen" class="col-sm-1">
+            <div class="spinner-border text-primary spinner-border-sm" role="status">
+            </div>
+          </div>
+       </div>
+       <table class="table">
+        <thead>
+          <tr>
+            <th>Código de Barras</th>
+            <th>Descripción</th>
+            <th>Existencia</th>
+          </tr>
+        </thead>
+       </table>
+       <div style="height: 150px;border: 1px solid blue;margin-top: -15px;overflow: auto;">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let producto of productosEncontrados; let i=index;" (click)="selectRowEncontrado(i)" (dblclick)="agregarProductoEncontrado()" [class.selected]="HighLightRowBusqueda===i">
+              <td style="font-size: small;">{{producto.codigoBarras}}</td>
+              <td style="font-size: small;">{{producto.descripcion}}</td>
+              <td style="font-size: small;">{{producto.existencia}}</td>
+            </tr>
+          </tbody>
+        </table>
+       </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal('busqueda')">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="agregarProductoEncontrado()" [disabled]="HighLightRowBusqueda==-1">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Entrada Dinero-->
+<div *ngIf="isModalEntradaOpen" class="modal fade show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: block;" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Entrada de Efetivo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('entrada')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3 g-2">
+          <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align ">Cantidad:</label>
+          <div class="col-sm-3">
+            <input type="number" id="entrada" class="form-control form-control-sm" name="entrada" [(ngModel)]="entrada">
+          </div>
+              <div class="row mb-3 g-2">
+                <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align">Comentario:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="" id="comments" class="form-control form-control-sm" [(ngModel)]="comentarioEntrada">
+                </div>
+              </div>
+        </div>
+        <div *ngIf="isVerEntradasOpen" class="row">
+          <label for="">Entradas realizadas</label>
+          <div class="col">
+              <table class="table table-striped">
+                <tbody>
+                  <tr *ngFor="let entrada of listaEntradas">
+                    <td>{{entrada.fechaEntrada | date:'dd/MM/yyyy'}}</td>
+                    <td>{{entrada.comentario}}</td>
+                    <td>{{entrada.cantidad|currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleEntradas()" >Ver Entradas <fa-icon [icon]="faEye"></fa-icon></button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="closeModal('entrada')" >Cancelar <fa-icon [icon]="faBan"></fa-icon></button>
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addEntradaEfectivo()">Guardar <fa-icon [icon]="faCircleCheck"></fa-icon> </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Salida Dinero-->
+<div *ngIf="isModalSalidaOpen" class="modal fade show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: block;" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Salida de Efetivo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('salida')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3 g-2">
+          <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align ">Cantidad:</label>
+          <div class="col-sm-3">
+            <input type="number" id="salida" class="form-control form-control-sm" name="salida" [(ngModel)]="salida">
+          </div>
+              <div class="row mb-3 g-2">
+                <label for="" class="col-sm-3 col-form-label col-form-label-sm text-align">Comentario:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="" id="comments" class="form-control form-control-sm" [(ngModel)]="comentarioSalida">
+                </div>
+              </div>
+        </div>
+        <div *ngIf="isVerSalidasOpen" class="row">
+          <label for="">Salidas realizadas</label>
+          <div class="col">
+              <table class="table table-striped">
+                <tbody>
+                  <tr *ngFor="let entrada of listaSalidas">
+                    <td>{{entrada.fechaSalida | date:'dd/MM/yyyy'}}</td>
+                    <td>{{entrada.comentario}}</td>
+                    <td>{{entrada.cantidad|currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleSalidas()" >Ver Salidas <fa-icon [icon]="faEye"></fa-icon></button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="closeModal('salida')" >Cancelar <fa-icon [icon]="faBan"></fa-icon></button>
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addSalidaEfectivo()">Guardar <fa-icon [icon]="faCircleCheck"></fa-icon> </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cobrar-->
+<div *ngIf="isModalCobrarOpen" class="modal fade show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" style="display: block;" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="margin: auto;">
+        <h5 class="modal-title" id="staticBackdropLabel">Cobrar</h5>
+        <div *ngIf="isSpinnerCobrandoOpen" class="spinner-border text-primary spinner-border-sm" role="status"></div>
+      </div>
+      <div class="modal-body">
+        <ul class="navbar">
+          <div class="container-fluid">
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="formaPago('efectivo')">EFECTIVO <fa-icon [icon]="faMoneyBill"></fa-icon> </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="formaPago('tarjeta')">TARJETA <fa-icon [icon]="faCreditCard"></fa-icon> </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="formaPago('transferencia')">TRANSFERENCIA <fa-icon [icon]="faMoneyBillTransfer"></fa-icon> </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="formaPago('cheque')">CHEQUE <fa-icon [icon]="faMoneyCheckDollar"></fa-icon> </button>
+            </li>
+          </div>
+        </ul>
+        <div *ngIf="isFPEfectivo" class="container">
+          <div class="row mb-2 g-2">
+            <label for="" class="col-sm-2 col-form-label col-form-label-sm">Efectivo</label>
+            <div class="col-sm-3">
+              <input type="number" id="efectivo" class="form-control form-control-sm" 
+                [(ngModel)]="efectivo" 
+                (focus)="selectAllContent($event)" 
+                (keyup)="calculaCambio()">
+            </div>
+          </div>
+          <div class="row mb-2 g-2">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Total</label>
+            <div class="col-sm-2 ">{{total | currency}}</div>
+          </div>
+          <div class="row mb-2 g-2">
+            <label class="col-sm-2 col-form-label col-form-label-sm ">Cambio</label>
+            <div class="col-sm-2 ">{{cambio|currency}}</div>
+          </div>
+        </div>
+        <div *ngIf="isFPTarjeta" class="container">
+          <div class="row mb-2 g-2">
+            <label for="">Tarjeta</label>
+          </div>
+          <div class="row mb-2 g-2">
+            <label for="" class="col-sm-3 col-form-label col-form-label-sm">Banco:</label>
+            <div class="col col-sm-5">
+              <select name="banco" [(ngModel)]="banco" class="form-select form-select-sm">
+                <option *ngFor="let banco of bancos" value="{{banco.value}}">{{banco.viewValue}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2 g-2">
+            <label for="" class="col-sm-3 col-form-label col-form-label-sm" >No Aprobación:</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="noAprobacion" id="">
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isFPTransferencia" class="container">
+          <div class="row mb-2 g-2">
+            <h4>Transferencia</h4>
+          </div>
+          <div class="row mb-2 g-2">
+            <label for="" class="col-sm-3 col-form-label col-form-label-sm">Banco:</label>
+            <div class="col col-sm-5">
+              <select name="banco" [(ngModel)]="banco" class="form-select form-select-sm">
+                <option *ngFor="let banco of bancos" value="{{banco.value}}">{{banco.viewValue}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2 g-2">
+            <label for="" class="col-sm-3 col-form-label col-form-label-sm" >No Transferencia:</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="noTransferencia" id="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal('cobrar')">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="cobrar()">Cobrar</button>
+      </div>
+    </div>
+  </div>
+</div>

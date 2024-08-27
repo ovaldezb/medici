@@ -2,12 +2,23 @@
   color: rgb(81, 237, 60) !important;
   background-color: dodgerblue;
   font-weight: bold;
+  font-size: small;
 }
 
 .selectedMedico {
   color: wheat !important;
   background-color: darkblue;
   font-weight: bold;
+}
+
+.venta-center{
+  text-align: center;
+  font-size: small;
+}
+
+.venta-right{
+  text-align: right;
+  font-size: small;
 }
 
 .conSignos {

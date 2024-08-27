@@ -34,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'carnet', component: EnrollComponent,canActivate:[RouteGuardService] },
   { path: 'consulta', component: ConsultaEnfermedadComponent, canActivate:[RouteGuardService] },
   { path: 'dispnibilidad', component: DisponibilidadComponent, canActivate:[RouteGuardService]},
+  { path: 'farmacia', component: FarmaciaComponent, canActivate:[RouteGuardService]},
   { path: 'historial', component: HistoriaClinicaComponent},
   { path: 'print/:idCita', outlet:'print',component: PrintLayoutComponent }
 ];

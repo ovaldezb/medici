@@ -10,6 +10,7 @@ import { Signos } from 'src/app/models/signos';
 import Swal from 'sweetalert2';
 import { IUser } from 'src/app/models/user';
 import { faPlus, faFaceSmile, faFaceRollingEyes, faFaceSadCry, faFaceSadTear, faFaceFrown, faFaceMeh, faFaceLaugh, faFaceTired, faFaceGrimace, faFaceAngry } from '@fortawesome/free-solid-svg-icons';
+import { Sucursal } from 'src/app/models/sucursal';
 
 @Component({
   selector: 'app-enfermeria',
@@ -35,7 +36,7 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,''),new Date(),'',new Date(),new Date(),false,[{} as Signos], false,[],'','','',new Date(),new Date());
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false,[{} as Signos], false,[],'','','',new Date(),new Date(),'');
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
   public medico:IUser = {} as IUser;
   public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
@@ -169,7 +170,7 @@ export class EnfermeriaComponent implements OnInit{
     this.escala = 0
     this.getCitas();
     this.signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);
-    this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,'');
+    this.medico = new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false));
     this.paciente = new Paciente('','','','',new Date(),'','','','','','','','');
     this.btnAccion = Global.GUARDAR;
     this.contorno = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];

@@ -1,9 +1,10 @@
 export class PreguntaAF{
   constructor(
-    public id: string,
-    public respuestas:[{respuesta:string, valor:string}],
+    public _id: string,
+    public respuestas:[{_id:string,respuesta:string, valor:string}],
     public pregunta: string,
-    public otro: string,
-    public opcional:boolean
+    public opcional:boolean,
+    public orden: number,
+    public listaChecked:boolean[]
   ){}
 }

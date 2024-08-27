@@ -13,8 +13,12 @@
     <a *ngIf="tabActivo!='carnet'" class="nav-link"  (click)="clickUsuario('carnet')" style="cursor: pointer;">Carnet</a>
   </li>
   <li>
-    <a *ngIf="tabActivo==='farmacia'" class="nav-link active"  aria-disabled="true">Farmacia</a>
-    <a *ngIf="tabActivo!='farmacia'" class="nav-link"  (click)="clickUsuario('farmacia')" style="cursor: pointer;">Farmacia</a>
+    <a *ngIf="tabActivo==='rol'" class="nav-link active"  aria-disabled="true">Perfiles</a>
+    <a *ngIf="tabActivo!='rol'" class="nav-link"  (click)="clickUsuario('rol')" style="cursor: pointer;">Roles</a>
+  </li>
+  <li>
+    <a *ngIf="tabActivo==='sucursal'" class="nav-link active"  aria-disabled="true">Sucursales</a>
+    <a *ngIf="tabActivo!='sucursal'" class="nav-link"  (click)="clickUsuario('sucursal')" style="cursor: pointer;">Sucursales</a>
   </li>
   <li>
     <a *ngIf="tabActivo==='historial'" class="nav-link active"  aria-disabled="true">Historial</a>
@@ -24,5 +28,6 @@
 <app-registro *ngIf="tabActivo==='usuario'"></app-registro>
 <app-enroll *ngIf="tabActivo==='carnet'"></app-enroll>
 <app-paciente *ngIf="tabActivo==='paciente'"></app-paciente>
-<app-farmacia *ngIf="tabActivo==='farmacia'"></app-farmacia>
+<app-perfiles *ngIf="tabActivo==='rol'"></app-perfiles>
+<app-sucursales *ngIf="tabActivo==='sucursal'"></app-sucursales>
 <app-historia-clinica *ngIf="tabActivo==='historial'"></app-historia-clinica>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DateRangeType, IgxCalendarComponent, IgxDialogComponent } from 'igniteui-angular';
+import { IgxCalendarComponent } from 'igniteui-angular';
 import { Disponibilidad } from 'src/app/models/disponibilidad';
 import { IUser } from 'src/app/models/user';
 import { Global } from 'src/app/service/Global';

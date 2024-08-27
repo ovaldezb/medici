@@ -1,0 +1,106 @@
+<form class="container">
+  <div class="row mb-2 g-2">
+    <label for="codigoBarras" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Código de Barras</label>
+    <div class="col-sm-3">
+      <input type="text" name="codigoBarras" id="codigoBarras" #codigoBarras="ngModel" [(ngModel)]="producto.codigoBarras" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="descripcion" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Descripción</label>
+    <div class="col-sm-3">
+      <input type="text" name="descripcion" id="descripcion" #descripcion="ngModel" [(ngModel)]="producto.descripcion" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="sevende" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Se vende</label>
+    <div class="col-sm-1">
+      <input type="radio" name="sevende"  value="U" id="sevende1" class="form-check-input" #sevende="ngModel" [(ngModel)]="producto.seVendePor" [checked]="producto.seVendePor==='U'">
+      <label for="sevende1">Por Pieza</label>
+    </div>
+    <div class="col-sm-1">
+      <input type="radio" name="sevende" value="G" id="sevende2" class="form-check-input" #sevende="ngModel" [(ngModel)]="producto.seVendePor" [checked]="producto.seVendePor==='G'">
+      <label for="sevende2">A granel</label>
+    </div>
+    <div class="col-sm-2">
+      <input type="radio" name="sevende" value="P" id="sevende3" class="form-check-input" #sevende="ngModel" [(ngModel)]="producto.seVendePor" [checked]="producto.seVendePor==='P'"> 
+      <label for="sevende3">Como paquete</label>
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="precioCosto" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Precio Costo</label>
+    <div class="col-sm-1">
+      <input type="number" name="precioCosto" id="precioCosto" #precioCosto="ngModel" [(ngModel)]="producto.precioCosto" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="ganancia" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Ganancia</label>
+    <div class="col-sm-1">
+      <input type="number" name="ganancia" id="ganancia" #ganancia="ngModel" [(ngModel)]="producto.ganancia" class="form-control form-control-sm">%
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="precioVenta" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Precio Venta</label>
+    <div class="col-sm-1">
+      <input type="number" name="precioVenta" id="precioVenta" #precioVenta="ngModel" [(ngModel)]="producto.precioVenta" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="precioMayoreo" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Precio Mayoreo</label>
+    <div class="col-sm-1">
+      <input type="number" name="precioMayoreo" id="precioMayoreo"  #precioMayoreo="ngModel" [(ngModel)]="producto.precioMayoreo" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="especialidad" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Especialidad*</label>
+    <div class="col-sm-2">
+      <input type="text" name="especialidad" id="especialidad" #especialidad="ngModel" [(ngModel)]="producto.especialidad" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="proveedor" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Proveedor</label>
+    <div class="col-sm-2">
+      <input type="number" name="proveedor" id="proveedor" #proveedor="ngModel" [(ngModel)]="producto.proveedor" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="lote" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Lote</label>
+    <div class="col-sm-2">
+      <input type="text" name="lote" id="lote" #lote="ngModel" [(ngModel)]="producto.lote" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="caducidad" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Caducidad</label>
+    <div class="col-sm-2">
+      <input type="date" name="caducidad" id="caducidad" #lote="ngModel" [(ngModel)]="producto.caducidad" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="usainventario" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Este producto si usa inventario.</label>
+    <div class="col-sm-2">
+      <input type="checkbox" name="usainventario" id="usainventario"  #usainventario="ngModel" [(ngModel)]="producto.usaInventario" class="form-check-input">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="existencia" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Existencia</label>
+    <div class="col-sm-1">
+      <input type="number" name="existencia" id="existencia" #existencia="ngModel" [(ngModel)]="producto.existencia" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="minimo" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Mínimo</label>
+    <div class="col-sm-1">
+      <input type="number" name="minimo" id="minimo" #minimo="ngModel" [(ngModel)]="producto.minimo" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row mb-2 g-2">
+    <label for="maximo" class="col-sm-2 col-form-label col-form-label-sm" style="text-align: right;">Máximo</label>
+    <div class="col-sm-1">
+      <input type="number" name="maximo" id="maximo"  #maximo="ngModel" [(ngModel)]="producto.maximo" class="form-control form-control-sm">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-auto" style="margin-left: 20%">
+      <button type="submit"  class="btn btn-outline-primary" (click)="altaProducto()" [disabled]="producto.codigoBarras=='' || producto.descripcion=='' || producto.precioCosto==0 || producto.precioVenta==0 || producto.minimo==0 || producto.maximo==0">Guardar Producto&nbsp;<fa-icon [icon]="faPills"></fa-icon></button>
+    </div>
+  </div>
+</form>

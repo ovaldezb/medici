@@ -9,22 +9,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li *ngIf="isAdmin() || isRecepcion()" class="nav-item">
-          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/recepcion" [routerLinkActive]="['active']">Recepción</a>
+          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/recepcion" [routerLinkActive]="['active']">Recepción <fa-icon [icon]="faCalendarDays"></fa-icon></a>
         </li>
         <li *ngIf="isAdmin() || isEnfermera()" class="nav-item">
-          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/enfermeria" [routerLinkActive]="['active']">Enfermeria</a>
+          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/enfermeria" [routerLinkActive]="['active']">Enfermeria <fa-icon [icon]="faUserNurse"></fa-icon> </a>
         </li>
         <li *ngIf="isAdmin() || isMedico()" class="nav-item">
-          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/medico" [routerLinkActive]="['active']">Médico</a>
+          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/medico" [routerLinkActive]="['active']">Médico <fa-icon [icon]="faStethoscope"></fa-icon> </a>
         </li>
         <li *ngIf="isAdmin() || isMedico()" class="nav-item">
           <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/consulta" [routerLinkActive]="['active']">Consultar Enfermedad</a>
         </li>
-        <li *ngIf="isAdmin()" class="nav-item">
-          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/sucursal" [routerLinkActive]="['active']">Sucursales</a>
+        <li *ngIf="isAdmin() || isFarmacia()" class="nav-item">
+          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/farmacia" [routerLinkActive]="['active']">Farmacia <fa-icon [icon]="faHouseMedical"></fa-icon></a>
         </li>
         <li *ngIf="isAdmin()" class="nav-item">
-          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/admon" [routerLinkActive]="['active']">Administración</a>
+          <a class="nav-link" *ngIf="isAuthenticated()" aria-current="page" routerLink="/admon" [routerLinkActive]="['active']">Administración <fa-icon [icon]="faPeopleRoof"></fa-icon> </a>
         </li>
       </ul>
     </div>
