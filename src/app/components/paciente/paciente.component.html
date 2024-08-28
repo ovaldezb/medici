@@ -82,7 +82,7 @@
               <span class="input-group-text">
                 Fecha de Nacimiento
               </span>
-              <input type="date" name="dob" class="form-control" [(ngModel)]="paciente.fechaNacimiento" >
+              <input type="date" name="paciente.fechaNacimiento" class="form-control" #paciente.fechaNacimiento="ngModel" [(ngModel)]="paciente.fechaNacimiento" (change)="cambioFecha()">
                 
               <span class="input-group-text">
                 Sexo:<fa-icon [icon]="faVenusMars"></fa-icon>

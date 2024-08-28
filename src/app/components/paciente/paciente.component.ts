@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Paciente } from 'src/app/models/paciente';
 import { Global } from 'src/app/service/Global';
 import { PacienteService } from 'src/app/service/paciente.service';
@@ -30,9 +30,9 @@ export interface Escolaridad{
 export class PacienteComponent {
 
   public paciente : Paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
-  public dia:string='';
-  public mes:string='01';
-  public anio:string='';
+  //public dia:string='';
+  //public mes:string='01';
+  //public anio:string='';
   public nombrePaciente:string='';
   public apellidoPaterno:string='';
   public btnAccion:string=Global.ALTA;
@@ -45,6 +45,7 @@ export class PacienteComponent {
   public faPerson = faPerson;
   public faGraduationCap = faGraduationCap;
   public faVenusMars = faVenusMars;
+  
 
   meses: Mes[] = [
     {value: '01', viewValue: 'Enero'},
@@ -95,6 +96,13 @@ export class PacienteComponent {
     {value:"Otr",viewValue:"Otro"}
   ];
   constructor(private pacienteService:PacienteService){}
+  
+  /*ngOnInit(): void {
+    
+    this.paciente.fechaNacimiento = new Date(new Date('1978-07-11').toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+   
+    console.log(this.paciente.fechaNacimiento.toISOString());
+  }*/
 
   buscarPacienteNombre(event:any):void{
     if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.nombre.length===0) {
@@ -131,28 +139,25 @@ export class PacienteComponent {
   selectPacienteNombre(index:number):void{
     //this.paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
     this.paciente = this.listaPacientes[index];
-    this.calculaFechaNacimiento();
+    //this.calculaFechaNacimiento();
     this.listaPacientes =[];
     this.btnAccion = Global.ACTUALIZAR;
   }
 
   limpiar():void{
     this.paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
-    this.dia='';
-    this.mes = '01';
-    this.anio = '';
     this.btnAccion = Global.ALTA;
   }
 
   altaUpdatePaciente():void{
-    if(this.validaFechaNacimiento()){
+    /*if(this.validaFechaNacimiento()){
       Swal.fire({
         icon:'warning',
         title:'La fecha de nacimiento no es válida',
         text: 'Dia:'+this.dia+' Mes:'+this.mes+' Año:'+this.anio
       });
       return;
-    }
+    }*/
     if(this.btnAccion === Global.ALTA){
       this.altaPaciente();
     }else{
@@ -169,7 +174,7 @@ export class PacienteComponent {
     })
     .then(resultado=>{
       if(resultado.isConfirmed){
-        this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+        //this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
         this.pacienteService.addPaciente(this.paciente)
         .subscribe(res=>{
           if(res.status===Global.OK){
@@ -185,6 +190,10 @@ export class PacienteComponent {
     });
   }
 
+  cambioFecha():void{
+    console.log(this.paciente.fechaNacimiento);
+  }
+
   updatePaciente():void{
     Swal.fire({
       title:'Desea actualizar éste paciente?',
@@ -194,7 +203,8 @@ export class PacienteComponent {
     })
     .then(resultado=>{
       if(resultado.isConfirmed){
-        this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+        //this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+        console.log(this.paciente);
         this.pacienteService.updatePaciente(this.paciente._id, this.paciente)
         .subscribe(res=>{
           if(res.status===Global.OK){
@@ -210,15 +220,15 @@ export class PacienteComponent {
     });
   }
 
-  calculaFechaNacimiento():void{
+  /*calculaFechaNacimiento():void{
     var fechaNacimiento = new Date(new Date(this.paciente.fechaNacimiento).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
     this.anio = fechaNacimiento.getFullYear().toString();
     this.dia = fechaNacimiento.getDate().toString();
     this.mes = (fechaNacimiento.getMonth()+1) < 10 ? '0'+(fechaNacimiento.getMonth()+1) : ''+(fechaNacimiento.getMonth()+1);
-  }
+  }*/
 
-  validaFechaNacimiento():boolean{
+  /*validaFechaNacimiento():boolean{
     const fechaValida = Date.parse(this.anio+'-'+this.mes+'-'+this.dia);
     return isNaN(fechaValida);
-  }
+  }*/
 }
