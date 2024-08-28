@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col card">
           <form #altaUserForm="ngForm">
-          <h4 class="text-center">Alta de Usuario</h4>
+          <h4 class="text-center">{{titulo}} Usuario</h4>
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
               <fa-icon [icon]="faEnvelope"></fa-icon>
@@ -161,14 +161,14 @@
                     <td style="font-size: small;">{{usuario.perfil}}</td>
                     <td style="text-align: center;font-size: small;">
                       <span class="icon is-small is-left">
-                        <a *ngIf="!usuario.isAdmin" href="http://" title="Editar Usuario" (click)="editarUsuario(i)">
+                        <button class="btn btn-primary" *ngIf="!usuario.isAdmin"  title="Editar Usuario" (click)="editarUsuario(i)">
                           <fa-icon [icon]="faPencil"></fa-icon>
-                        </a>
+                        </button>
                         <fa-icon *ngIf="usuario.isAdmin" [icon]="faPencil" title="El usuario Administrador no se puede editar"></fa-icon>
                       </span> &nbsp;
                       <span class="icon is-small is-left">
-                        <a *ngIf="!usuario.isAdmin && usuario.isDisabled" href="http://" (click)="borrarUsuario(i)" title="Habilitar Usuario"><fa-icon [icon]="faUserSlash"></fa-icon></a>
-                        <a *ngIf="!usuario.isAdmin && !usuario.isDisabled" href="http://" (click)="borrarUsuario(i)" title="Deshabilitar Usuario"><fa-icon [icon]="faUser"></fa-icon></a>
+                        <button class="btn btn-primary" *ngIf="!usuario.isAdmin && usuario.isDisabled" (click)="borrarUsuario(i)" title="Habilitar Usuario"><fa-icon [icon]="faUserSlash"></fa-icon></button>
+                        <button class="btn btn-primary" *ngIf="!usuario.isAdmin && !usuario.isDisabled" (click)="borrarUsuario(i)" title="Deshabilitar Usuario"><fa-icon [icon]="faUser"></fa-icon></button>
                         <fa-icon *ngIf="usuario.isAdmin" [icon]="faUserSlash" title="El usuario Administrador no se puede deshabilitar"></fa-icon>
                       </span>
                     </td>

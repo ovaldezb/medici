@@ -97,6 +97,7 @@ export class DisponibilidadComponent implements OnInit{
     })
     this.sortListaHorarios();
     this.range=[];
+    
   }
 
   sortListaHorarios():void{
@@ -143,5 +144,6 @@ export class DisponibilidadComponent implements OnInit{
       })
     }
     this.isSavingDispo = false;
+    this.getDisponibilidadMedico();
   }
 }

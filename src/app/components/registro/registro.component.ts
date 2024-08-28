@@ -44,6 +44,7 @@ export class RegistroComponent  implements OnInit{
   public sucursales:Sucursal[] = [];
   public isWorkingIdentidad:boolean=false;
   perfiles:Perfil[]=[];
+  public titulo:string=Global.ALTA;
   
   especialidades: Especialidad[] = [
     {_id:'Médico General', descripcion:'Médico General'},
@@ -164,13 +165,16 @@ export class RegistroComponent  implements OnInit{
   }
 
   isMedico():boolean{
-    return this.perfil.nombre===Global.MEDICO;
+    return this.perfil.nombre===Global.MEDICO || this.usuario.perfil ===Global.MEDICO;
   }
 
   editarUsuario(index:number):void{
     this.usuario = this.usuarios[index];
+    console.log(this.usuario);
     this.usuario.dob = this.usuario.dob.replace('/','-').replace('/','-');
+    this.isMedico();
     this.btnAccion = Global.ACTUALIZAR;
+    this.titulo = Global.ACTUALIZAR;
   }
 
   borrarUsuario(index:number):void{
@@ -206,5 +210,7 @@ export class RegistroComponent  implements OnInit{
 
   limpiar():void{
     this.usuario = new IUser('','','','','','','','','','','','M','','',false,'','','',false,new Sucursal('','','','','','',false));
+    this.titulo = Global.ALTA;
+    this.btnAccion = Global.AGREGAR;
   }
 }

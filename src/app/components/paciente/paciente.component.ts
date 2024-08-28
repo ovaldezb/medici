@@ -190,10 +190,6 @@ export class PacienteComponent {
     });
   }
 
-  cambioFecha():void{
-    console.log(this.paciente.fechaNacimiento);
-  }
-
   updatePaciente():void{
     Swal.fire({
       title:'Desea actualizar éste paciente?',
