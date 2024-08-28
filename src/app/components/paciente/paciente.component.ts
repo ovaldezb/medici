@@ -137,9 +137,8 @@ export class PacienteComponent {
   }
 
   selectPacienteNombre(index:number):void{
-    //this.paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
     this.paciente = this.listaPacientes[index];
-    //this.calculaFechaNacimiento();
+    this.paciente.dob = this.paciente.fechaNacimiento.toString().split('T')[0];
     this.listaPacientes =[];
     this.btnAccion = Global.ACTUALIZAR;
   }
@@ -174,7 +173,7 @@ export class PacienteComponent {
     })
     .then(resultado=>{
       if(resultado.isConfirmed){
-        //this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+        this.paciente.fechaNacimiento = new Date(new Date(this.paciente.dob!).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
         this.pacienteService.addPaciente(this.paciente)
         .subscribe(res=>{
           if(res.status===Global.OK){
@@ -199,7 +198,7 @@ export class PacienteComponent {
     })
     .then(resultado=>{
       if(resultado.isConfirmed){
-        //this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+        this.paciente.fechaNacimiento = new Date(new Date(this.paciente.dob!).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
         console.log(this.paciente);
         this.pacienteService.updatePaciente(this.paciente._id, this.paciente)
         .subscribe(res=>{
@@ -214,6 +213,10 @@ export class PacienteComponent {
         });
       }
     });
+  }
+
+  cambio():void{
+    console.log(this.paciente.dob);
   }
 
   /*calculaFechaNacimiento():void{

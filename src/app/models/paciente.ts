@@ -12,6 +12,7 @@ export class Paciente{
     public escolaridad:string,
     public raza: string,
     public carnet:string,
-    public codigoPostal:string
+    public codigoPostal:string,
+    public dob?:string,
   ){}
 }

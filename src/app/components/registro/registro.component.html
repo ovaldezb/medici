@@ -64,7 +64,7 @@
           <div class="input-group mb-3">
             <span class="input-group-text"> Rol </span>
             <select name="idPerfil" [(ngModel)]="usuario.perfil" class="form-select" (change)="perfilChange($event)">
-              <option *ngFor="let perf of perfiles" [ngValue]="perf._id">{{perf.nombre}}</option>
+              <option *ngFor="let perf of perfiles" [ngValue]="perf.valor">{{perf.nombre}}</option>
             </select>
           </div>
           <div class="input-group mb-3">
