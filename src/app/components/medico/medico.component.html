@@ -84,22 +84,22 @@
         <tr>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="height: 5px;">
-              <div class="progress-bar" [style.width]="intervaloE1Porcentaje+'%'"></div>
+              <div class="progress-bar bg-success" [style.width]="intervaloE1Porcentaje+'%'"></div>
             </div>
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="height: 5px;">
-              <div class="progress-bar" [style.width]="intervaloE2Porcentaje+'%'"></div>
+              <div class="progress-bar bg-success" [style.width]="intervaloE2Porcentaje+'%'"></div>
             </div>
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="height: 5px;">
-              <div class="progress-bar" [style.width]="intervaloE3Porcentaje+'%'"></div>
+              <div class="progress-bar bg-success" [style.width]="intervaloE3Porcentaje+'%'"></div>
             </div>
           </td>
           <td>
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="height: 5px;">
-              <div class="progress-bar" [style.width]="intervaloE4Porcentaje+'%'"></div>
+              <div class="progress-bar bg-success" [style.width]="intervaloE4Porcentaje+'%'"></div>
             </div>
           </td>
         </tr>
@@ -107,7 +107,7 @@
     </table>
     
     <div  *ngIf="HighlightRow != -1">
-      <table class="table table-primary table-bordered">
+      <table class="table table-success table-bordered">
         <colgroup>
           <col width="10%">
           <col width="10%">
@@ -139,7 +139,7 @@
           </tr>
         </thead>
       </table>
-      <div style="height: 50px; overflow: auto; margin-top: -15px;">
+      <div style="height: 150px; overflow: auto; margin-top: -15px;">
         <table class="table table-hover table-bordered">
           <colgroup>
             <col width="10%">
@@ -168,8 +168,8 @@
               <td style="text-align: center;">{{signo.escalaDolor}}</td>
             </tr>
             <tr>
-              <td>Motivo de Consulta:</td>
-              <td colspan="9">{{signo.motivoConsulta}}</td>
+              <td colspan="2" style="font-family: 'Courier New', Courier, monospace;font-weight: bold;">Motivo de Consulta:</td>
+              <td colspan="8" style="font-family: 'Courier New', Courier, monospace;">{{signo.motivoConsulta}}</td>
             </tr>
             </ng-container>
           </tbody>
@@ -214,7 +214,7 @@
       </div>
       
       <div style="text-align: right;">
-        <button *ngIf="!cita.isAtendido" class="btn btn-primary" (click)="finalizaConsulta()">Finalizar</button>
+        <button *ngIf="!cita.isAtendido" class="btn btn-success" (click)="finalizaConsulta()">Finalizar</button>
         <button class="btn btn-dark" (click)="regresar()">Regresar</button>
       </div>
     </div>

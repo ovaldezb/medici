@@ -45,6 +45,7 @@ export class RegistroComponent  implements OnInit{
   public isWorkingIdentidad:boolean=false;
   perfiles:Perfil[]=[];
   public titulo:string=Global.ALTA;
+  isWorking:boolean=false;
   
   especialidades: Especialidad[] = [
     {_id:'Médico General', descripcion:'Médico General'},
@@ -129,8 +130,10 @@ export class RegistroComponent  implements OnInit{
   }
 
   loadAllUsuarios():void{
+    this.isWorking = true;
     this.usuariosService.getAllUsuarios().subscribe((res)=>{
       if(res.status === Global.OK){
+        this.isWorking = false;
         this.usuarios = res.body.usuarios
       }
     })

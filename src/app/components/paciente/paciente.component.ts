@@ -3,7 +3,7 @@ import { Paciente } from 'src/app/models/paciente';
 import { Global } from 'src/app/service/Global';
 import { PacienteService } from 'src/app/service/paciente.service';
 import Swal from 'sweetalert2';
-import { faVenusMars, faGraduationCap, faUser, faEnvelope, faPhone, faLocationDot, faPersonCircleQuestion, faPerson } from '@fortawesome/free-solid-svg-icons';
+import { faVenusMars, faGraduationCap, faUser, faEnvelope, faPhone, faLocationDot, faPersonCircleQuestion, faPerson, faClose, faL } from '@fortawesome/free-solid-svg-icons';
 
 export interface Mes {
   value: string;
@@ -30,14 +30,12 @@ export interface Escolaridad{
 export class PacienteComponent {
 
   public paciente : Paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
-  //public dia:string='';
-  //public mes:string='01';
-  //public anio:string='';
   public nombrePaciente:string='';
   public apellidoPaterno:string='';
   public btnAccion:string=Global.ALTA;
   public listaPacientes:Paciente[] = [];
   public faUser = faUser;
+  faClose = faClose;
   public faEnvelope = faEnvelope;
   public faPhone = faPhone;
   public faLocationDot = faLocationDot;
@@ -45,6 +43,9 @@ export class PacienteComponent {
   public faPerson = faPerson;
   public faGraduationCap = faGraduationCap;
   public faVenusMars = faVenusMars;
+  isSavingPaciente:boolean=false;
+  isAutomatica:boolean=false;
+  isBuscandoPaciente:boolean=false;
   
 
   meses: Mes[] = [
@@ -97,21 +98,18 @@ export class PacienteComponent {
   ];
   constructor(private pacienteService:PacienteService){}
   
-  /*ngOnInit(): void {
-    
-    this.paciente.fechaNacimiento = new Date(new Date('1978-07-11').toLocaleString("en-US",{timeZone:"Etc/GMT"}));
-   
-    console.log(this.paciente.fechaNacimiento.toISOString());
-  }*/
 
   buscarPacienteNombre(event:any):void{
+    if(!this.isAutomatica) return;
     if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.nombre.length===0) {
       this.listaPacientes = [];
       return;
     }
     if(this.nombrePaciente !='' && this.nombrePaciente.length >=3){
+      this.isBuscandoPaciente = true;
       this.pacienteService.findPacienteByNombre(this.nombrePaciente)
       .subscribe(res=>{
+        this.isBuscandoPaciente=false;
         if(res.status === Global.OK && res.body.pacientes.length >0){
           this.listaPacientes = res.body.pacientes;
           this.nombrePaciente = '';
@@ -121,16 +119,54 @@ export class PacienteComponent {
   }
 
   buscaPacienteApellido(event:any):void{
+    if(!this.isAutomatica) return;
     if((event.keyCode===8 || event.keyCode===13 ) && this.paciente.nombre.length===0) {
       this.listaPacientes = [];
       return;
     }
     if(this.apellidoPaterno !='' && this.apellidoPaterno.length >=3){
+      this.isBuscandoPaciente = true;
       this.pacienteService.findPacienteByApellido(this.apellidoPaterno)
       .subscribe(res=>{
+        this.isBuscandoPaciente = false;
         if(res.status === Global.OK && res.body.pacientes.length >0){
           this.listaPacientes = res.body.pacientes;
           this.apellidoPaterno = '';
+        }
+      });
+    }
+  }
+
+  buscarPaciente():void{
+    if(this.nombrePaciente !='' && this.nombrePaciente.length >=3){
+      this.isBuscandoPaciente = true;
+      this.pacienteService.findPacienteByNombre(this.nombrePaciente)
+      .subscribe(res=>{
+        this.isBuscandoPaciente = false;
+        if(res.status === Global.OK && res.body.pacientes.length >0){
+          this.listaPacientes = res.body.pacientes;
+          this.nombrePaciente = '';
+        }else{
+          Swal.fire({
+            title:'No se encontraron coincidencias',
+            timer:Global.TIMER_OFF
+          });
+        }
+      });
+    }
+    if(this.apellidoPaterno !='' && this.apellidoPaterno.length >=3){
+      this.isBuscandoPaciente = true;
+      this.pacienteService.findPacienteByApellido(this.apellidoPaterno)
+      .subscribe(res=>{
+        this.isBuscandoPaciente = false;
+        if(res.status === Global.OK && res.body.pacientes.length >0){
+          this.listaPacientes = res.body.pacientes;
+          this.apellidoPaterno = '';
+        }else{
+          Swal.fire({
+            title:'No se encontraron coincidencias',
+            timer:Global.TIMER_OFF
+          });
         }
       });
     }
@@ -149,14 +185,6 @@ export class PacienteComponent {
   }
 
   altaUpdatePaciente():void{
-    /*if(this.validaFechaNacimiento()){
-      Swal.fire({
-        icon:'warning',
-        title:'La fecha de nacimiento no es válida',
-        text: 'Dia:'+this.dia+' Mes:'+this.mes+' Año:'+this.anio
-      });
-      return;
-    }*/
     if(this.btnAccion === Global.ALTA){
       this.altaPaciente();
     }else{
@@ -173,10 +201,12 @@ export class PacienteComponent {
     })
     .then(resultado=>{
       if(resultado.isConfirmed){
+        this.isSavingPaciente = true;
         this.paciente.fechaNacimiento = new Date(new Date(this.paciente.dob!).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
         this.pacienteService.addPaciente(this.paciente)
         .subscribe(res=>{
           if(res.status===Global.OK){
+            this.isSavingPaciente = false;
             Swal.fire({
               title:'El paciente se ha agregado exitosamente',
               icon:'success',
@@ -215,19 +245,12 @@ export class PacienteComponent {
     });
   }
 
-  cambio():void{
-    console.log(this.paciente.dob);
+  activaBusqueda():void{
+    console.log(this.isAutomatica);
   }
 
-  /*calculaFechaNacimiento():void{
-    var fechaNacimiento = new Date(new Date(this.paciente.fechaNacimiento).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
-    this.anio = fechaNacimiento.getFullYear().toString();
-    this.dia = fechaNacimiento.getDate().toString();
-    this.mes = (fechaNacimiento.getMonth()+1) < 10 ? '0'+(fechaNacimiento.getMonth()+1) : ''+(fechaNacimiento.getMonth()+1);
-  }*/
+  closeListaPacientes():void{
+    this.listaPacientes = [];
+  }
 
-  /*validaFechaNacimiento():boolean{
-    const fechaValida = Date.parse(this.anio+'-'+this.mes+'-'+this.dia);
-    return isNaN(fechaValida);
-  }*/
 }

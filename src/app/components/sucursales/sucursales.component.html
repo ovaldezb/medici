@@ -108,14 +108,14 @@
                   <td style="font-size: small;">{{sucursal.isEnabled}}</td>
                   <td style="text-align: center;">
                     <span class="icon is-small is-left">
-                      <a href="" (click)="seleccionar(i)">
-                        <fa-icon [icon]="faPencil" size="xs" style="color:dodgerblue"></fa-icon>
-                      </a>
+                      <button class="btn btn-outline-success" (click)="seleccionar(i)">
+                        <fa-icon [icon]="faPencil" size="xs"></fa-icon>
+                      </button>
                     </span>&nbsp;
                     <span class="icon is-small is-left">
-                      <a href="http://" (click)="deleteSucursal(i)">
-                        <fa-icon [icon]="faTrash" size="xs" style="color:crimson"></fa-icon>
-                      </a>
+                      <button class="btn btn-outline-danger" (click)="deleteSucursal(i)">
+                        <fa-icon [icon]="faTrash" size="xs"></fa-icon>
+                      </button>
                     </span>
                   </td>
                 </tr>

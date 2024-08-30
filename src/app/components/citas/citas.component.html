@@ -46,42 +46,10 @@
               <div class="row">
                 <div class="col">
                   <div class="mb-3">
-                    <input type="text" [className]="contorno[1]"
-                      name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" placeholder="Nombre" (keyup)="buscaPacienteMatch($event, 'nombre')"
+                    <input type="text" [className]="contorno[1]" name="nombre" #nombre="ngModel" [(ngModel)]="paciente.nombre" placeholder="Nombre" (keyup)="buscaPacienteMatch($event, 'nombre')"
                       (blur)="validaCampo(paciente.nombre,1)"  required/>
-                    <div
-                      *ngIf="listaPacientesNombre.length != 0"
-                      style="width: 100%;height: 150px;overflow: auto;margin-top: 0px;border: 2px solid black;">
-                      <table class="table table-striped table-bordered">
-                        <thead>
-                          <tr>
-                            <th style="text-align: center">Paciente</th>
-                            <th>
-                              <span class="icon-text">
-                                <span class="icon">
-                                  <a (click)="cerrarNombre()">
-                                    <fa-icon [icon]="faCircleXmark"></fa-icon>
-                                  </a>
-                                </span>
-                              </span>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let paciente of listaPacientesNombre;let i = index"
-                            (click)="selectedRow(i)"
-                            style="cursor: pointer">
-                            <td colspan="2">
-                              {{ paciente.nombre }} {{ paciente.apellidoP }} -
-                              {{ paciente.telefono }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
                 </div>
-              
                 <div class="col">
                     <input type="text" [className]="contorno[2]" name="apellidoP" #apellidoP="ngModel" [(ngModel)]="paciente.apellidoP" (keyup)="buscaPacienteMatch($event, 'apellido')" (blur)="validaCampo(paciente.apellidoP,2)" placeholder="Apellido Paterno" required/>
                     <div *ngIf="listaPacientesApellido.length != 0" style="width: 100%;height: 150px;overflow: auto;margin-top: 0px;border: 2px solid black;">
@@ -112,6 +80,39 @@
                 </div>
                 <div class="col">
                   <input type="text" [className]="contorno[3]" name="apellidoM" #apellidoM="ngModel" [(ngModel)]="paciente.apellidoM"  (blur)="validaCampo(paciente.apellidoM,3)" placeholder="Apellido Materno" required/>
+                </div>
+              </div>
+              <div class="row" *ngIf="listaPacientesNombre.length != 0">
+                <div class="col" style="height: 150px;overflow: auto;margin-top: 0px;">
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="text-align: center">Paciente</th>
+                        <th style="text-align: center">Teléfono</th>
+                        <th style="text-align: right;">
+                          <span class="icon-text">
+                            <span class="icon">
+                              <a (click)="cerrarNombre()">
+                                <fa-icon [icon]="faCircleXmark"></fa-icon>
+                              </a>
+                            </span>
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let paciente of listaPacientesNombre;let i = index"
+                        (click)="selectedRow(i)"
+                        style="cursor: pointer">
+                        <td>
+                          {{ paciente.nombre }} {{ paciente.apellidoP }}
+                        </td>
+                        <td colspan="2">
+                          {{ paciente.telefono }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
                 <div class="row">

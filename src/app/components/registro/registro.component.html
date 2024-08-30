@@ -119,9 +119,9 @@
             </select>
           </div>
           <div class="row">
-            <div class="col-12">
-              <button class="btn btn-primary" (click)="signUp()" [disabled]="altaUserForm.invalid" >{{btnAccion}}</button>
-              <button class="btn btn-dark" (click)="limpiar()">Limpiar</button>
+            <div class="col-12 d-flex justify-content-end">
+              <button class="btn btn-outline-primary" (click)="signUp()" [disabled]="altaUserForm.invalid" >{{btnAccion}}</button>
+              <button class="btn btn-outline-dark" (click)="limpiar()">Limpiar</button>
             </div>
           </div>
         </form>
@@ -130,6 +130,19 @@
         <div class="col">
           <div class="card">
             <h4 style="text-align: center;" class="h2">Lista de Usuarios</h4>
+            <table *ngIf="isWorking">
+              <colgroup>
+                <col width="100%">
+              </colgroup>
+              <tr>
+                <td style="text-align: center;">
+                  <div class="spinner-border" role="status">
+                    <span class="visually">BB</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            
             <table class="table table-bordered">
               <colgroup>
                 <col width="24%">
@@ -149,10 +162,10 @@
             <div style="width:100%; height:250px; overflow:auto; margin-top:-17px">
               <table class="table table-bordered table-hover" style="width: 100%;">
                 <colgroup>
+                  <col width="24%">
+                  <col width="29%">
                   <col width="25%">
-                  <col width="30%">
-                  <col width="25%">
-                  <col width="20%">
+                  <col width="22%">
                 </colgroup>
                 <tbody>
                   <tr *ngFor="let usuario of usuarios; let i = index" (click)="selectRow(i)">
@@ -161,7 +174,7 @@
                     <td style="font-size: small;">{{usuario.perfil}}</td>
                     <td style="text-align: center;font-size: small;">
                       <span class="icon is-small is-left">
-                        <button class="btn btn-primary" *ngIf="!usuario.isAdmin"  title="Editar Usuario" (click)="editarUsuario(i)">
+                        <button class="btn btn-outline-info" *ngIf="!usuario.isAdmin"  title="Editar Usuario" (click)="editarUsuario(i)">
                           <fa-icon [icon]="faPencil"></fa-icon>
                         </button>
                         <fa-icon *ngIf="usuario.isAdmin" [icon]="faPencil" title="El usuario Administrador no se puede editar"></fa-icon>
