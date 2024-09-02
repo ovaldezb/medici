@@ -25,7 +25,6 @@ export class PrintLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.citasService.getCitaById(this.idCita)
     .subscribe(res=>{
-      //console.log(res.body);
       if(res.status === Global.OK && res.body!=null){
         this.cita = res.body.citas;
         this.printService.onDataReady();

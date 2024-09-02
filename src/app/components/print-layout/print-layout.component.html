@@ -1,17 +1,22 @@
-<table style="width: 100%;">
-  <thead>
+<table style="width: 100%;height:500px;border-bottom: 1px dashed black;">
+  <thead style="border: 1px solid black;">
     <tr>
-      <th colspan="3">Header</th>
+      <th colspan="3" style="font-family: cursive;padding: 5px;">Clinica B&B</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody style="border: 1px solid black;">
     <tr>
-      <td colspan="3">
+      <td colspan="3" style="border: 1px solid red;padding: 5px;">
         <app-receta [cita]="cita"></app-receta>
       </td>
     </tr>
   </tbody>
-  <tfoot>
+  <tfoot style="border: 1px solid black;">
+    <tr>
+      <td>{{cita.medico.nombre}} {{cita.medico.apellidoP}} - {{this.cita.medico.cedula}}</td>
+      <td></td>
+      <td></td>
+    </tr>
     <tr>
       <td style="border-top: 1px solid darkseagreen;text-align: center;">Nombre, Firma y CED. PROF.</td>
       <td style="text-align: center;">I. Zaragoza No 5 Barrio Santiaguito, Ocoyoacac. CP:52740, México</td>
@@ -19,4 +24,19 @@
     </tr>
   </tfoot>
 </table>
-
+<table style="width: 100%;height: 500px;">
+  <tbody>
+    <tr>
+      <td>
+        {{cita.tratamiento}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>
+        footer
+      </td>
+    </tr>
+  </tfoot>
+</table>

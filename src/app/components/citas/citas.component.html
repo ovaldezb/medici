@@ -1,7 +1,7 @@
 <div class="container">
   <div class="card">
     <div class="card-header text-center">
-      <div *ngIf="isLoadingMedicos" class="spinner-border" role="status">
+      <div *ngIf="isLoadingMedicos || isSavingCita" class="spinner-border" role="status">
         <fa-icon [icon]="faSpinner"></fa-icon>
       </div>
       <h4>
@@ -165,13 +165,13 @@
                   </div>
                   <div class="col">
                     <label for="" style="font-family: 'Courier New', Courier, monospace;">Sexo:</label>&nbsp;
-                    <label for="" class="radio" style="font-family: 'Courier New', Courier, monospace;font-weight: bold;">M
-                      <input type="radio" class="form-check-input border-success" name="sexo" value="M" [(ngModel)]="paciente.sexo" [checked]="paciente.sexo=='M'" />
-                    </label>
-                    &nbsp;
-                    <label class="radio" style="font-family: 'Courier New', Courier, monospace;font-weight: bold;">F
-                      <input type="radio"  class="form-check-input border-success" name="sexo" value="F" [(ngModel)]="paciente.sexo" [checked]="paciente.sexo=='F'"/>
-                    </label>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="sexo" id="btnradio1" value="M" [(ngModel)]="paciente.sexo" autocomplete="off" [checked]="paciente.sexo=='M'">
+                      <label class="btn btn-outline-success" for="btnradio1">M</label>
+                    
+                      <input type="radio" class="btn-check" name="sexo" id="btnradio2" value="F" [(ngModel)]="paciente.sexo" autocomplete="off" [checked]="paciente.sexo=='F'">
+                      <label class="btn btn-outline-success" for="btnradio2">F</label>
+                    </div>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -179,7 +179,7 @@
                     <label class="form-label" style="font-family: 'Courier New', Courier, monospace;">Escolaridad:</label>
                   </div>
                   <div class="col-3">
-                    <select class="form-select border-success" name="raza" [(ngModel)]="paciente.escolaridad">
+                    <select class="form-select form-select-sm border-success" name="escolaridad" [(ngModel)]="paciente.escolaridad">
                       <option *ngFor="let escolaridad of escolaridades" value="{{ escolaridad.value }}">
                         {{ escolaridad.viewValue }}
                       </option>
@@ -195,7 +195,7 @@
                     <label for="" style="font-family: 'Courier New', Courier, monospace;">Raza:</label>
                   </div>
                   <div class="col-3">
-                    <select class="form-select border-success" name="raza" [(ngModel)]="paciente.raza">
+                    <select class="form-select form-select-sm border-success" name="raza" [(ngModel)]="paciente.raza">
                       <option *ngFor="let raza of razas" value="{{ raza.value }}">
                         {{ raza.viewValue }}
                       </option>
@@ -219,17 +219,17 @@
               <div class="row" >
                 <div class="col-2"><label for="" style="font-family: 'Courier New', Courier, monospace;">Ocupación:</label></div>
                 <div class="col-6">
-                  <select class="form-select border-success" name="ocupacion" [(ngModel)]="paciente.ocupacion">
+                  <select class="form-select form-select-sm border-success" name="ocupacion" [(ngModel)]="paciente.ocupacion">
                     <option *ngFor="let ocupacion of ocupaciones" value="{{ocupacion.value}}">
                       {{ocupacion.viewValue}}
                     </option>
                   </select> 
                 </div>
                 <div class="col-2">
-                  <button class="btn btn-primary" style="margin:auto;text-align:right" (click)="addUpdate()" [disabled]="userForm.invalid || mes==''">{{ btnAccion }}</button>
+                  <button class="btn btn-outline-success" style="margin:auto;text-align:right" (click)="addUpdate()" [disabled]="userForm.invalid || mes==''">{{ btnAccion }}</button>
                 </div>
                 <div class="col-2">
-                  <button class="btn btn-dark" style="margin: auto" (click)="limpiar()">Limpiar</button>
+                  <button class="btn btn-outline-dark" style="margin: auto" (click)="limpiar()">Limpiar</button>
                 </div>
               </div>
             </form>
@@ -250,6 +250,13 @@
                 <button class="btn btn-primary" (click)="plusDay()">
                   <fa-icon [icon]="faArrowRight"></fa-icon>
                 </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col d-flex justify-content-center">
+                <div *ngIf="isLoadingCitas" class="spinner-border" role="status">
+                  <fa-icon [icon]="faSpinner"></fa-icon>
+                </div>
               </div>
             </div>
             <table class="table table-dark">
@@ -276,9 +283,6 @@
                   <col width="23%" />
                   <col width="23%" />
                 </colgroup>
-                <div *ngIf="isLoadingCitas" class="spinner-border" role="status">
-                  <fa-icon [icon]="faSpinner"></fa-icon>
-                </div>
                 <tbody>
                   <tr *ngFor="let cita of citas; let i = index">
                     <td>

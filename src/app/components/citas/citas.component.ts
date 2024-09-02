@@ -72,6 +72,7 @@ export class CitasComponent implements OnInit{
   public listaDispoMedico:Disponibilidad[]=[];
   public isLoadingMedicos:boolean = false;
   public isLoadingCitas:boolean = false;
+  public isSavingCita:boolean=false;
   public contorno:string[] = [Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED,Global.FIELD_REQUIRED];
   meses: Mes[] = [
     {value: '00', viewValue: 'Mes'},
@@ -254,6 +255,12 @@ export class CitasComponent implements OnInit{
     if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
       this.obtieneCarnet();
     }
+    this.contorno[2] = Global.FIELD_OK;
+    this.contorno[3] = Global.FIELD_OK;
+    this.contorno[4] = Global.FIELD_OK;
+    this.contorno[5] = Global.FIELD_OK;
+    this.contorno[6] = Global.FIELD_OK;
+
     this.calculaFechaNacimiento();
     this.listaPacientesNombre = [];
     this.listaPacientesApellido = [];
@@ -364,6 +371,7 @@ export class CitasComponent implements OnInit{
       confirmButtonText:'OK'
     }).then(resultado=>{
       if(resultado.isConfirmed){
+        this.isSavingCita = true;
         let fechaCitaArray = this.fechaCita.split('-');
         this.cita.fechaCita = new Date(Number(fechaCitaArray[0]),(Number(fechaCitaArray[1])-1),Number(fechaCitaArray[2]));
         this.paciente.fechaNacimiento = new Date(new Date(this.anio+'-'+this.mes+'-'+this.dia).toLocaleString("en-US",{timeZone:"Etc/GMT"}));
@@ -376,6 +384,7 @@ export class CitasComponent implements OnInit{
               this.cita.medico = this.medico;
               this.citasService.addCita(this.cita)
               .subscribe(resCita=>{
+                this.isSavingCita = false;
                 if(resCita.status===Global.OK){
                   this.citaExitosa();
                 }else{

@@ -45,11 +45,13 @@
                 <th style="text-align: center;">Fecha</th>
                 <th style="text-align: center;">H. Inicio</th>
                 <th style="text-align: center;">H. Fin</th>
-                <th>&nbsp;</th>
+                <th style="text-align: center;">
+                  <fa-icon *ngIf="guardaCambios" [icon]="faFileImport" style="color: red;" title="Cambios pendientes por guardar"></fa-icon>
+                </th>
               </tr>
             </thead>
           </table>
-          <div style="border: solid green 1px; height: 250px;overflow: auto;margin-top: -15px;">
+          <div style="border: solid green 1px; height: 280px;overflow: auto;margin-top: -15px;">
             <table class="table table-striped table-bordered">
               <colgroup>
                 <col width="40%">
@@ -63,7 +65,7 @@
                   <td style="text-align: center;">{{dispo.horaInicio}}</td>
                   <td style="text-align: center;">{{dispo.horaFin}}</td>
                   <td style="text-align: center;">
-                    <button  class="btn btn-primary" (click)="eliminaDispo(i)" title="eliminar horario disponible"><fa-icon [icon]="faTrashCan"></fa-icon></button>
+                    <button  class="btn btn-outline-success" (click)="eliminaDispo(i)" title="eliminar horario disponible"><fa-icon [icon]="faTrashCan"></fa-icon></button>
                   </td>
                 </tr>
               </tbody>

@@ -87,7 +87,7 @@
           <div class="col">
             <div *ngIf="isSavingPaciente" class="d-flex justify-content-center">
               <div class="spinner-border" role="status">
-                <span class="visually" style="font-size: smaller;">B&B</span>
+                <span class="visually" style="font-size: smaller;">BB</span>
               </div>
             </div>
             <div class="input-group mb-3">
@@ -114,10 +114,6 @@
                 <input type="radio" class="btn-check" name="sexo" id="btnradio2" value="F" [(ngModel)]="paciente.sexo" autocomplete="off" [checked]="paciente.sexo=='F'">
                 <label class="btn btn-outline-success" for="btnradio2">F</label>
               </div>
-              <!--M&nbsp;<input type="radio" name="sexo" value="M" [(ngModel)]="paciente.sexo"  [checked]="paciente.sexo=='M'">
-              &nbsp;
-              F&nbsp;<input type="radio" name="sexo" value="F" [(ngModel)]="paciente.sexo"  [checked]="paciente.sexo=='F'">
-              &nbsp;-->
               <span class="input-group-text" id="basic-addon1">
                 <fa-icon [icon]="faEnvelope"></fa-icon>
               </span>
@@ -161,9 +157,9 @@
                 </select>
             </div>
             <div class="control" style="text-align: right;">
-              <button type="button" class="btn btn-primary" (click)="altaUpdatePaciente()" [disabled]="manejaPacienteForm.invalid">{{btnAccion}}</button>
+              <button type="button" class="btn btn-outline-success" (click)="altaUpdatePaciente()" [disabled]="manejaPacienteForm.invalid">{{btnAccion}}</button>
               &nbsp;
-              <button type="button" class="btn btn-dark" (click)="limpiar()">Limpiar</button>
+              <button type="button" class="btn btn-outline-dark" (click)="limpiar()">Limpiar</button>
             </div>
           </div>
         </div>

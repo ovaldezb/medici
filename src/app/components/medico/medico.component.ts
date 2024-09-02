@@ -19,12 +19,14 @@ import { CarnetService } from 'src/app/service/carnet.service';
 import { Signos } from 'src/app/models/signos';
 import { PrintService } from 'src/app/service/print.service';
 import { Sucursal } from 'src/app/models/sucursal';
+import { FolioService } from 'src/app/service/folio.service';
+import { SucursalService } from 'src/app/service/sucursal.service';
 
 @Component({
   selector: 'app-medico',
   templateUrl: './medico.component.html',
   styleUrls: ['./medico.component.css'],
-  providers:[MedicosService, CitasService, FarmaciaService,CarnetService, PrintService ]
+  providers:[MedicosService, CitasService, FarmaciaService,CarnetService, PrintService, FolioService, SucursalService ]
 })
 export class MedicoComponent implements OnInit, OnDestroy{
   
@@ -35,7 +37,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public fechaActual = new Date();
   public citas:Cita[] = [];
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'000');
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -64,13 +66,17 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public isWorking:boolean=false;
   public receta:Receta= new Receta([]);
   public listaSignos:Signos[] = [];
+  public sucursal:string='';
+  public idSucursal:string='';
 
   constructor(private medicoService:MedicosService, 
               private citasService:CitasService,
               private cognitoService:CognitoService, 
               private farmaciaService:FarmaciaService,
               private carnetService:CarnetService,
-              private printService:PrintService){}
+              private printService:PrintService,
+              private folioService:FolioService, 
+              private sucursalService:SucursalService){}
   
   ngOnInit(): void {
     this.isWorking = true;
@@ -79,6 +85,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
     this.year = this.fechaActual.getFullYear()+'';
     this.cognitoService.getUser()
     .then(user=>{
+      this.idSucursal = user.attributes['custom:sucursal'];
       this.medicoService.getMedicoByEmail(user.attributes.email)
       .subscribe(res=>{
         if(res.body.medico!=undefined && res.body.medico.length > 0){
@@ -201,10 +208,31 @@ export class MedicoComponent implements OnInit, OnDestroy{
 
   atenderPaciente(index:number):void{
     this.HighlightRow = index;
+    console.log(this.citas);
     this.cita = this.citas[index];
     this.listaSignos = this.cita.signos.reverse();
     this.paciente = this.cita.paciente;
     this.receta.medicamentoReceta = this.cita.medicamentoReceta;
+    console.log(this.cita);
+    if(this.cita.noReceta === '' || this.cita.noReceta === undefined){
+      this.sucursalService.getSucursalById(this.idSucursal)
+      .subscribe(res=>{
+        if(res.status===Global.OK){
+          this.sucursal = res.body.sucursal.identificador;
+          this.folioService.getFolio(Global.RECETA,this.sucursal)
+          .subscribe(res=>{
+            this.cita.noReceta = res.body.folio.sequence_value;
+            console.log(this.cita);
+            this.citasService.updateCita(this.cita._id,this.cita)
+            .subscribe(res=>{
+              
+            });
+          });
+        }
+        });
+    }
+    
+
     if(!this.cita.isAtendido){
       this.counterE1();
       if(this.cita.horaConsultaInicio === null || this.cita.horaConsultaInicio === undefined){

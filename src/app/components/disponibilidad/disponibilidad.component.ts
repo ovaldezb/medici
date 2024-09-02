@@ -5,7 +5,7 @@ import { IUser } from 'src/app/models/user';
 import { Global } from 'src/app/service/Global';
 import { DisponibilidadService } from 'src/app/service/disponibilidad.service';
 import { MedicosService } from 'src/app/service/medicos.service';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faFileImport } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,6 +18,7 @@ export class DisponibilidadComponent implements OnInit{
 
   constructor(private medicoService: MedicosService, private dispoService:DisponibilidadService){}
   public faTrashCan = faTrashCan;
+  faFileImport = faFileImport;
   public medicos:IUser[] = [];
   public idMedico:string = '';
   public medico:IUser= {} as IUser;
@@ -26,8 +27,7 @@ export class DisponibilidadComponent implements OnInit{
   public disponibilidad:Disponibilidad=new Disponibilidad('',{} as IUser,new Date(),'','');
   @ViewChild('calendar', { static: true })
   public calendar!: IgxCalendarComponent;
-  //@ViewChild('alert', { static: true })
-  //public dialog!: IgxDialogComponent;
+  guardaCambios:boolean=false;
   public range:Date[] =[];
   private mesActual = new Date();
   public isSavingDispo:boolean = false;
@@ -87,6 +87,7 @@ export class DisponibilidadComponent implements OnInit{
       this.listaDisponibBorrar.push(this.listaDisponibilidad[index]);
     }
     this.listaDisponibilidad.splice(index,1);
+    this.guardaCambios = true;
   }
 
   submitDisponibilidadDia():void{
@@ -97,7 +98,7 @@ export class DisponibilidadComponent implements OnInit{
     })
     this.sortListaHorarios();
     this.range=[];
-    
+    this.guardaCambios=true;
   }
 
   sortListaHorarios():void{
@@ -120,7 +121,6 @@ export class DisponibilidadComponent implements OnInit{
       })
     });
     this.listaDisponibBorrar = [];
-    //console.log(this.listaDisponibilidad);
     this.listaDisponibilidad.filter(disp=> disp._id==='')
     .forEach(dispo=>{
       this.dispoService.addDisponibilidad(dispo)
@@ -131,10 +131,10 @@ export class DisponibilidadComponent implements OnInit{
         }
       });
     });
-    this.listaDisponibilidad = []; // se tiene que enviar a otra página o no elegir ningún médico para evitar duplicados 
+    //this.listaDisponibilidad = []; // se tiene que enviar a otra página o no elegir ningún médico para evitar duplicados 
     if(dispoSavedStatus){
       Swal.fire({
-        text:'El/Los horarios de disponibilidad han sido guardado exitosamente',
+        text:'El/Los horarios de disponibilidad se han guardado exitosamente',
         timer:Global.TIMER_OFF
       })
     }else{
@@ -144,6 +144,6 @@ export class DisponibilidadComponent implements OnInit{
       })
     }
     this.isSavingDispo = false;
-    this.getDisponibilidadMedico();
+    this.guardaCambios = false;
   }
 }
