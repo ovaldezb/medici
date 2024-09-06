@@ -123,7 +123,7 @@
         <thead>
           <tr>
             <th colspan="9" style="font-size: larger;text-align: center;text-decoration: solid;">{{paciente.nombre}} {{paciente.apellidoP}}</th>
-            <th style="text-align: center;color: darkblue;"> <div (click)="imprimeReceta()"> <fa-icon [icon]="faPrint" style="cursor: pointer;" title="Imprimir Receta" ></fa-icon></div> </th>
+            <th style="text-align: center;color: darkblue;"> <button class="btn btn-outline-primary" (click)="imprimeReceta()"> <fa-icon [icon]="faPrint" style="cursor: pointer;" title="Imprimir Receta" ></fa-icon></button> </th>
           </tr>
           <tr>
             <th style="text-align: center;font-size: small;">Temp</th>
@@ -156,14 +156,14 @@
           <tbody>
             <ng-container *ngFor="let signo of listaSignos">
             <tr>
-              <td style="text-align: center;">{{signo.temperatura}}</td>
-              <td style="text-align: center;">{{signo.estatura}}</td>
-              <td style="text-align: center;">{{signo.peso}}</td>
+              <td style="text-align: center;">{{signo.temperatura}}&deg;C</td>
+              <td style="text-align: center;">{{signo.estatura}}cm</td>
+              <td style="text-align: center;">{{signo.peso}}Kg</td>
               <td style="text-align: center;">{{signo.peso/(signo.estatura*signo.estatura/10000) | number:'1.0-2'}}</td>
-              <td style="text-align: center;">{{signo.presionSis}} - {{cita.signos[0].presionDias}}</td>
+              <td style="text-align: center;">{{signo.presionSis}} - {{cita.signos[0].presionDias}}mmHg</td>
               <td style="text-align: center;">{{signo.frecuenciaRespiratoria}}</td>
-              <td style="text-align: center;">{{signo.frecuenciaCardiaca}}</td>
-              <td style="text-align: center;">{{signo.spo2}}</td>
+              <td style="text-align: center;">{{signo.frecuenciaCardiaca}}ppm</td>
+              <td style="text-align: center;">{{signo.spo2}}%</td>
               <td style="text-align: center;">{{signo.glucotest}}</td>
               <td style="text-align: center;">{{signo.escalaDolor}}</td>
             </tr>
@@ -200,16 +200,38 @@
         <div class="col" style="text-align: center;">Exploración Física</div>
         <div class="col" style="text-align: center;">Diagnóstico</div>
         <div class="col" style="text-align: center;">Tratatmiento no farmacológico</div>
+        <div class="col" style="text-align: center;">
+          <div class="btn-group btn-sm" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" name="isAutomatica"  [(ngModel)]="cita.isInterconsulta" class="btn-check btn-secondary btn-sm" id="btncheck1" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="btncheck1">Interconsulta</label>
+          </div>
+        </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col" style="border-right: 1px solid green;">
           <textarea name="exploracionFisica" class="form-control" cols="30" rows="6" #exploracionFisica="ngModel" [(ngModel)]="cita.exploracionFisica"></textarea>
         </div>
-        <div class="col">
+        <div class="col" style="border-right: 1px solid green;">
           <textarea name="diagnostico" class="form-control" cols="30" rows="6" #diagnostico="ngModel" [(ngModel)]="cita.diagnostico"></textarea>
         </div>
-        <div class="col">
+        <div class="col" style="border-right: 1px solid green;">
           <textarea name="tratamiento" class="form-control" cols="30" rows="6" #tratamiento="ngModel" [(ngModel)]="cita.tratamiento"></textarea>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <select name="idMedico" class="form-select border-success" [(ngModel)]="idMedicoInterConsulta" [disabled]="!cita.isInterconsulta">
+                <option *ngFor="let medico of medicos" [ngValue]="medico._id">
+                  {{ medico.nombre }} {{ medico.apellidoP }} - {{ medico.especialidad }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <textarea name="interconsulta" class="form-control" cols="10" rows="4" #interconsulta="ngModel" [(ngModel)]="cita.motivoInterconsulta" [disabled]="!cita.isInterconsulta"></textarea>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -246,40 +268,41 @@
                 </tr>
               </tbody>
             </table>
+            <div *ngIf="listaBusquedaMedicamento.length>0" class="row">
+              <div class="col">
+                Medicamentos encontrados: {{listaBusquedaMedicamento.length}}
+              </div>
+            </div>
             <table *ngIf="listaBusquedaMedicamento.length>0" class="table table-bordered">
               <colgroup>
-                <col width="10%">
                 <col width="30%">
-                <col width="20%">
-                <col width="20%">
+                <col width="25%">
+                <col width="25%">
                 <col width="20%">
               </colgroup>
               <thead>
                 <tr>
-                  <th style="text-align: center;">Familia</th>
-                  <th style="text-align: center;">Nombre</th>
-                  <th style="text-align: center;">Dosis Adulto</th>
-                  <th style="text-align: center;">Dosis Niño</th>
-                  <th style="text-align: center;">Presentación</th>
+                  <th style="text-align: center;font-size: small;">Nombre</th>
+                  <th style="text-align: center;font-size: small;">Dosis Adulto</th>
+                  <th style="text-align: center;font-size: small;">Dosis Niño</th>
+                  <th style="text-align: center;font-size: small;">Presentación</th>
                 </tr>
               </thead>
             </table>
-            <div style="height: 300px;overflow: auto;margin-top: -15px;">
+            <div style="height: 300px;overflow: auto;margin-top: -16px;">
               <table class="table table-bordered table-hover">
                 <colgroup>
-                  <col width="10%">
                   <col width="30%">
-                  <col width="20%">
-                  <col width="20%">
+                  <col width="25%">
+                  <col width="25%">
                   <col width="20%">
                 </colgroup>
                 <tbody>
-                  <tr *ngFor="let medicamento of listaBusquedaMedicamento; let i = index" [class.selected]="i == HighlightMedicamento" (click)="highlightMedicamento(i)" >
-                    <td>{{medicamento.familia}}</td>
-                    <td>{{medicamento.nombre}}</td>
-                    <td>{{medicamento.dosisAdulto}}</td>
-                    <td>{{medicamento.dosisNino}}</td>
-                    <td>{{medicamento.presentaciones}}</td>
+                  <tr *ngFor="let medicamento of listaBusquedaMedicamento; let i = index" [class.selected]="i == HighlightMedicamento" (click)="highlightMedicamento(i)" title="{{medicamento.familia}}">
+                    <td style="font-size: small;font-family: 'Times New Roman', Times, serif;">{{i+1}}.-&nbsp;{{medicamento.nombre}}</td>
+                    <td style="font-size: small;font-family: 'Times New Roman', Times, serif;">{{medicamento.dosisAdulto}}</td>
+                    <td style="font-size: small;font-family: 'Times New Roman', Times, serif;">{{medicamento.dosisNino}}</td>
+                    <td style="font-size: small;font-family: 'Times New Roman', Times, serif;">{{medicamento.presentaciones}}</td>
                   </tr>
                 </tbody>
               </table>

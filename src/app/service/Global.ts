@@ -36,6 +36,7 @@ export var Global ={
   FARMACIA:'FARMACIA',
   SUCCESS:'SUCCESS',
   ENTER:13,
+  DURACION_CITA:20,
   REFRESH_CITA: 60*1000, // cada minuto va ir a consultar si hay nuevas citas
   TIMER_OFF:2500,
   UNO:1,
@@ -59,7 +60,7 @@ export var Global ={
   DURACION_E4:5,
   FIELD_OK:"form-control border-success",
   FIELD_REQUIRED:"form-control border-danger",
-  VERSION:'0.1.6',
+  VERSION:'1.0.1',
   EFECTIVO:'efectivo',
   TARJETA:'tarjeta',
   TRANSFERENCIA:'transferencia',

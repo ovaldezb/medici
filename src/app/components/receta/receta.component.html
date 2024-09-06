@@ -1,77 +1,10 @@
 
 
-<div class="container" style="margin-left: -15px;">
-  <div class="row">
-    <div class="col-7">&nbsp;</div>
-    <div class="col-2" style="color: red;text-align: center;">No {{cita.noReceta}}</div>
-    <div class="col-1" style="text-align: right;">Fecha:</div>
-    <div class="col-2" style="text-align: left;">{{fechaHoy}}</div>
-  </div>
-</div>
- 
-  <table class="table" style="width: 100%;">
-    <tr>
-      <td style="color: darkseagreen;font-size: small;">Nombre:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}} {{cita.paciente.apellidoM}}</td>
-      <td style="color: darkseagreen;font-size: small;">Edad:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{edad}}</td>
-      <td style="color: darkseagreen;font-size: small;">Peso:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].peso}}Kg</td>
-      <td style="color: darkseagreen;font-size: small;">Talla:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].estatura}}cm</td>
-      <td style="color: darkseagreen;font-size: small;">Alergias:</td>
-      <td>
-        <input type="radio" name="alergias" id="si" [checked]="cita.signos[0].alergias!=''"><label style="font-size: small;">Si</label>
-        <input type="radio" name="alergias" id="no" [checked]="cita.signos[0].alergias===''"><label style="font-size: small;">No</label></td>
-    </tr>
-  </table>
 
-<div class="container text-center">
-  <div class="row justify-content-around">
-    <div class="col-8">
-      <div class="row">
-        <div class="col" style="text-align: left;border-bottom: 1px solid darkseagreen;"><label style="color: darkseagreen;font-size: small;">DIAGNOSTICO MEDICO:</label> {{cita.diagnostico}}</div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <ol>
-            <li *ngFor="let medicamento of cita.medicamentoReceta; let i=index" style="text-align: left; font-family: 'Courier New', Courier, monospace;font-size: small;"><strong>{{medicamento.nombre}}</strong> {{medicamento.prescripcion}}</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Cuales</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace; ">{{cita.signos[0].alergias}}</div>
-      </div>
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">FC</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].frecuenciaCardiaca}}ppm</div>
-      </div>
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">FR</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].frecuenciaRespiratoria}}</div>
-      </div>
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">T/A</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].presionDias}}/{{cita.signos[0].presionSis}}mmHg</div>
-      </div>
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Temp</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].temperatura}}&deg;C</div>
-      </div>
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Glucosa</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].glucotest}}</div>
-      </div>
-      <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">SPO2</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].spo2}}%</div>
-      </div>
-    </div>
-  </div>
-</div>
+ 
+  
+
+
 
     
     

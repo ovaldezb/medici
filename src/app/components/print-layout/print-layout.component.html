@@ -1,30 +1,124 @@
-<table style="width: 100%;height:500px;border-bottom: 1px dashed black;">
-  <thead style="border: 1px solid black;">
+<table style="width: 100%;">
+  <thead>
     <tr>
-      <th colspan="3" style="font-family: cursive;padding: 5px;">Clinica B&B</th>
+      <th style="font-family: cursive;padding: 5px;">Clinica B&B</th>
     </tr>
   </thead>
-  <tbody style="border: 1px solid black;">
+</table>
+<table style="width: 90%;height: 40px;">
+  <colgroup>
+    <col width="65%">
+    <col width="15%">
+    <col width="20%">
+  </colgroup>
+  <thead> 
     <tr>
-      <td colspan="3" style="border: 1px solid red;padding: 5px;">
-        <app-receta [cita]="cita"></app-receta>
-      </td>
+      <th style="color: red;text-align: right;">No. {{cita.noReceta}}</th>
+      <th style="text-align: right;color: darkseagreen;">Fecha:</th>
+      <th style="text-align: center; border-bottom: 1px solid darkseagreen;">{{fechaHoy}}</th>
+    </tr>
+  </thead>
+</table>
+<table style="width: 95%;">
+  <colgroup>
+    <col width="8%">
+    <col width="33%">
+    <col width="5%">
+    <col width="6%">
+    <col width="5%">
+    <col width="6%">
+    <col width="5%">
+    <col width="9%">
+    <col width="9%">
+    <col width="13%">
+  </colgroup>
+  <tbody>
+    <tr>
+      <td style="color: darkseagreen;font-size: small;">Nombre:</td>
+      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;padding-bottom: 0px;">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}} {{cita.paciente.apellidoM}}</td>
+      <td style="color: darkseagreen;font-size: small;">Edad:</td>
+      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{edad}}</td>
+      <td style="color: darkseagreen;font-size: small;">Peso:</td>
+      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].peso}}Kg</td>
+      <td style="color: darkseagreen;font-size: small;">Talla:</td>
+      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].estatura}}cm</td>
+      <td style="color: darkseagreen;font-size: small;">Alergias:</td>
+      <td style="border-bottom: 1px solid darkseagreen;text-align: center;">
+        <input type="radio" name="alergias" id="si" [checked]="cita.signos[0].alergias!=''"><label style="font-size: small;font-family: 'Courier New', Courier, monospace;">Si</label> &nbsp;
+        <input type="radio" name="alergias" id="no" [checked]="cita.signos[0].alergias===''"><label style="font-size: small;font-family: 'Courier New', Courier, monospace;">No</label></td>
     </tr>
   </tbody>
-  <tfoot style="border: 1px solid black;">
+</table>
+<table style="width: 100%;height: 60px;">
+  <colgroup>
+    <col width="20%">
+    <col width="80%">
+  </colgroup>
+  <tbody>
     <tr>
-      <td>{{cita.medico.nombre}} {{cita.medico.apellidoP}} - {{this.cita.medico.cedula}}</td>
+      <td style="color: darkseagreen;font-size: small;text-align: right;">Diagnóstico Médico:</td>
+      <td style="font-family: 'Courier New', Courier, monospace;text-align: left;">{{cita.diagnostico}}</td>
+    </tr>
+  </tbody>
+</table>
+<div class="container text-center" style="height: 300px;">
+  <div class="row justify-content-around">
+    <div class="col-8">
+      <div class="row">
+        <div class="col">
+          <ol>
+            <li *ngFor="let medicamento of cita.medicamentoReceta; let i=index" style="text-align: left; font-family: 'Courier New', Courier, monospace;font-size: small;"><strong>{{medicamento.nombre}}</strong> {{medicamento.prescripcion}}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Cuales</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace; ">{{cita.signos[0].alergias}}</div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">FC</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].frecuenciaCardiaca}}ppm</div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">FR</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].frecuenciaRespiratoria}}</div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">T/A</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].presionDias}}/{{cita.signos[0].presionSis}}mmHg</div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Temp</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].temperatura}}&deg;C</div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Glucosa</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].glucotest}}</div>
+      </div>
+      <div class="row">
+        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">SPO2</div>
+        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].spo2}}%</div>
+      </div>
+    </div>
+  </div>
+</div>
+<table style="width: 95%;">
+  <tfoot>
+    <tr>
+      <td style="text-align: center;">{{cita.medico.nombre}} {{cita.medico.apellidoP}} - {{this.cita.medico.cedula}}</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td style="border-top: 1px solid darkseagreen;text-align: center;">Nombre, Firma y CED. PROF.</td>
-      <td style="text-align: center;">I. Zaragoza No 5 Barrio Santiaguito, Ocoyoacac. CP:52740, México</td>
+      <td style="text-align: center;font-size: small;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">I. Zaragoza No 5 Barrio Santiaguito, Ocoyoacac. CP:52740, México</td>
       <td style="color: darkseagreen;text-align: center;"><fa-icon [icon]="faWhatsapp"></fa-icon> 722 131 7862</td>
     </tr>
   </tfoot>
 </table>
-<table style="width: 100%;height: 500px;">
+<table style="width: 95%;height: 500px;">
   <tbody>
     <tr>
       <td>

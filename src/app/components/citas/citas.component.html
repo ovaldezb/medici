@@ -35,11 +35,12 @@
                   <input  type="time" [className]="contorno[0]" name="horaCita" #horaCita="ngModel" [(ngModel)]="cita.horaCita" (blur)="validaCampo(cita.horaCita,0)" required />
                 </div>
                 <div class="col" style="text-align: center;">
-                  <label class="form-label" style="font-family: 'Courier New', Courier, monospace;">Folio</label>
-                  <input type="text" name="folio"  #folio="ngModel" [(ngModel)]="paciente.carnet" class="form-control border-success" (keyup)="buscaFolio($event)" placeholder="Folio">
-                  <div *ngIf="isLoadingCarnet" class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
+                  <label class="form-label" style="font-family: 'Courier New', Courier, monospace;">Duración</label>
+                  <select name="duracion" class="form-select mb-3 border-success" [(ngModel)]="cita.duracion" disabled>
+                    <option *ngFor="let durac of duracionCita" [ngValue]="durac.value">
+                      {{durac.viewValue}}
+                    </option>
+                  </select>
                 </div>
               </div>
               <hr />
@@ -123,8 +124,7 @@
                         #telefono="ngModel"
                         [(ngModel)]="paciente.telefono"
                         (keyup)="buscaPacienteMatch($event, 'telefono')"
-                        placeholder="Teléfono"
-                        required />
+                        placeholder="Teléfono"/>
                       <div
                         *ngIf="listaPacientesTelefono.length != 0"
                         style="width: 100%;
@@ -261,16 +261,18 @@
             </div>
             <table class="table table-dark">
               <colgroup>
-                <col width="29%" />
+                <col width="30%" />
                 <col width="25%" />
-                <col width="23%" />
-                <col width="23%" />
+                <col width="15%" />
+                <col width="15%" />
+                <col width="15%" />
               </colgroup>
               <thead>
                 <tr>
                   <th style="text-align: center; font-size: small">Paciente</th>
                   <th style="text-align: center; font-size: small">Teléfono</th>
-                  <th style="text-align: center; font-size: small">Hora</th>
+                  <th style="text-align: center; font-size: small">H. Ini</th>
+                  <th style="text-align: center; font-size: small">H. Fin</th>
                   <th style="text-align: center; font-size: small">Acción</th>
                 </tr>
               </thead>
@@ -278,10 +280,11 @@
             <div style="width: 100%;text-align: center;margin-top: -17px;height: 350px;overflow: auto;">
               <table class="table table-bordered table-hover" style="width: 100%">
                 <colgroup>
-                  <col width="29%" />
+                  <col width="30%" />
                   <col width="25%" />
-                  <col width="23%" />
-                  <col width="23%" />
+                  <col width="15%" />
+                  <col width="15%" />
+                  <col width="15%" />
                 </colgroup>
                 <tbody>
                   <tr *ngFor="let cita of citas; let i = index">
@@ -290,6 +293,7 @@
                     </td>
                     <td>{{ cita.paciente.telefono }}</td>
                     <td>{{ cita.horaCita }}</td>
+                    <td>{{ cita.horaCitaDuracion }}</td>
                     <td *ngIf="cita.isAtendido">
                       <fa-icon [icon]="faFlagCheckered"> </fa-icon>
                     </td>

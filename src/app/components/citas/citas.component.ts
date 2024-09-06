@@ -30,8 +30,13 @@ export interface Escolaridad{
 }
 
 export interface Raza{
-  value: String,
-  viewValue: String
+  value: string,
+  viewValue: string
+}
+
+export interface Duracion{
+  value:number,
+  viewValue:string
 }
 
 @Component({
@@ -42,7 +47,7 @@ export interface Raza{
 })
 export class CitasComponent implements OnInit{
   public fechaActual: Date = new Date();
-  public duracion : number = 20;
+  public duracion : number = Global.DURACION_CITA;
   public faCircleXmark = faCircleXmark;
   public faCalendarPlus = faCalendarPlus;
   public faArrowRight = faArrowRight;
@@ -54,8 +59,8 @@ export class CitasComponent implements OnInit{
   public higlightIndex = -1;
   public idMedico:string = '';
   public medicos:IUser[] = [];
-  public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'');
+  public paciente:Paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'',Global.DURACION_CITA,'',false,{} as IUser);
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -67,7 +72,7 @@ export class CitasComponent implements OnInit{
   public dia:string='';
   public mes:string='00';
   public anio:string='';
-  public fechaCita:string = new Date().toLocaleDateString('en-CA');//.split('T')[0];
+  public fechaCita:string = new Date().toLocaleDateString('en-CA');
   public isLoadingCarnet : boolean = false;
   public listaDispoMedico:Disponibilidad[]=[];
   public isLoadingMedicos:boolean = false;
@@ -122,6 +127,10 @@ export class CitasComponent implements OnInit{
     {value:"Lic",viewValue:"Licenciatura"},
     {value:"Pos",viewValue:"Posgrado"},
     {value:"Otr",viewValue:"Otro"}
+  ];
+  duracionCita:Duracion[]=[
+    {value:20, viewValue:"20 min"},
+    {value:60, viewValue:"1 hr"},
   ];
   constructor(private medicoService: MedicosService, 
               private pacienteService: PacienteService,
@@ -289,12 +298,12 @@ export class CitasComponent implements OnInit{
       .map(cita=>{
       return {
         fechaCitaIni:new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita),
-        fechaCitaFin:new Date(new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita).getTime() + this.duracion*60000)
+        fechaCitaFin:new Date(new Date(new Date(cita.fechaCita).toISOString().split('T')[0]+' '+cita.horaCita).getTime() + cita.duracion*60000)
       }
       })
       .every(citaMod =>{
         let fechaCitaActualIni = new Date(this.fechaCita+ ' '+this.cita.horaCita);
-        let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.duracion * 60000)
+        let fechaCitaActualFin = new Date(fechaCitaActualIni.getTime() + this.cita.duracion * 60000)
         if((fechaCitaActualIni >= citaMod.fechaCitaIni && fechaCitaActualIni < citaMod.fechaCitaFin) || 
          (fechaCitaActualFin > citaMod.fechaCitaIni && fechaCitaActualFin <= citaMod.fechaCitaFin))
         {
@@ -447,6 +456,15 @@ export class CitasComponent implements OnInit{
       this.isLoadingCitas = false;
       if(res.body.citas != undefined){
         this.citas = res.body.citas;
+        this.citas = this.citas.map((c:Cita)=>{
+          let hoy = new Date(new Date().toLocaleString("en-US",{timeZone:"Etc/GMT"}));
+          let horaCita = c.horaCita.split(':');
+          hoy.setHours(Number(horaCita[0]));
+          hoy.setMinutes(Number(horaCita[1]))
+          let horaFinCalculada = new Date(new Date(hoy.getTime() + (c.duracion*60000) - (6 * 60 * 60 * 1000))).toISOString().split('T')[1]; 
+          c.horaCitaDuracion = horaFinCalculada.substring(0,horaFinCalculada.lastIndexOf(':'))
+          return  c;
+        });
       }
     });
   }
@@ -519,8 +537,8 @@ export class CitasComponent implements OnInit{
       this.getCitas();
     }
     this.btnAccion = Global.AGENDAR;
-    this.paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(), false,[], false,[],'','','',new Date(),new Date(),'');
+    this.paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(), false,[], false,[],'','','',new Date(),new Date(),'',Global.DURACION_CITA,'',false,{} as IUser);
     
     this.dia = '';
     this.mes = '00';

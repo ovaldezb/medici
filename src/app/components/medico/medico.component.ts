@@ -36,14 +36,15 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public faPrint = faPrint;
   public fechaActual = new Date();
   public citas:Cita[] = [];
+  public medico:IUser= {} as IUser;
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'000');
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'000',Global.DURACION_CITA,'',false,{} as IUser);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
   private idMedico:string='';
   public HighlightRow:number=-1;
-  public medico:IUser= {} as IUser;
+  
   private intervalId:any = 0;
   private intervalEtapa1:any=0;
   private intervalEtapa2:any=0;
@@ -68,6 +69,8 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public listaSignos:Signos[] = [];
   public sucursal:string='';
   public idSucursal:string='';
+  public medicos:IUser[] = [];
+  public idMedicoInterConsulta='';
 
   constructor(private medicoService:MedicosService, 
               private citasService:CitasService,
@@ -101,6 +104,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
         this.getCitas()
       }, 
       Global.REFRESH_CITA);
+    this.getMedicos();
   }
 
   counterE1():void{
@@ -208,12 +212,10 @@ export class MedicoComponent implements OnInit, OnDestroy{
 
   atenderPaciente(index:number):void{
     this.HighlightRow = index;
-    console.log(this.citas);
     this.cita = this.citas[index];
     this.listaSignos = this.cita.signos.reverse();
     this.paciente = this.cita.paciente;
     this.receta.medicamentoReceta = this.cita.medicamentoReceta;
-    console.log(this.cita);
     if(this.cita.noReceta === '' || this.cita.noReceta === undefined){
       this.sucursalService.getSucursalById(this.idSucursal)
       .subscribe(res=>{
@@ -222,7 +224,6 @@ export class MedicoComponent implements OnInit, OnDestroy{
           this.folioService.getFolio(Global.RECETA,this.sucursal)
           .subscribe(res=>{
             this.cita.noReceta = res.body.folio.sequence_value;
-            console.log(this.cita);
             this.citasService.updateCita(this.cita._id,this.cita)
             .subscribe(res=>{
               
@@ -264,6 +265,8 @@ export class MedicoComponent implements OnInit, OnDestroy{
     });
   }
 
+  
+
   finalizaConsulta():void{
     if(this.paciente.carnet != '' && this.paciente.carnet != undefined){
       this.carnetService.getCarnetByFolio(this.paciente.carnet)
@@ -277,6 +280,9 @@ export class MedicoComponent implements OnInit, OnDestroy{
                  });
             }  
           });
+    }
+    if(this.cita.isInterconsulta){
+      this.cita.medicoInterconsulta = new IUser(this.idMedicoInterConsulta,'','','','','','','','','','','','','',false,'','','',false,{} as Sucursal) 
     }
     this.cita.isAtendido = true;
     this.cita.horaCitaFin = new Date();
@@ -303,6 +309,12 @@ export class MedicoComponent implements OnInit, OnDestroy{
     clearInterval(this.intervalEtapa4);
   }
 
-  
+  getMedicos():void{
+    this.medicoService.getAllMedicos().subscribe(res=>{
+      if(res.status===Global.OK){
+        this.medicos = res.body.medicos;
+      }
+    });
+  }
 
 }

@@ -15,7 +15,7 @@ export class RecetaComponent implements OnInit, OnChanges{
   
   
   ngOnInit(): void {
-    this.fechaHoy = moment().format('DD-MM-YYYY')
+    this.fechaHoy = moment().format('DD-MM-YYYY');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
