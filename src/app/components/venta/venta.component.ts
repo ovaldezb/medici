@@ -1,5 +1,4 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { faThemeisle } from '@fortawesome/free-brands-svg-icons';
 import { faBasketShopping, 
           faBarcode, 
           faMagnifyingGlass,
@@ -16,12 +15,22 @@ import { faBasketShopping,
           faPrescriptionBottle,
           faBan,
           faEye } from '@fortawesome/free-solid-svg-icons';
+import { min } from 'moment';
+import { Concepto } from 'src/app/models/conceptos';
+import { Emisor } from 'src/app/models/emisor';
 import { EntradaEfectivo } from 'src/app/models/entradaEfectivo';
+import { Impuestos } from 'src/app/models/impuestos';
+import { ImpuestosConcepto } from 'src/app/models/ImpuestosConcepto';
 import { Producto } from 'src/app/models/producto';
+import { Receptor } from 'src/app/models/receptor';
+import { Retenciones } from 'src/app/models/retenciones';
 import { SalidaEfectivo } from 'src/app/models/salidaEfectivo';
+import { Timbrado } from 'src/app/models/timbrado';
+import { Traslados } from 'src/app/models/traslados';
 import { Venta } from 'src/app/models/venta';
 import { VentaProducto } from 'src/app/models/ventaproducto';
 import { CognitoService } from 'src/app/service/cognito.service';
+import { FacturacionService } from 'src/app/service/facturacion.service';
 import { Global } from 'src/app/service/Global';
 import { ProductoService } from 'src/app/service/producto.service';
 import { SucursalService } from 'src/app/service/sucursal.service';
@@ -37,7 +46,7 @@ export interface Banco {
   selector: 'app-venta',
   templateUrl: './venta.component.html',
   styleUrls: ['./venta.component.css'],
-  providers:[ProductoService,VentasService, CognitoService,SucursalService]
+  providers:[ProductoService,VentasService, CognitoService,SucursalService,FacturacionService]
 })
 
 export class VentaComponent implements OnInit{
@@ -47,7 +56,9 @@ export class VentaComponent implements OnInit{
       private renderer:Renderer2,
       private ventasService:VentasService,
       private sucursalService:SucursalService,
-      private cognitoService:CognitoService){}
+      private cognitoService:CognitoService,
+      private facturaService:FacturacionService){}
+
   ngOnInit(): void {
     this.getTicket();
     this.formaPago(Global.EFECTIVO);
@@ -64,6 +75,7 @@ export class VentaComponent implements OnInit{
     })
   }
 
+  timbrado:Timbrado={} as Timbrado;
   idSucursal:string='';
   sucursal:string='';
   cajero:string='';
@@ -119,6 +131,7 @@ export class VentaComponent implements OnInit{
   isVerSalidasOpen:boolean=false;
   listaSalidas:SalidaEfectivo[]=[];
   listaEntradas:EntradaEfectivo[]=[];
+  isRequiereFactura:Boolean=false;
   bancos:Banco[]=[
     {value:'Banamex',viewValue:'BANAMEX'},
     {value:'Santander',viewValue:'Banco Santander'},
@@ -140,7 +153,6 @@ export class VentaComponent implements OnInit{
       this.isSpinnerAgregaProductoOpen = false;
       if(res.status===Global.OK && res.body.producto != null){
         const producto = res.body.producto;
-        //console.log(producto);
         if(producto.existencia === Global.EMPTY){
           Swal.fire({
             titleText:'Actualmente este producto no cuenta con existencias',
@@ -186,7 +198,6 @@ export class VentaComponent implements OnInit{
         icon:'error'
       });
       this.venta.ventaProducto[this.HighLightRow].cantidad = this.venta.ventaProducto[this.HighLightRow].producto.existencia;
-      //return;
     }
     this.total = this.venta.ventaProducto.reduce((acc, prod)=>{
       return acc + (prod.cantidad * prod.producto.precioVenta)
@@ -219,6 +230,7 @@ export class VentaComponent implements OnInit{
       this.HighLightRowBusqueda = -1;
       return;
     }
+    this.productosEncontrados = [];
     this.closeModal('busqueda');
     const ventaPro = new VentaProducto(1, producto);
     this.venta.ventaProducto.push(ventaPro);
@@ -336,9 +348,121 @@ export class VentaComponent implements OnInit{
           icon:'success',
           timer:Global.TIMER_OFF
         });
+        this.facturaService.emisionFactura(this.llenaFactura())
+        .subscribe((res:any)=>{
+          console.log(res);
+        });
         this.limpiar();
       }
     });
+    
+  }
+
+  llenaFactura():Timbrado{
+    this.timbrado = {} as Timbrado;
+    this.timbrado.Conceptos = [];
+    let subTotal:number = 0;
+    let total:number = 0;
+    let totalImpuestos:number=0.0;
+    let impuestoTrasladoBase:number=0.0;
+    let impuestoTrasladoImporte:number=0.0;
+    let impuestos:Impuestos= {} as Impuestos;
+    impuestos.Traslados = [];
+    impuestos.Retenciones = [];
+    this.venta.ventaProducto.forEach(prod=>{
+      let impuestosConcepto:ImpuestosConcepto = {} as ImpuestosConcepto;
+      impuestosConcepto.Traslados = [];
+      impuestosConcepto.Retenciones = [];
+      let subTotalProd:number = prod.producto.precioVenta/1.16;
+      totalImpuestos += (subTotalProd * 0.16 * prod.cantidad);
+      subTotal += (subTotalProd * prod.cantidad);
+      total += (prod.producto.precioVenta * prod.cantidad);
+      let ValorUnitario:number = subTotalProd;
+      let base:number =  subTotalProd*prod.cantidad;
+      let importeConceptoImpuestoTraslado = (subTotalProd*0.16*prod.cantidad);
+      let traslados = new Traslados(
+        base.toFixed(2),
+        importeConceptoImpuestoTraslado.toFixed(2),
+        Global.Factura.ImpuestoIVA,
+        Global.Factura.TasaOCuotaIVA,
+        Global.Factura.Tasa);
+      impuestosConcepto.Traslados.push(traslados);
+      let retenciones = new Retenciones(
+        base.toFixed(2),
+        '0.00',
+        Global.Factura.ImpuestoISR,
+        Global.Factura.TasaOCuotaISR,
+        Global.Factura.Tasa);
+      impuestosConcepto.Retenciones.push(retenciones);
+      let concepto = new Concepto(
+        '51142001',
+        'X001',
+        prod.cantidad.toFixed(1),
+        'H87',
+        'Pieza',
+        'Acetaminofén',
+        ValorUnitario.toFixed(2),
+        base.toFixed(2),
+        '0.00',
+        Global.Factura.ObjectoImpuesto,
+        impuestosConcepto
+      );
+      this.timbrado.Conceptos.push(concepto);
+      impuestoTrasladoBase += base;
+      impuestoTrasladoImporte += importeConceptoImpuestoTraslado;
+    });
+    let trasladoImpuesto = new Traslados(
+      impuestoTrasladoBase.toFixed(2),
+      impuestoTrasladoImporte.toFixed(2),
+      Global.Factura.ImpuestoIVA,
+      Global.Factura.TasaOCuotaIVA,
+      Global.Factura.Tasa
+    )
+    let retencionImpuesto = new Retenciones(
+        impuestoTrasladoBase.toFixed(2),
+        '0.00',
+        Global.Factura.ImpuestoISR,
+        Global.Factura.TasaOCuotaISR,
+        Global.Factura.Tasa
+      );
+    impuestos.TotalImpuestosTrasladados = totalImpuestos.toFixed(2);
+    impuestos.TotalImpuestosRetenidos = '0.00';
+    impuestos.Traslados.push(trasladoImpuesto);
+    impuestos.Retenciones.push(retencionImpuesto);
+    
+    this.timbrado.Version=Global.Factura.Version;
+    this.timbrado.FormaPago='01';
+    this.timbrado.Serie='SW';
+    this.timbrado.Folio=this.numeroTicket;
+    this.timbrado.Fecha=this.getFechaFactura();
+    this.timbrado.MetodoPago=Global.Factura.MetodoPago;
+    this.timbrado.Sello='';
+    this.timbrado.NoCertificado='';
+    this.timbrado.Certificado='';
+    this.timbrado.CondicionesDePago=Global.Factura.CondicionesPago;
+    this.timbrado.SubTotal=subTotal.toFixed(2);
+    this.timbrado.Descuento='0.00';
+    this.timbrado.Moneda=Global.Factura.Moneda;
+    this.timbrado.TipoCambio=Global.Factura.TipoCambio;
+    this.timbrado.Total=total.toFixed(2);
+    this.timbrado.TipoDeComprobante=Global.Factura.TipoComprobante;
+    this.timbrado.Exportacion=Global.Factura.Exportacion;
+    this.timbrado.LugarExpedicion='45610';
+    this.timbrado.Emisor = new Emisor('XOCHILT CASAS CHAVEZ','CACX7605101P8','605');
+    this.timbrado.Receptor = new Receptor('VABO780711D41','OMAR VALDEZ BECERRIL','52756','616','S01');
+    this.timbrado.Impuestos = impuestos;
+    return this.timbrado;
+  }
+
+  getFechaFactura():String{
+    let hoy = new Date();
+    let dia = hoy.getDate() < 10 ? '0'+hoy.getDate() : hoy.getDate();
+    let mes = (hoy.getMonth() + 1) < 10 ? '0'+(hoy.getMonth() + 1) : (hoy.getMonth() + 1);
+    let year = hoy.getFullYear();
+    let hora = hoy.getHours() < 10 ? '0'+hoy.getHours() :hoy.getHours();
+    let minuto = hoy.getMinutes() < 10 ? '0'+hoy.getMinutes() : hoy.getMinutes();
+    let segundos = hoy.getSeconds() < 10 ? '0'+hoy.getSeconds() : hoy.getSeconds();
+    return year+'-'+mes+'-'+dia+'T'+hora+':'+minuto+':'+segundos;
   }
 
   limpiar():void{
@@ -456,6 +580,10 @@ export class VentaComponent implements OnInit{
         this.listaSalidas = res.body.salidas;
       }
     });
+  }
+
+  cambioRequiereFactura():void{
+    console.log(this.isRequiereFactura);
   }
 
   pad(n:string, width:number, z?:string):string {

@@ -8,6 +8,7 @@ export var Global ={
   urlCita:     environment.urlCita,
   urlDisponib: environment.urlDisponib,
   urlEnfermed: environment.urlEnfermed,
+  urlFactura: environment.urlFactura,
   urlFolio:    environment.urlFolio,
   urlMedicamt: environment.urlMedicamt,
   urlMedico:   environment.urlMedico,
@@ -69,5 +70,23 @@ export var Global ={
   LONG_TICKET:6,
   CARNET:'carnet',
   RECETA:'receta',
-  TICKET:'ticket'
+  TICKET:'ticket',
+  PAGE_SIZE:20,
+  PAGE_INIT:0,
+  Factura:{
+    Moneda:'MXN',
+    Version:'4.0',
+    TipoCambio:'1',
+    TipoComprobante:'I',
+    Exportacion:'01',
+    CondicionesPago:'Un solo pago',
+    MetodoPago:'PUE',
+    ImpuestoIVA:'002',
+    ImpuestoISR:'001',
+    Tasa:'Tasa',
+    Cuota:'Cuota',
+    TasaOCuotaIVA:'0.160000',
+    TasaOCuotaISR:'0.000000',
+    ObjectoImpuesto:'02'
+  }
 }

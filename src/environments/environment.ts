@@ -8,6 +8,7 @@ export const environment = {
   urlCita:     'https://gjxtfu9ve2.execute-api.us-east-1.amazonaws.com/dev/cita',
   urlDisponib: 'https://uxifak5tof.execute-api.us-east-1.amazonaws.com/dev/disponibilidad',
   urlEnfermed: 'https://ekapc7eimk.execute-api.us-east-1.amazonaws.com/dev/enfermedad',
+  urlFactura:  'https://m2zok2ivi8.execute-api.us-east-1.amazonaws.com/dev/facturacion',
   urlFolio:    'https://ys72uwulue.execute-api.us-east-1.amazonaws.com/dev/folio',
   urlMedicamt: 'https://qrrlv0txqi.execute-api.us-east-1.amazonaws.com/dev/medicamento',
   urlMedico:   'https://s1ic99wjca.execute-api.us-east-1.amazonaws.com/dev/medico',

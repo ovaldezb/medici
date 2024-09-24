@@ -34,6 +34,8 @@ import { AntecedentesFamiliaresComponent } from './components/antecedentes-famil
 import { EnfermeriaMenuComponent } from './components/enfermeria-menu/enfermeria-menu.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { VentaComponent } from './components/venta/venta.component';
+import { InterconsultaComponent } from './components/interconsulta/interconsulta.component';
+import { MedicamentoComponent } from './components/medicamento/medicamento.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { VentaComponent } from './components/venta/venta.component';
     AntecedentesFamiliaresComponent,
     EnfermeriaMenuComponent,
     ProductoComponent,
-    VentaComponent
+    VentaComponent,
+    InterconsultaComponent,
+    MedicamentoComponent
   ],
   imports: [
     BrowserModule,

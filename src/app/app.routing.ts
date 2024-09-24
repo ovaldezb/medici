@@ -18,6 +18,8 @@ import { HistoriaClinicaComponent } from "./components/historia-clinica/historia
 import { RecetaComponent } from "./components/receta/receta.component";
 import { PrintLayoutComponent } from "./components/print-layout/print-layout.component";
 import { EnfermeriaMenuComponent } from "./components/enfermeria-menu/enfermeria-menu.component";
+import { InterconsultaComponent } from "./components/interconsulta/interconsulta.component";
+import { MedicamentoComponent } from "./components/medicamento/medicamento.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -36,7 +38,9 @@ const appRoutes: Routes = [
   { path: 'dispnibilidad', component: DisponibilidadComponent, canActivate:[RouteGuardService]},
   { path: 'farmacia', component: FarmaciaComponent, canActivate:[RouteGuardService]},
   { path: 'historial', component: HistoriaClinicaComponent},
-  { path: 'print/:idCita', outlet:'print',component: PrintLayoutComponent }
+  { path: 'print/:idCita', outlet:'print',component: PrintLayoutComponent },
+  { path: 'medicamento', component:MedicamentoComponent,canActivate:[RouteGuardService]},
+  { path: 'interconsulta',component:InterconsultaComponent,canActivate:[RouteGuardService]}
 ];
 
 

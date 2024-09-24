@@ -17,6 +17,10 @@
     <a *ngIf="tabActivo!='rol'" class="nav-link"  (click)="clickUsuario('rol')" style="cursor: pointer;">Roles</a>
   </li>
   <li>
+    <a *ngIf="tabActivo==='medicamento'" class="nav-link active" aria-disabled="true">Medicamentos</a>
+    <a *ngIf="tabActivo!='medicamento'" class="nav-link" (click)="clickUsuario('medicamento')" style="cursor: pointer;">Medicamento<fa-icon [icon]="faPills"></fa-icon> </a>
+  </li>
+  <li>
     <a *ngIf="tabActivo==='sucursal'" class="nav-link active"  aria-disabled="true">Sucursales</a>
     <a *ngIf="tabActivo!='sucursal'" class="nav-link"  (click)="clickUsuario('sucursal')" style="cursor: pointer;">Sucursales</a>
   </li>
@@ -31,3 +35,4 @@
 <app-perfiles *ngIf="tabActivo==='rol'"></app-perfiles>
 <app-sucursales *ngIf="tabActivo==='sucursal'"></app-sucursales>
 <app-historia-clinica *ngIf="tabActivo==='historial'"></app-historia-clinica>
+<app-medicamento *ngIf="tabActivo==='medicamento'"></app-medicamento>

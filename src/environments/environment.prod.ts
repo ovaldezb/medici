@@ -4,6 +4,7 @@ export const environment = {
   urlCita:     'https://bvziwklih2.execute-api.us-east-1.amazonaws.com/dev/cita',
   urlDisponib: 'https://cg3j0y68j2.execute-api.us-east-1.amazonaws.com/dev/disponibilidad',
   urlEnfermed: 'https://rguhvoarqf.execute-api.us-east-1.amazonaws.com/dev/enfermedad',
+  urlFactura:  'facturacion',
   urlFolio:    'https://f2fxs9rxle.execute-api.us-east-1.amazonaws.com/dev/folio',
   urlMedicamt: 'https://5xvajgqxk6.execute-api.us-east-1.amazonaws.com/dev/medicamento',
   urlMedico:   'https://z2okv4pcu2.execute-api.us-east-1.amazonaws.com/dev/medico',

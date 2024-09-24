@@ -11,7 +11,6 @@ import { CognitoService } from 'src/app/service/cognito.service';
 import { Global } from 'src/app/service/Global';
 import { MedicosService } from 'src/app/service/medicos.service';
 import { faPills } from '@fortawesome/free-solid-svg-icons';
-import { FarmaciaService } from 'src/app/service/farmacia.service';
 import Swal from 'sweetalert2';
 import { Receta } from 'src/app/models/receta';
 import { MedicamentoReceta } from 'src/app/models/medicamentoReceta';
@@ -21,12 +20,13 @@ import { PrintService } from 'src/app/service/print.service';
 import { Sucursal } from 'src/app/models/sucursal';
 import { FolioService } from 'src/app/service/folio.service';
 import { SucursalService } from 'src/app/service/sucursal.service';
+import { MedicamentoService } from 'src/app/service/medicamento.service';
 
 @Component({
   selector: 'app-medico',
   templateUrl: './medico.component.html',
   styleUrls: ['./medico.component.css'],
-  providers:[MedicosService, CitasService, FarmaciaService,CarnetService, PrintService, FolioService, SucursalService ]
+  providers:[MedicosService, CitasService, MedicamentoService,CarnetService, PrintService, FolioService, SucursalService ]
 })
 export class MedicoComponent implements OnInit, OnDestroy{
   
@@ -38,7 +38,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public citas:Cita[] = [];
   public medico:IUser= {} as IUser;
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'000',Global.DURACION_CITA,'',false,{} as IUser);
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'000',Global.DURACION_CITA,'',false,'',false);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -75,7 +75,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
   constructor(private medicoService:MedicosService, 
               private citasService:CitasService,
               private cognitoService:CognitoService, 
-              private farmaciaService:FarmaciaService,
+              private medicamentoService:MedicamentoService,
               private carnetService:CarnetService,
               private printService:PrintService,
               private folioService:FolioService, 
@@ -175,7 +175,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
 
   buscaMedicamento():void{
     this.isSearchingMedicamento =true;
-    this.farmaciaService.getMedicamentos(this.medicamento.nombre)
+    this.medicamentoService.getMedicamentos(this.medicamento.nombre)
     .subscribe(res=>{
       this.isSearchingMedicamento = false;
       if(res.status === Global.OK && res.body.medicamentos.length>0){
@@ -282,7 +282,7 @@ export class MedicoComponent implements OnInit, OnDestroy{
           });
     }
     if(this.cita.isInterconsulta){
-      this.cita.medicoInterconsulta = new IUser(this.idMedicoInterConsulta,'','','','','','','','','','','','','',false,'','','',false,{} as Sucursal) 
+      this.cita.medicoInterconsulta = this.idMedicoInterConsulta;
     }
     this.cita.isAtendido = true;
     this.cita.horaCitaFin = new Date();

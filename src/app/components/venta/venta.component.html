@@ -17,9 +17,7 @@
   </div>
   <ul class="navbar">
     <div class="container-fluid">
-      <li class="nav-item">
-        <button class="btn btn-outline-primary">Ins Varios <fa-icon [icon]="faBasketShopping"></fa-icon></button>
-      </li>
+      
       <li class="nav-item">
         <button class="btn btn-outline-primary" (click)="openModal('busqueda')">Buscar <fa-icon [icon]="faMagnifyingGlass"></fa-icon></button>
       </li>
@@ -74,7 +72,7 @@
         <col width="10%">
       </colgroup>
       <tbody>
-        <tr *ngFor="let prodVen of this.venta.ventaProducto;let i = index" (click)="selectRow(i)" [class.selected]="i == HighLightRow">
+        <tr *ngFor="let prodVen of this.venta.ventaProducto;let i = index" (click)="selectRow(i)" [class.selected]="i == HighLightRow" style="cursor: pointer;">
           <td class="venta-center">{{prodVen.producto.codigoBarras}}</td>
           <td class="venta-center">{{prodVen.producto.descripcion}}</td>
           <td class="venta-center">{{prodVen.producto.precioVenta | currency}}</td>
@@ -141,7 +139,7 @@
        <div style="height: 150px;border: 1px solid blue;margin-top: -15px;overflow: auto;">
         <table class="table">
           <tbody>
-            <tr *ngFor="let producto of productosEncontrados; let i=index;" (click)="selectRowEncontrado(i)" (dblclick)="agregarProductoEncontrado()" [class.selected]="HighLightRowBusqueda===i">
+            <tr *ngFor="let producto of productosEncontrados; let i=index;" (click)="selectRowEncontrado(i)" (dblclick)="agregarProductoEncontrado()" [class.selected]="HighLightRowBusqueda===i" style="cursor: pointer;">
               <td style="font-size: small;">{{producto.codigoBarras}}</td>
               <td style="font-size: small;">{{producto.descripcion}}</td>
               <td style="font-size: small;">{{producto.existencia}}</td>
@@ -285,8 +283,8 @@
             </div>
           </div>
           <div class="row mb-2 g-2">
-            <label class="col-sm-2 col-form-label col-form-label-sm">Total</label>
-            <div class="col-sm-2 ">{{total | currency}}</div>
+            <label class="col-sm-2 col-form-label col-form-label-sm" style="border-bottom: 1px solid black;">Total</label>
+            <div class="col-sm-2 " style="border-bottom: 1px solid black;">{{total | currency}}</div>
           </div>
           <div class="row mb-2 g-2">
             <label class="col-sm-2 col-form-label col-form-label-sm ">Cambio</label>
@@ -333,8 +331,26 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal('cobrar')">Cerrar</button>
-        <button type="button" class="btn btn-primary" (click)="cobrar()">Cobrar</button>
+          <div class="col">
+            <label for="">Requiere Factura</label>
+            <input type="checkbox" name="isRequiereFactura" [(ngModel)]="isRequiereFactura" (change)="cambioRequiereFactura()">
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal('cobrar')">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="cobrar()">Cobrar</button>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col">RFC</div>
+        <div class="col">
+          <input type="text" class="form-control" id="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">Código Postal</div>
+        <div class="col">
+          <input type="text" class="form-control">
+        </div>
       </div>
     </div>
   </div>

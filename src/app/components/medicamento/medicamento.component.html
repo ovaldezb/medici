@@ -1,0 +1,49 @@
+<div class="container">
+  <nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <button class="btn"><fa-icon [icon]="faPlusCircle"></fa-icon> </button>
+      <button class="btn"><fa-icon [icon]="faTrashCan"></fa-icon></button>
+    </div>
+  </nav>
+  <table class="table table-success">
+    <thead>
+      <tr>
+        <th>Familia</th>
+        <th>Nombre</th>
+        <th>Dosis Adulto</th>
+        <th>Dosis Niño</th>
+        <th>Indicaciones</th>
+      </tr>
+    </thead>
+  </table>
+  <div style="margin-top: -16px;height: 400px;overflow: auto;border: 1px solid black;">
+    <table class="table table-hover table-striped">
+      <tbody>
+        <tr *ngFor="let medicamento of medicamentos; let i=index;" (click)="selectRow(i)" [class.selected]="i==HighlightRow">
+          <td class="medicamento">{{medicamento.familia}}</td>
+          <td class="medicamento">{{medicamento.nombre}}</td>
+          <td class="medicamento">{{medicamento.dosisAdulto}}</td>
+          <td class="medicamento">{{medicamento.dosisNino}}</td>
+          <td class="medicamento">{{medicamento.indicaciones}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <nav aria-label="...">
+    <ul class="pagination justify-content-center">
+      <li [className]="anteriorClass">
+        <button class="page-link" (click)="prev()">Ant</button>
+      </li>
+      <li *ngFor="let numero of numeros" class="page-item">
+        <button [className]="pageClasses[numero]" (click)="gotoPage(numero)">{{(numero+1)}}</button>
+      </li>
+      <li [className]="siguienteClass">
+        <button class="page-link" (click)="next()">Sig</button>
+      </li>
+    </ul>
+  </nav>
+</div>

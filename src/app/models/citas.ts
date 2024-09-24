@@ -25,7 +25,8 @@ export class Cita{
     public duracion:number,
     public motivoInterconsulta:string,
     public isInterconsulta:boolean,
-    public medicoInterconsulta:IUser,
+    public medicoInterconsulta:string,
+    public isIntConAtendido:boolean,
     public horaCitaDuracion?:string
   ){}
 }
