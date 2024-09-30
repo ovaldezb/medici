@@ -1,0 +1,161 @@
+<div class="container">
+  <h2 class="text-center">Sistema de Facturación de B&B</h2>
+  <nav class="navbar">
+    <div *ngIf="!venta.isFacturado" class="container-fluid">
+      <form class="d-flex" role="search">
+        <input type="search" class="form-control form-control-sm me-2" placeholder="Busqueda de Ticket" aria-label="Search" name="ticket" [(ngModel)]="idTicketBusqueda">
+        <button *ngIf="!isLoadingVenta" type="button" class="btn btn-outline-success" style="width: 150px;" (click)="buscaVenta()">Buscar</button>
+        <button *ngIf="isLoadingVenta" type="button" class="btn btn-outline-success" style="width: 150px;" disabled>
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          <span role="status">Buscar</span>        
+        </button>
+      </form>
+      <label for="">Si ya llenaste tus datos previamente, ingresa tu RFC y presiona ENTER</label>
+    </div>
+  </nav>
+  <section style="border: 1px solid black;">
+    <div class="row">
+      <div *ngIf="!venta.isFacturado" class="col">
+        <form class="row g-3 needs-validation was-validated"  novalidate #userForm="ngForm">
+          <div class="col-md-6 text-center">
+            <label for="inputNombre" class="form-label col-form-label-sm mb-0">Razón Social</label>
+            <input name="nombre" id="inputNombre" type="text" class="form-control form-control-sm" #nombre="ngModel" [(ngModel)]="receptor.Nombre" pattern="^.{4,100}" required>
+          </div>
+          <div class="col-md-6 text-center">
+            <label for="inputRfc" class="form-label col-form-label-sm mb-0">
+              RFC
+              <span *ngIf="isLoadingRfc" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            </label>
+            <input 
+              name="rfc" 
+              id="inputRfc" 
+              type="text" 
+              class="form-control form-control-sm" 
+              #rfc="ngModel" 
+              [(ngModel)]="receptor.Rfc" 
+              (keyup)="buscaDatosFactura($event)"
+              pattern="^\w{4,4}\d{6,6}\w{3,3}$" required>
+            <!--div class="invalid-feedback">
+              Favor de llenar el RFC!
+            </div-->        
+          </div>
+          <div class="col-md-6 text-center">
+            <label for="inputCP" class="form-label col-form-label-sm mb-0">Domicilio Fiscal (Código Postal):</label>
+            <input name="codigoPostal" id="inputCP" type="text" class="form-control form-control-sm" #codigoPostal="ngModel" [(ngModel)]="receptor.DomicilioFiscalReceptor" pattern="\d{5,5}" required>
+          </div>
+          <div class="col-md-6 text-center">
+            <label for="inputEmail" class="form-label col-form-label-sm mb-0">Correo Electrónico:</label>
+            <input name="correoelectronico" id="inputEmail" type="email" class="form-control form-control-sm" #email="ngModel" [(ngModel)]="receptor.email" pattern='^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$' required>
+          </div>
+          <!--div class="col-md-6 text-center">
+            <label for="inputFP" class="form-label col-form-label-sm mb-0">Forma de Pago:</label>
+            <select name="formaPago" id="inputFP" class="form-select form-select-sm" aria-label="Select FP" [(ngModel)]="formaPago" required>
+              <option *ngFor="let formaPago of listaFormaPago" [ngValue]="formaPago.formapago">
+                {{formaPago.descripcion}}
+              </option>
+            </select>
+            <div class="valid-feedback">
+              OK!
+            </div> 
+          </div-->
+          <div class="col-md-6 text-center">
+            <label for="inputRF" class="form-label col-form-label-sm mb-0">Régimen Fiscal:</label>
+            <select name="regimenFiscal" 
+                    id="inputRF" 
+                    (change)="buscaUsoCfdi($event)"
+                    class="form-select form-select-sm" 
+                    [(ngModel)]="receptor.RegimenFiscalReceptor" 
+                    required>
+              <option *ngFor="let regimenFiscal of listaRegimenFiscal" [ngValue]="regimenFiscal.regimenfiscal">
+                {{regimenFiscal.descripcion}}
+              </option>
+            </select> 
+          </div>
+          <div class="col-md-6 text-center">
+            <label for="inputUsoCFDI" class="form-label col-form-label-sm mb-0">Uso del CFDI:</label>
+            <select name="usoCfdi" id="inputUsoCFDI" class="form-select form-select-sm mb-3" [(ngModel)]="receptor.UsoCFDI" required>
+              <option *ngFor="let usoCfdi of listaUsoCfdiFiltrado" [ngValue]="usoCfdi.usoCfdi">
+                {{usoCfdi.descripcion}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-12 text-end">
+            <button class="btn btn-outline-success" type="submit" (click)="submit()" [disabled]="userForm.invalid || venta.isFacturado">Solicitar Factura</button>
+            <button class="btn btn-outline-info" (click)="limpiar()">Limpiar</button>
+          </div>
+        </form>
+      </div>
+      <div class="col">
+        <div *ngIf="venta._id!=''">
+          <div class="row mb-1 g-1">
+            <label class="col-sm-2 text-end factura-datos">Facturado:</label>
+            <div *ngIf="!venta.isFacturado" class="col-sm-1 text-center facturado-false">NO</div>
+            <div *ngIf="venta.isFacturado" class="col-sm-1 text-center facturado-true">SI</div>
+            <label class="col-sm-3 text-end factura-datos">Fecha Facturación:</label>
+            <label class="col-sm-3 factura-datos-bold">{{venta.fechaFacturado | date:'dd-MM-YYYY hh:mm a':'GMT'}}</label>
+          </div>
+          <div class="row mb-1 g-1">
+            <label class="col-sm-2 text-end factura-datos" >Fecha Compra:</label>
+            <div class="col-sm-2 factura-datos-bold">{{venta.fechaVenta | date:'dd-MM-YYYY'}}</div>
+            <label class="col-sm-2 text-end factura-datos">No Ticket:</label>
+          <div class="col-sm-3 factura-datos-bold">{{venta.noTicket}}</div>
+        </div>
+        
+        <table *ngIf="!venta.isFacturado" class="table table-sm table-bordered">
+          <colgroup>
+            <col width="15%">
+            <col width="45%">
+            <col width="15%">
+            <col width="15%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="venta-center-medium">Cantidad</th>
+              <th class="venta-center-medium">Descripción</th>
+              <th class="venta-center-medium">Valor unitario</th>
+              <th class="venta-center-medium">Iva</th>
+            </tr>
+          </thead>
+        </table>
+        <div *ngIf="!venta.isFacturado" style="margin-top: -16px;height: 340px;overflow: auto;">
+          <table class="table">
+            <colgroup>
+              <col width="15%">
+              <col width="45%">
+              <col width="15%">
+              <col width="15%">
+            </colgroup>
+            <tbody>
+              <tr *ngFor="let ventaProducto of venta.ventaProducto">
+                <td class="venta-center-medium">{{ventaProducto.cantidad}}</td>
+                <td class="venta-center-medium">{{ventaProducto.producto.descripcion}}</td>
+                <td class="venta-center-medium">{{ventaProducto.producto.precioVenta/1.16 * ventaProducto.cantidad | currency}}</td>
+                <td class="venta-center-medium">{{ventaProducto.producto.precioVenta/1.16*0.16 * ventaProducto.cantidad| currency}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="!venta.isFacturado" style="margin-top: -16px;">
+          <table class="table table-bordered">
+            <colgroup>
+              <col width="15%">
+              <col width="45%">
+              <col width="15%">
+              <col width="15%">
+            </colgroup>
+            <tfoot>
+              <tr>
+                <td>&nbsp;</td>
+                <td style="text-align: right;">Total</td>
+                <td class="venta-center-medium">{{venta.total/1.16 | currency}}</td>
+                <td class="venta-center-medium">{{venta.total/1.16*0.16 | currency}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+    
+  </section>
+</div>

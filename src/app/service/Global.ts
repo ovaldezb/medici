@@ -87,6 +87,13 @@ export var Global ={
     Cuota:'Cuota',
     TasaOCuotaIVA:'0.160000',
     TasaOCuotaISR:'0.000000',
-    ObjectoImpuesto:'02'
-  }
+    ObjectoImpuesto:'02',
+    FP_EFECTIVO:'01',
+    FP_TRANSFERENCIA:'03',
+    FP_TARJETA:'04',
+    IVA:0.16,
+    FACTOR_DIV:1.16
+  },
+  SKIP_HEADER:'SKIP',
+  DECIMAL_FIXED:2
 }

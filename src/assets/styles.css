@@ -15,6 +15,10 @@
   text-align: center;
   font-size: small;
 }
+.venta-center-medium{
+  text-align: center;
+  font-size: medium;
+}
 
 .venta-right{
   text-align: right;
@@ -73,4 +77,25 @@
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+
+.factura-datos{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size:12px;
+}
+.factura-datos-bold{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size:12px;
+  font-weight: 900;
+}
+
+.facturado-true{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size:12px;
+  color: red;
+}
+.facturado-false{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size:12px;
+  color: green;
 }

@@ -36,6 +36,7 @@ import { ProductoComponent } from './components/producto/producto.component';
 import { VentaComponent } from './components/venta/venta.component';
 import { InterconsultaComponent } from './components/interconsulta/interconsulta.component';
 import { MedicamentoComponent } from './components/medicamento/medicamento.component';
+import { FacturaComponent } from './components/factura/factura.component';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { MedicamentoComponent } from './components/medicamento/medicamento.compo
     ProductoComponent,
     VentaComponent,
     InterconsultaComponent,
-    MedicamentoComponent
+    MedicamentoComponent,
+    FacturaComponent
   ],
   imports: [
     BrowserModule,

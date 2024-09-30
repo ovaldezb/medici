@@ -1,10 +1,8 @@
-import { Paciente } from "./paciente";
 import { RespuestasBySeccion } from "./respuesta";
 
 export class Antecedentes{
   constructor(
     public _id:string,
-    //public paciente: Paciente,
     public edoCivil: string,
     public genero: string,
     public ocupacion: string,

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Timbrado } from '../models/timbrado';
 import { Global } from './Global';
+import { Receptor } from '../models/receptor';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,70 @@ export class FacturacionService {
 
   constructor(private _http:HttpClient) { }
 
-  emisionFactura(factura:Timbrado):Observable<any>{
-    console.log('EMision Factura',factura);
-    return this._http.post(Global.urlFactura,factura,{observe:'response'});
+  emisionFactura(factura:Timbrado, idVenta:String):Observable<any>{
+    return this._http.post(Global.urlFactura+'/'+idVenta,factura,{observe:'response',
+      headers:{
+      'SKIP':'true'
+      }});
+  }
+
+  guardarDatosFactura(receptor:Receptor):Observable<any>{
+    return this._http.put(Global.urlFactura,receptor,{observe:'response',
+      headers:{
+      'SKIP':'true'
+      }});
+  }
+
+  obtieneDatosFacturaByRFC(rfc:String):Observable<any>{
+    return this._http.get(Global.urlFactura+'/rfc?rfc='+rfc,{
+      observe:'response',
+      headers:{
+      'SKIP':'true'
+      }
+    });
+  }
+
+  obtieneDatosVenta(tipo:String,filtro:string,id:String):Observable<any>{
+    return this._http.get(Global.urlFactura+'/'+tipo+'?'+filtro+'='+id,
+      {
+        observe:'response',
+        headers:{
+          'SKIP':'true'
+        }
+      }
+    );
+  }
+
+  obtieneListaUsoCfdis():Observable<any>{
+    return this._http.get(Global.urlFactura+'/usocfdi',
+      {
+        observe:'response',
+        headers:{
+          'SKIP':'true'
+        }
+      }
+    );
+  }
+
+  obtieneListaRegimenFiscal():Observable<any>{
+    return this._http.get(Global.urlFactura+'/regimenfiscal',
+      {
+        observe:'response',
+        headers:{
+          'SKIP':'true'
+        }
+      }
+    );
+  }
+
+  obtieneListaFormaPago():Observable<any>{
+    return this._http.get(Global.urlFactura+'/formapago',
+      {
+        observe:'response',
+        headers:{
+          'SKIP':'true'
+        }
+      }
+    );
   }
 }

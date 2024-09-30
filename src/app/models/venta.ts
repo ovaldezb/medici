@@ -17,6 +17,9 @@ export class Venta{
     public banco:string,
     public noAprobacion:string,
     public noTransferencia:string,
-    public isDevolucion:boolean
+    public isDevolucion:boolean,
+    public isFacturado:boolean,
+    public fechaFacturado:Date,
+    public sucursal:string
   ){}
 }

@@ -337,20 +337,8 @@
           </div>
           <div class="col">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal('cobrar')">Cerrar</button>
-            <button type="button" class="btn btn-primary" (click)="cobrar()">Cobrar</button>
+            <button type="button" class="btn btn-primary" (click)="cobrar()" [disabled]="efectivo<total">Cobrar</button>
           </div>
-      </div>
-      <div class="row">
-        <div class="col">RFC</div>
-        <div class="col">
-          <input type="text" class="form-control" id="">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">Código Postal</div>
-        <div class="col">
-          <input type="text" class="form-control">
-        </div>
       </div>
     </div>
   </div>

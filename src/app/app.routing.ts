@@ -15,11 +15,11 @@ import { ConsultaEnfermedadComponent } from "./components/consulta-enfermedad/co
 import { AdministracionComponent } from "./components/administracion/administracion.component";
 import { DisponibilidadComponent } from "./components/disponibilidad/disponibilidad.component";
 import { HistoriaClinicaComponent } from "./components/historia-clinica/historia-clinica.component";
-import { RecetaComponent } from "./components/receta/receta.component";
 import { PrintLayoutComponent } from "./components/print-layout/print-layout.component";
 import { EnfermeriaMenuComponent } from "./components/enfermeria-menu/enfermeria-menu.component";
 import { InterconsultaComponent } from "./components/interconsulta/interconsulta.component";
 import { MedicamentoComponent } from "./components/medicamento/medicamento.component";
+import { FacturaComponent } from "./components/factura/factura.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -40,7 +40,9 @@ const appRoutes: Routes = [
   { path: 'historial', component: HistoriaClinicaComponent},
   { path: 'print/:idCita', outlet:'print',component: PrintLayoutComponent },
   { path: 'medicamento', component:MedicamentoComponent,canActivate:[RouteGuardService]},
-  { path: 'interconsulta',component:InterconsultaComponent,canActivate:[RouteGuardService]}
+  { path: 'interconsulta',component:InterconsultaComponent,canActivate:[RouteGuardService]},
+  { path: 'factura', component:FacturaComponent},
+  { path: 'factura/:idFactura', component:FacturaComponent}
 ];
 
 
