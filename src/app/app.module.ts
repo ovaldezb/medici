@@ -37,6 +37,8 @@ import { VentaComponent } from './components/venta/venta.component';
 import { InterconsultaComponent } from './components/interconsulta/interconsulta.component';
 import { MedicamentoComponent } from './components/medicamento/medicamento.component';
 import { FacturaComponent } from './components/factura/factura.component';
+import { FacturaMovilComponent } from './components/factura-movil/factura-movil.component';
+import { WordLengthPipe } from './pipescust/word-length.pipe';
 //I keep the new line
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { FacturaComponent } from './components/factura/factura.component';
     VentaComponent,
     InterconsultaComponent,
     MedicamentoComponent,
-    FacturaComponent
+    FacturaComponent,
+    FacturaMovilComponent,
+    WordLengthPipe
   ],
   imports: [
     BrowserModule,

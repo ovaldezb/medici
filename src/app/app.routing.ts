@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { EnfermeriaComponent } from "./components/enfermeria/enfermeria.component";
 import { FarmaciaComponent } from "./components/farmacia/farmacia.component";
 import { LoginComponent } from "./components/login/login.component";
 import { MedicoComponent } from "./components/medico/medico.component";
@@ -20,6 +19,7 @@ import { EnfermeriaMenuComponent } from "./components/enfermeria-menu/enfermeria
 import { InterconsultaComponent } from "./components/interconsulta/interconsulta.component";
 import { MedicamentoComponent } from "./components/medicamento/medicamento.component";
 import { FacturaComponent } from "./components/factura/factura.component";
+import { FacturaMovilComponent } from "./components/factura-movil/factura-movil.component";
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -41,8 +41,8 @@ const appRoutes: Routes = [
   { path: 'print/:idCita', outlet:'print',component: PrintLayoutComponent },
   { path: 'medicamento', component:MedicamentoComponent,canActivate:[RouteGuardService]},
   { path: 'interconsulta',component:InterconsultaComponent,canActivate:[RouteGuardService]},
-  { path: 'factura', component:FacturaComponent},
-  { path: 'factura/:idFactura', component:FacturaComponent}
+  { path: 'facturacion', component:FacturaComponent},
+  { path: 'factura/:idFactura', component:FacturaMovilComponent}
 ];
 
 

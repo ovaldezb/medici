@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BuscaVenta } from 'src/app/models/buscaVenta';
+import { ActivatedRoute } from '@angular/router';
 import { Concepto } from 'src/app/models/conceptos';
 import { Emisor } from 'src/app/models/emisor';
 import { FormaPago } from 'src/app/models/formapago';
@@ -17,14 +17,13 @@ import { Global } from 'src/app/service/Global';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-factura',
-  templateUrl: './factura.component.html',
-  styleUrls: ['./factura.component.css'],
+  selector: 'app-factura-movil',
+  templateUrl: './factura-movil.component.html',
+  styleUrls: ['./factura-movil.component.css'],
   providers:[FacturacionService]
 })
-export class FacturaComponent implements OnInit{
-
-  //private idTicket       :String='';
+export class FacturaMovilComponent implements OnInit{
+  private idTicket       :string='';
   private listaUsoCfdi   :UsoCFDI[]=[];
   private timbrado       :Timbrado={} as Timbrado;
   public idTicketBusqueda:string='';
@@ -34,18 +33,49 @@ export class FacturaComponent implements OnInit{
   public listaRegimenFiscal:RegimenFiscal[]=[];
   public listaFormaPago  :FormaPago[]=[];
   public receptor        :Receptor= new Receptor('','','','','','');
-  public formaPago       :String='';
+  public formaPago       :string='';
   public isLoadingVenta  :Boolean=false;
   public isLoadingRfc    :Boolean=false;
-  public buscaVenta      :BuscaVenta = new BuscaVenta('','',new Date(),0);
   
   constructor(
-    private facturaService:FacturacionService){}
+    private route:ActivatedRoute,
+    private facturaService:FacturacionService){
+    this.idTicket = this.route.snapshot.params['idFactura'] ;
+  }
 
   ngOnInit(): void {
+    if(this.idTicket!=''){
+      this.buscaVentaById();
+    }
     this.obtieneListaUsoCfdi();
     this.obtieneListaFormaPago();
     this.obtieneListaRegimenFiscal();
+  }
+
+  buscaVentaById():void{
+    this.facturaService.obtieneDatosVentaById(this.idTicket)
+    .subscribe((res:any)=>{
+      if(res.status===Global.OK && res.body.venta != null){
+        this.venta = res.body.venta;
+        this.formaPago = this.venta.formaPago;
+      }else{
+        Swal.fire({
+          icon:'warning',
+          titleText:'No se encontraron datos para el id de venta '+this.idTicket,
+          text:this.idTicketBusqueda,
+          timer:Global.TIMER_OFF
+        });
+        this.limpiar();
+      }
+    },(error:any)=>{
+      Swal.fire({
+        icon:'warning',
+        titleText:'No se encontraron datos para el id de venta '+this.idTicket,
+        text:this.idTicketBusqueda,
+        timer:Global.TIMER_OFF
+      });
+      this.venta.isFacturado = true;
+    });
   }
 
   obtieneListaUsoCfdi():void{
@@ -77,26 +107,6 @@ export class FacturaComponent implements OnInit{
 
   buscaUsoCfdi(event:any):void{
     this.listaUsoCfdiFiltrado = this.listaUsoCfdi.filter((cfdi)=>cfdi.regfiscalreceptor.indexOf(this.listaRegimenFiscal[event.target["selectedIndex"]].regimenfiscal)>=0)
-  }
-
-  buscarVenta():void{
-    this.isLoadingVenta = true;
-    this.facturaService.obtieneDatosVentaByTicket('idticket','ticketId',this.buscaVenta.ticket,this.buscaVenta.sucursal,this.buscaVenta.fecha.toString().substring(0,10),this.buscaVenta.total.toString())
-    .subscribe((res:any)=>{
-      this.isLoadingVenta = false;
-      if(res.status===Global.OK && res.body.venta != null){
-        this.venta = res.body.venta;
-        this.formaPago = this.venta.formaPago;
-      }else{
-        Swal.fire({
-          icon:'warning',
-          titleText:'No se encontraron datos para el ticket de venta',
-          text:this.idTicketBusqueda,
-          timer:Global.TIMER_OFF
-        });
-        this.limpiar();
-      }
-    });
   }
 
   submit():void{
@@ -164,11 +174,6 @@ export class FacturaComponent implements OnInit{
     this.venta = new Venta('',[],new Date(),0,0,0,0,'','','',0,0,'','','',false,false,new Date(),'');
     this.idTicketBusqueda = '';
     this.formaPago = '';
-  }
-
-  limpiarBusquedaVenta():void{
-    this.buscaVenta = new BuscaVenta('','',new Date(),0);
-    this.venta = new Venta('',[],new Date(),0,0,0,0,'','','',0,0,'','','',false,false,new Date(),'');
   }
 
   llenaFactura():Timbrado{
@@ -278,5 +283,4 @@ export class FacturaComponent implements OnInit{
     let segundos = hoy.getSeconds() < 10 ? '0'+hoy.getSeconds() : hoy.getSeconds();
     return year+'-'+mes+'-'+dia+'T'+hora+':'+minuto+':'+segundos;
   }
-
 }

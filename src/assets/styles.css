@@ -99,3 +99,13 @@
   font-size:12px;
   color: green;
 }
+
+.factura-center-medium{
+  text-align: center;
+  font-size: smaller;
+}
+
+.factura-right-medium{
+  text-align: right;
+  font-size: smaller;
+}

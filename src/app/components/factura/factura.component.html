@@ -1,21 +1,125 @@
 <div class="container">
   <h2 class="text-center">Sistema de Facturación de B&B</h2>
-  <nav class="navbar">
-    <div *ngIf="!venta.isFacturado" class="container-fluid">
-      <form class="d-flex" role="search">
-        <input type="search" class="form-control form-control-sm me-2" placeholder="Busqueda de Ticket" aria-label="Search" name="ticket" [(ngModel)]="idTicketBusqueda">
-        <button *ngIf="!isLoadingVenta" type="button" class="btn btn-outline-success" style="width: 150px;" (click)="buscaVenta()">Buscar</button>
-        <button *ngIf="isLoadingVenta" type="button" class="btn btn-outline-success" style="width: 150px;" disabled>
-          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-          <span role="status">Buscar</span>        
-        </button>
+  <div class="row">
+    <div *ngIf="venta._id===''" class="col">
+      <form class="container" #ventaForm="ngForm">
+        <div class="row mb-3">
+          <label for="inpuTicket" class="col-sm-4 text-end col-form-label">No Ticket:</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="inpuTicket" name="ticket" [(ngModel)]="buscaVenta.ticket" required>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="idSuc" class="col-sm-4 text-end">Sucursal:</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="idSuc" name="sucursal"  [(ngModel)]="buscaVenta.sucursal" required>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="idFecha" class="col-sm-4 text-end">Fecha:</label>
+          <div class="col-sm-2">
+            <input type="date" class="form-control" id="idFecha" name="fecha" #fecha="ngModel" [(ngModel)]="buscaVenta.fecha" required>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="idTotal" class="col-sm-4 text-end">Total:</label>
+          <div class="col-sm-2">
+            <input type="number" class="form-control" id="idTotal" name="total" #total="ngModel" [(ngModel)]="buscaVenta.total" required>
+          </div>
+        </div>
+        <div class="row g-1">
+          <div class="col-5 text-end">
+            <button type="submit" class="btn btn-primary " (click)="buscarVenta()" [disabled]="ventaForm.invalid || buscaVenta.total<=0" >
+              <span role="status">Buscar</span>  
+              <span *ngIf="isLoadingVenta" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="col-7">
+            <button class="btn btn-info" (click)="limpiarBusquedaVenta()">Limpiar</button>
+          </div>
+        </div>
       </form>
-      <label for="">Si ya llenaste tus datos previamente, ingresa tu RFC y presiona ENTER</label>
     </div>
-  </nav>
-  <section style="border: 1px solid black;">
+    <div *ngIf="venta._id!=''" class="col">
+      <div class="row mb-1 g-1">
+        <label class="col-sm-2 text-end factura-datos">Facturado:</label>
+        <div *ngIf="!venta.isFacturado" class="col-sm-1 text-center facturado-false">NO</div>
+        <div *ngIf="venta.isFacturado" class="col-sm-1 text-center facturado-true">SI</div>
+        <label class="col-sm-3 text-end factura-datos">Fecha Facturación:</label>
+        <label class="col-sm-3 factura-datos-bold">{{venta.fechaFacturado | date:'dd-MM-YYYY hh:mm a':'GMT'}}</label>
+      </div>
+      <div class="row mb-1 g-1">
+        <label class="col-sm-2 text-end factura-datos" >Fecha Compra:</label>
+        <div class="col-sm-2 factura-datos-bold">{{venta.fechaVenta | date:'dd-MM-YYYY'}}</div>
+        <label class="col-sm-2 text-end factura-datos">No Ticket:</label>
+      <div class="col-sm-3 factura-datos-bold">{{venta.noTicket}}</div>
+    
+      <table class="table table-sm table-bordered">
+        <colgroup>
+          <col width="15%">
+          <col width="45%">
+          <col width="15%">
+          <col width="15%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="factura-center-medium">Cantidad</th>
+            <th class="factura-center-medium">Descripción</th>
+            <th class="factura-center-medium">Clave Unidad</th>
+            <th class="factura-center-medium">Valor unitario</th>
+          </tr>
+        </thead>
+      </table>
+      <div  style="margin-top: -16px;height: 170px;overflow: auto;border: 1px solid blue;">
+        <table class="table table-borderless">
+          <colgroup>
+            <col width="15%">
+            <col width="45%">
+            <col width="15%">
+            <col width="15%">
+          </colgroup>
+          <tbody>
+            <tr *ngFor="let ventaProducto of venta.ventaProducto">
+              <td class="factura-center-medium">{{ventaProducto.cantidad}}</td>
+              <td class="factura-center-medium">{{ventaProducto.producto.descripcion | wordLength:20}}</td>
+              <td class="factura-center-medium"></td>
+              <td class="factura-center-medium">{{ventaProducto.producto.precioVenta/1.16 * ventaProducto.cantidad | currency}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="factura-right-medium" colspan="3">Descuento:</td>
+              <td class="factura-center-medium">$0.00</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td class="factura-right-medium">Sub Total:</td>
+              <td class="factura-center-medium">{{venta.total/1.16 | currency}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td class="factura-right-medium">Iva:</td>
+              <td class="factura-center-medium">{{venta.total/1.16*0.16 | currency}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td class="factura-right-medium">Total</td>
+              <td class="factura-center-medium">{{venta.total | currency}}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      
+    </div>
+  </div>   
+
+  <section *ngIf="venta._id!='' && !venta.isFacturado">
+    <h6 class="text-end">Si ya llenaste tus datos previamente, ingresa tu RFC y presiona ENTER</h6>
     <div class="row">
-      <div *ngIf="!venta.isFacturado" class="col">
+      <div class="col">
         <form class="row g-3 needs-validation was-validated"  novalidate #userForm="ngForm">
           <div class="col-md-6 text-center">
             <label for="inputNombre" class="form-label col-form-label-sm mb-0">Razón Social</label>
@@ -85,76 +189,7 @@
           </div>
         </form>
       </div>
-      <div class="col">
-        <div *ngIf="venta._id!=''">
-          <div class="row mb-1 g-1">
-            <label class="col-sm-2 text-end factura-datos">Facturado:</label>
-            <div *ngIf="!venta.isFacturado" class="col-sm-1 text-center facturado-false">NO</div>
-            <div *ngIf="venta.isFacturado" class="col-sm-1 text-center facturado-true">SI</div>
-            <label class="col-sm-3 text-end factura-datos">Fecha Facturación:</label>
-            <label class="col-sm-3 factura-datos-bold">{{venta.fechaFacturado | date:'dd-MM-YYYY hh:mm a':'GMT'}}</label>
-          </div>
-          <div class="row mb-1 g-1">
-            <label class="col-sm-2 text-end factura-datos" >Fecha Compra:</label>
-            <div class="col-sm-2 factura-datos-bold">{{venta.fechaVenta | date:'dd-MM-YYYY'}}</div>
-            <label class="col-sm-2 text-end factura-datos">No Ticket:</label>
-          <div class="col-sm-3 factura-datos-bold">{{venta.noTicket}}</div>
-        </div>
-        
-        <table *ngIf="!venta.isFacturado" class="table table-sm table-bordered">
-          <colgroup>
-            <col width="15%">
-            <col width="45%">
-            <col width="15%">
-            <col width="15%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th class="venta-center-medium">Cantidad</th>
-              <th class="venta-center-medium">Descripción</th>
-              <th class="venta-center-medium">Valor unitario</th>
-              <th class="venta-center-medium">Iva</th>
-            </tr>
-          </thead>
-        </table>
-        <div *ngIf="!venta.isFacturado" style="margin-top: -16px;height: 340px;overflow: auto;">
-          <table class="table">
-            <colgroup>
-              <col width="15%">
-              <col width="45%">
-              <col width="15%">
-              <col width="15%">
-            </colgroup>
-            <tbody>
-              <tr *ngFor="let ventaProducto of venta.ventaProducto">
-                <td class="venta-center-medium">{{ventaProducto.cantidad}}</td>
-                <td class="venta-center-medium">{{ventaProducto.producto.descripcion}}</td>
-                <td class="venta-center-medium">{{ventaProducto.producto.precioVenta/1.16 * ventaProducto.cantidad | currency}}</td>
-                <td class="venta-center-medium">{{ventaProducto.producto.precioVenta/1.16*0.16 * ventaProducto.cantidad| currency}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div *ngIf="!venta.isFacturado" style="margin-top: -16px;">
-          <table class="table table-bordered">
-            <colgroup>
-              <col width="15%">
-              <col width="45%">
-              <col width="15%">
-              <col width="15%">
-            </colgroup>
-            <tfoot>
-              <tr>
-                <td>&nbsp;</td>
-                <td style="text-align: right;">Total</td>
-                <td class="venta-center-medium">{{venta.total/1.16 | currency}}</td>
-                <td class="venta-center-medium">{{venta.total/1.16*0.16 | currency}}</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      </div>
+      
     </div>
     
   </section>

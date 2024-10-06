@@ -35,8 +35,19 @@ export class FacturacionService {
     });
   }
 
-  obtieneDatosVenta(tipo:String,filtro:string,id:String):Observable<any>{
-    return this._http.get(Global.urlFactura+'/'+tipo+'?'+filtro+'='+id,
+  obtieneDatosVentaByTicket(tipo:string,filtro:string,ticket:string,sucursal:string,fecha:string,total:string):Observable<any>{
+    return this._http.get(Global.urlFactura+'/'+tipo+'?'+filtro+'='+ticket+'&sucursal='+sucursal+'&fecha='+fecha+'&total='+total,
+      {
+        observe:'response',
+        headers:{
+          'SKIP':'true'
+        }
+      }
+    );
+  }
+
+  obtieneDatosVentaById(idVenta:string):Observable<any>{
+    return this._http.get(Global.urlFactura+'/idventa?ventaId='+idVenta,
       {
         observe:'response',
         headers:{
