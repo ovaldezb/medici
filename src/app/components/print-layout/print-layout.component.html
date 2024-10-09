@@ -1,7 +1,9 @@
 <table style="width: 100%;">
   <thead>
     <tr>
-      <th style="font-family: cursive;padding: 5px;">Clinica B&B</th>
+      <th style="font-family: cursive;padding: 5px;">
+        <img src="../../../assets/images/logobyb.jpeg" width="50px" alt="">
+      </th>
     </tr>
   </thead>
 </table>
@@ -15,7 +17,7 @@
     <tr>
       <th style="color: red;text-align: right;">No. {{cita.noReceta}}</th>
       <th style="text-align: right;color: darkseagreen;">Fecha:</th>
-      <th style="text-align: center; border-bottom: 1px solid darkseagreen;">{{fechaHoy}}</th>
+      <th class="fecha-cita">{{fechaHoy}}</th>
     </tr>
   </thead>
 </table>
@@ -34,18 +36,18 @@
   </colgroup>
   <tbody>
     <tr>
-      <td style="color: darkseagreen;font-size: small;">Nombre:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;padding-bottom: 0px;">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}} {{cita.paciente.apellidoM}}</td>
-      <td style="color: darkseagreen;font-size: small;">Edad:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{edad}}</td>
-      <td style="color: darkseagreen;font-size: small;">Peso:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].peso}}Kg</td>
-      <td style="color: darkseagreen;font-size: small;">Talla:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;font-size: small;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].estatura}}cm</td>
-      <td style="color: darkseagreen;font-size: small;">Alergias:</td>
-      <td style="border-bottom: 1px solid darkseagreen;text-align: center;">
-        <input type="radio" name="alergias" id="si" [checked]="cita.signos[0].alergias!=''"><label style="font-size: small;font-family: 'Courier New', Courier, monospace;">Si</label> &nbsp;
-        <input type="radio" name="alergias" id="no" [checked]="cita.signos[0].alergias===''"><label style="font-size: small;font-family: 'Courier New', Courier, monospace;">No</label></td>
+      <td class="paciente-texto">Nombre:</td>
+      <td class="paciente-dato">{{cita.paciente.nombre}} {{cita.paciente.apellidoP}} {{cita.paciente.apellidoM}}</td>
+      <td class="paciente-texto">Edad:</td>
+      <td class="paciente-dato">{{edad}}</td>
+      <td class="paciente-texto">Peso:</td>
+      <td class="paciente-dato">{{cita.signos[0].peso}}Kg</td>
+      <td class="paciente-texto">Talla:</td>
+      <td class="paciente-dato">{{cita.signos[0].estatura}}cm</td>
+      <td class="paciente-texto">Alergias:</td>
+      <td class="alergias">
+        <input type="radio" name="alergias" id="si" [checked]="cita.signos[0].alergias!=''"><label class="label-alergias">Si</label> &nbsp;
+        <input type="radio" name="alergias" id="no" [checked]="cita.signos[0].alergias===''"><label class="label-alergias">No</label></td>
     </tr>
   </tbody>
 </table>
@@ -56,13 +58,13 @@
   </colgroup>
   <tbody>
     <tr>
-      <td style="color: darkseagreen;font-size: small;text-align: right;">Diagnóstico Médico:</td>
-      <td style="font-family: 'Courier New', Courier, monospace;text-align: left;">{{cita.diagnostico}}</td>
+      <td class="receta-signos">Diagnóstico Médico:&nbsp;</td>
+      <td class="diagnostico">{{cita.diagnostico}}</td>
     </tr>
   </tbody>
 </table>
 <div class="container text-center" style="height: 300px;">
-  <div class="row justify-content-around">
+  <div class="row justify-content-start">
     <div class="col-8">
       <div class="row">
         <div class="col">
@@ -72,65 +74,63 @@
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-4" style="margin-top: -50px;">
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Cuales</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace; ">{{cita.signos[0].alergias}}</div>
+        <div class="col receta-signos">Cuales</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].alergias}}</div>
       </div>
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">FC</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].frecuenciaCardiaca}}ppm</div>
+        <div class="col receta-signos">FC</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].frecuenciaCardiaca}}ppm</div>
       </div>
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">FR</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].frecuenciaRespiratoria}}</div>
+        <div class="col receta-signos">FR</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].frecuenciaRespiratoria}}</div>
       </div>
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">T/A</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].presionDias}}/{{cita.signos[0].presionSis}}mmHg</div>
+        <div class="col receta-signos">T/A</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].presionDias}}/{{cita.signos[0].presionSis}}mmHg</div>
       </div>
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Temp</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].temperatura}}&deg;C</div>
+        <div class="col receta-signos">Temp</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].temperatura}}&deg;C</div>
       </div>
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">Glucosa</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].glucotest}}</div>
+        <div class="col receta-signos">Glucosa</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].glucotest}}</div>
       </div>
       <div class="row">
-        <div class="col" style="text-align: right;color: darkseagreen;font-size: small;">SPO2</div>
-        <div class="col" style="text-align: center;border-bottom: 1px solid darkseagreen;font-family: 'Courier New', Courier, monospace;">{{cita.signos[0].spo2}}%</div>
+        <div class="col receta-signos">SPO2</div>
+        <div class="col receta-signos-dato" style="border-bottom: 1px solid darkseagreen;">{{cita.signos[0].spo2}}%</div>
       </div>
     </div>
   </div>
 </div>
-<table style="width: 95%;">
-  <tfoot>
-    <tr>
-      <td style="text-align: center;">{{cita.medico.nombre}} {{cita.medico.apellidoP}} - {{this.cita.medico.cedula}}</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="border-top: 1px solid darkseagreen;text-align: center;">Nombre, Firma y CED. PROF.</td>
-      <td style="text-align: center;font-size: small;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">I. Zaragoza No 5 Barrio Santiaguito, Ocoyoacac. CP:52740, México</td>
-      <td style="color: darkseagreen;text-align: center;"><fa-icon [icon]="faWhatsapp"></fa-icon> 722 131 7862</td>
-    </tr>
-  </tfoot>
-</table>
 <table style="width: 95%;height: 500px;">
+  <thead>
+    <tr style="border-top: 2px dotted black;">
+      <th></th>
+      <th style="text-align: center;">Recomendaciones Generales</th>
+      <th></th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
-      <td>
+      <td colspan="3">
         {{cita.tratamiento}}
       </td>
     </tr>
   </tbody>
   <tfoot>
     <tr>
-      <td>
-        footer
-      </td>
+      <td class="datos-footer-medico">{{cita.medico.nombre}} {{cita.medico.apellidoP}} - {{this.cita.medico.cedula}}</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="datos-footer-cedula">Nombre, Firma y CED. PROF.</td>
+      <td class="datos-footer-direccion">I. Zaragoza No 5 Barrio Santiaguito, Ocoyoacac. CP:52740, México</td>
+      <td class="datos-footer-whatsapp"><fa-icon [icon]="faWhatsapp"></fa-icon> 722 131 7862</td>
     </tr>
   </tfoot>
 </table>

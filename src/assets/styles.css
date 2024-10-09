@@ -109,3 +109,71 @@
   text-align: right;
   font-size: smaller;
 }
+
+.paciente-texto{
+  color: darkseagreen;
+  font-size: small;
+}
+
+.paciente-dato{
+  border-bottom: 1px solid darkseagreen;
+  text-align: center;
+  font-size: small;
+  font-family: 'Courier New', Courier, monospace;
+  padding-bottom: 0px;
+}
+.fecha-cita{
+  text-align: center; 
+  border-bottom: 1px solid darkseagreen;
+  padding-bottom: 0px;
+}
+.alergias{
+  border-bottom: 1px solid darkseagreen;
+  text-align: center;
+  font-size: small;
+}
+.label-alergias{
+  font-size: small;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.receta-signos{
+  text-align: right;
+  color: darkseagreen;
+  font-size: small;
+}
+
+.receta-signos-datos{
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: small;
+}
+
+.datos-footer-medico{
+  text-align: center;
+  font-size: small;
+}
+
+.datos-footer-direccion{
+  text-align: center;
+  font-size: small;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.diagnostico{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: small;
+  font-weight: bold;
+  text-align: left;
+}
+
+.datos-footer-whatsapp{
+  color: darkseagreen;
+  text-align: center;
+  font-size: small;
+}
+.datos-footer-cedula{
+  border-top: 1px solid darkseagreen;
+  text-align: center;
+  font-size: small;
+}
