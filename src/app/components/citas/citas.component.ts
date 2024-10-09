@@ -411,6 +411,7 @@ export class CitasComponent implements OnInit{
           this.cita.paciente = this.paciente;
           this.cita.medico = this.medico; 
           this.citasService.addCita(this.cita).subscribe(res=>{
+            this.isSavingCita = false;
             if(res.status===Global.OK){
               this.citaExitosa();
             }
