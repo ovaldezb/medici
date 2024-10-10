@@ -61,7 +61,7 @@ export var Global ={
   DURACION_E4:5,
   FIELD_OK:"form-control border-success",
   FIELD_REQUIRED:"form-control border-danger",
-  VERSION:'1.0.1',
+  VERSION:'1.0.2',
   EFECTIVO:'efectivo',
   TARJETA:'tarjeta',
   TRANSFERENCIA:'transferencia',

@@ -139,7 +139,7 @@
           </tr>
         </thead>
       </table>
-      <div style="height: 150px; overflow: auto; margin-top: -15px;">
+      <div style="height: 100px; overflow: auto; margin-top: -15px;">
         <table class="table table-hover table-bordered">
           <colgroup>
             <col width="10%">
@@ -175,22 +175,35 @@
           </tbody>
         </table>
       </div>
-      
-      <div class="row" style="border: 1px solid rgb(12, 92, 10);">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th>Receta</th>
+            <th colspan="2">
+              <button class="btn btn-sm btn-outline-primary"  (click)="abreBuscaMedicamento()" title="Buscar medicamento"> 
+                <fa-icon [icon]="faPrescriptionBottleMedical" style="cursor: pointer;"></fa-icon>
+              </button>
+            </th>
+          </tr>
+        </thead>
+      </table>
+      <div class="row" style="border: 1px solid rgb(12, 92, 10);height: 120px;overflow: auto;margin-top: -16px;">
         <div class="col">
           <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th>Receta</th>
-                <th>
-                  <div style="color: blue;" (click)="abreBuscaMedicamento()" title="Seleccionar medicamento"> <fa-icon [icon]="faPills" style="cursor: pointer;"></fa-icon></div>
-                </th>
-              </tr>
-            </thead>
+            <colgroup>
+              <col width="60%">
+              <col width="30%">
+              <col width="10%">
+            </colgroup>
             <tbody>
               <tr *ngFor="let medicamento of receta.medicamentoReceta; let i = index">
-                <td>{{medicamento.nombre}}</td>
+                <td>{{(i+1)}}.-{{medicamento.nombre}}</td>
                 <td><input type="text" name="prescripcion" class="form-control" #prescipcion="ngModel" [(ngModel)]="medicamento.prescripcion" ></td>
+                <td>
+                  <button class="btn btn-sm" (click)="deleteMedicamentoLista(i)">
+                    <fa-icon [icon]="faDeleteLeft"></fa-icon>
+                  </button> 
+                </td>
               </tr>
             </tbody>
           </table>
@@ -200,12 +213,12 @@
         <div class="col" style="text-align: center;">Exploración Física</div>
         <div class="col" style="text-align: center;">Diagnóstico</div>
         <div class="col" style="text-align: center;">Tratatmiento no farmacológico</div>
-        <div class="col" style="text-align: center;">
+        <!--div-- class="col" style="text-align: center;">
           <div class="btn-group btn-sm" role="group" aria-label="Basic checkbox toggle button group">
             <input type="checkbox" name="isAutomatica"  [(ngModel)]="cita.isInterconsulta" class="btn-check btn-secondary btn-sm" id="btncheck1" autocomplete="off">
             <label class="btn btn-outline-secondary" for="btncheck1">Interconsulta</label>
           </div>
-        </div>
+        </!--div-->
       </div>
       <div class="row">
         <div class="col" style="border-right: 1px solid green;">
@@ -215,9 +228,26 @@
           <textarea name="diagnostico" class="form-control" cols="30" rows="6" #diagnostico="ngModel" [(ngModel)]="cita.diagnostico"></textarea>
         </div>
         <div class="col" style="border-right: 1px solid green;">
-          <textarea name="tratamiento" class="form-control" cols="30" rows="6" #tratamiento="ngModel" [(ngModel)]="cita.tratamiento"></textarea>
+          <div class="row">
+            <div class="col input-group mb-3">
+              <input type="text" name="tratamiento" class="form-control" placeholder="Indicaciones" [(ngModel)]="tratamiento" aria-describedby="button-addon2"/> 
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="addTratamiento()">+</button>
+            </div>
+          </div>
+          <div style="height: 100px;overflow: auto;">
+            <div *ngFor="let tratamiento of cita.tratamiento; let i=index;" class="row">
+              <div class="col-10">
+                <label style="font-size: small;font-family: 'Courier New', Courier, monospace;">{{tratamiento}}</label>
+              </div>
+              <div class="col-2">
+                <button class="btn btn-sm" (click)="removeTratamiento(i)">
+                  <fa-icon [icon]="faDeleteLeft"></fa-icon>
+                </button>
+              </div> 
+            </div>
+          </div>
         </div>
-        <div class="col">
+        <!--div class="col">
           <div class="row">
             <div class="col">
               <select name="idMedico" class="form-select border-success" [(ngModel)]="idMedicoInterConsulta" [disabled]="!cita.isInterconsulta">
@@ -232,7 +262,7 @@
               <textarea name="interconsulta" class="form-control" cols="10" rows="4" #interconsulta="ngModel" [(ngModel)]="cita.motivoInterconsulta" [disabled]="!cita.isInterconsulta"></textarea>
             </div>
           </div>
-        </div>
+        </div-->
       </div>
       
       <div style="text-align: right;">
@@ -309,8 +339,17 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cierraModal()">Salir</button>
-            <button type="button" class="btn btn-primary" [disabled]="HighlightMedicamento===-1" (click)="seleccionaMedicamento()">Seleccionar</button>
+            <div class="col">
+              <label for="">Agregar medicamento: </label>
+            </div>
+            <div class="col input-group mb-3">
+              <input type="text" class="form-control" name="medicamentoAicional" id="button-addon3" [(ngModel)]="medicamentoAdicional">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon3" (click)="addMedicamento()">+</button>
+            </div>
+            <div class="col text-end">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cierraModal()">Salir</button>
+              <button type="button" class="btn btn-primary" [disabled]="HighlightMedicamento===-1" (click)="seleccionaMedicamento()">Seleccionar</button>
+            </div>
           </div>
         </div>
       </div>

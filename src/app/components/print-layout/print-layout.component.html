@@ -4,6 +4,7 @@
       <th style="font-family: cursive;padding: 5px;">
         <img src="../../../assets/images/logobyb.jpeg" width="50px" alt="">
       </th>
+      <th style="text-align: right; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Consultorio B&B</th>
     </tr>
   </thead>
 </table>
@@ -106,7 +107,7 @@
     </div>
   </div>
 </div>
-<table style="width: 95%;height: 500px;">
+<table style="width: 95%;height: 450px;">
   <thead>
     <tr style="border-top: 2px dotted black;">
       <th></th>
@@ -117,7 +118,9 @@
   <tbody>
     <tr>
       <td colspan="3">
-        {{cita.tratamiento}}
+        <ol>
+          <li *ngFor="let tratamiento of cita.tratamiento">{{tratamiento}}</li>
+        </ol>
       </td>
     </tr>
   </tbody>

@@ -36,7 +36,7 @@ export class EnfermeriaComponent implements OnInit{
   public faUserNurse = faUserNurse;
   public fechaActual = new Date();
   public citas:Cita[] = [];
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false,[{} as Signos], false,[],'','','',new Date(),new Date(),'',Global.DURACION_CITA,'',false,'',false);
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false,[{} as Signos], false,[],'','',[],new Date(),new Date(),'',Global.DURACION_CITA,'',false,'',false);
   public paciente:Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
   public medico:IUser = {} as IUser;
   public signos: Signos = new Signos('',new Paciente('','','','',new Date(),'','','','','','','',''),0,0,0,0,0,new Date(),0,0,0,0,'',0,'',0);

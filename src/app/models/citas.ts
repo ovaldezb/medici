@@ -18,7 +18,7 @@ export class Cita{
     public medicamentoReceta:MedicamentoReceta[],
     public exploracionFisica: string,
     public diagnostico: string,
-    public tratamiento: string,
+    public tratamiento: string[],
     public horaTomaSignos: Date,
     public horaCreaCita: Date,
     public noReceta:string,

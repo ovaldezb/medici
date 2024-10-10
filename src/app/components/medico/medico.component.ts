@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { faUserDoctor, faPrint} from '@fortawesome/free-solid-svg-icons';
+import { faUserDoctor, faPrint, faPrescriptionBottleMedical,faDeleteLeft} from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { Cita } from 'src/app/models/citas';
 import { Medicamento } from 'src/app/models/medicamento';
@@ -10,7 +10,6 @@ import { CitasService } from 'src/app/service/citas.service';
 import { CognitoService } from 'src/app/service/cognito.service';
 import { Global } from 'src/app/service/Global';
 import { MedicosService } from 'src/app/service/medicos.service';
-import { faPills } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { Receta } from 'src/app/models/receta';
 import { MedicamentoReceta } from 'src/app/models/medicamentoReceta';
@@ -30,15 +29,16 @@ import { MedicamentoService } from 'src/app/service/medicamento.service';
 })
 export class MedicoComponent implements OnInit, OnDestroy{
   
-  public faPills = faPills;
+  public faPrescriptionBottleMedical = faPrescriptionBottleMedical;
   public faUserDoctor = faUserDoctor;
   public faWhatsapp = faWhatsapp;
   public faPrint = faPrint;
+  public faDeleteLeft = faDeleteLeft;
   public fechaActual = new Date();
   public citas:Cita[] = [];
   public medico:IUser= {} as IUser;
   public paciente: Paciente = new Paciente('','','','',new Date(),'','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'000',Global.DURACION_CITA,'',false,'',false);
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','',[],new Date(),new Date(),'000',Global.DURACION_CITA,'',false,'',false);
   private dia:string = ''; 
   private mes:string = '';
   private year:string = '';
@@ -71,6 +71,8 @@ export class MedicoComponent implements OnInit, OnDestroy{
   public idSucursal:string='';
   public medicos:IUser[] = [];
   public idMedicoInterConsulta='';
+  public tratamiento:string='';
+  public medicamentoAdicional:string='';
 
   constructor(private medicoService:MedicosService, 
               private citasService:CitasService,
@@ -200,6 +202,13 @@ export class MedicoComponent implements OnInit, OnDestroy{
     this.cierraModal();
   }
 
+  addMedicamento():void{
+    this.receta.medicamentoReceta.push(new MedicamentoReceta(this.medicamentoAdicional,''));
+    this.HighlightMedicamento = -1;
+    this.limpiarBusqueda();
+    this.cierraModal();
+  }
+
   limpiarBusqueda():void{
     this.listaBusquedaMedicamento=[];
     this.medicamento.nombre='';
@@ -265,7 +274,18 @@ export class MedicoComponent implements OnInit, OnDestroy{
     });
   }
 
-  
+  addTratamiento():void{
+    this.cita.tratamiento.push(this.tratamiento);
+    this.tratamiento='';
+  }
+
+  removeTratamiento(index:number):void{
+    this.cita.tratamiento.splice(index,1);
+  }
+
+  deleteMedicamentoLista(index:number):void{
+    this.receta.medicamentoReceta.splice(index,1);
+  }
 
   finalizaConsulta():void{
     if(this.paciente.carnet != '' && this.paciente.carnet != undefined){

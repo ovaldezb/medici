@@ -60,7 +60,7 @@ export class CitasComponent implements OnInit{
   public idMedico:string = '';
   public medicos:IUser[] = [];
   public paciente:Paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
-  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','','',new Date(),new Date(),'',Global.DURACION_CITA,'',false,'',false);
+  public cita:Cita = new Cita('',new Paciente('','','','',new Date(),'','','','','','','',''),new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(),false, [],false,[],'','',[],new Date(),new Date(),'',Global.DURACION_CITA,'',false,'',false);
   public citas:Cita[] = [];
   public carnet : Carnet = new Carnet('','',new Date(),0,[],[]);
   public medico:IUser= {} as IUser;
@@ -539,7 +539,7 @@ export class CitasComponent implements OnInit{
     }
     this.btnAccion = Global.AGENDAR;
     this.paciente = new Paciente('','','','',new Date(),'M','','','','','','','');
-    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(), false,[], false,[],'','','',new Date(),new Date(),'',Global.DURACION_CITA,'',false,'',false);
+    this.cita = new Cita('',this.paciente,new IUser('','','','','','','','','','','','','','',false,'','','',false,new Sucursal('','','','','','',false)),new Date(),'',new Date(),new Date(), false,[], false,[],'','',[],new Date(),new Date(),'',Global.DURACION_CITA,'',false,'',false);
     
     this.dia = '';
     this.mes = '00';
